@@ -10,10 +10,86 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_09_193938) do
+ActiveRecord::Schema.define(version: 2020_12_09_220835) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "academic_years", force: :cascade do |t|
+    t.string "title"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "class_monitors", force: :cascade do |t|
+    t.bigint "university_class_id", null: false
+    t.bigint "student_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["student_id"], name: "index_class_monitors_on_student_id"
+    t.index ["university_class_id"], name: "index_class_monitors_on_university_class_id"
+  end
+
+  create_table "classes_students", force: :cascade do |t|
+    t.bigint "university_class_id", null: false
+    t.bigint "student_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["student_id"], name: "index_classes_students_on_student_id"
+    t.index ["university_class_id"], name: "index_classes_students_on_university_class_id"
+  end
+
+  create_table "courses", force: :cascade do |t|
+    t.string "title"
+    t.string "code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "disciplines", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.string "title"
+    t.string "code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_disciplines_on_course_id"
+  end
+
+  create_table "monitorings", force: :cascade do |t|
+    t.bigint "class_monitor_id", null: false
+    t.text "question"
+    t.string "place"
+    t.text "excuse"
+    t.datetime "date_time"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["class_monitor_id"], name: "index_monitorings_on_class_monitor_id"
+  end
+
+  create_table "monitorings_students", force: :cascade do |t|
+    t.bigint "student_id", null: false
+    t.bigint "monitoring_id", null: false
+    t.integer "rating"
+    t.text "review"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["monitoring_id"], name: "index_monitorings_students_on_monitoring_id"
+    t.index ["student_id"], name: "index_monitorings_students_on_student_id"
+  end
+
+  create_table "university_classes", force: :cascade do |t|
+    t.string "title"
+    t.bigint "discipline_id", null: false
+    t.bigint "professor_id", null: false
+    t.bigint "academic_year_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["academic_year_id"], name: "index_university_classes_on_academic_year_id"
+    t.index ["discipline_id"], name: "index_university_classes_on_discipline_id"
+    t.index ["professor_id"], name: "index_university_classes_on_professor_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -23,8 +99,29 @@ ActiveRecord::Schema.define(version: 2020_12_09_193938) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "name"
+    t.string "nickname"
+    t.string "phone_number"
+    t.bigint "course_id"
+    t.boolean "student", default: false
+    t.boolean "prfessor", default: false
+    t.boolean "coordinator", default: false
+    t.boolean "admin", default: false
+    t.index ["course_id"], name: "index_users_on_course_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "class_monitors", "university_classes"
+  add_foreign_key "class_monitors", "users", column: "student_id"
+  add_foreign_key "classes_students", "university_classes"
+  add_foreign_key "classes_students", "users", column: "student_id"
+  add_foreign_key "disciplines", "courses"
+  add_foreign_key "monitorings", "class_monitors"
+  add_foreign_key "monitorings_students", "monitorings"
+  add_foreign_key "monitorings_students", "users", column: "student_id"
+  add_foreign_key "university_classes", "academic_years"
+  add_foreign_key "university_classes", "disciplines"
+  add_foreign_key "university_classes", "users", column: "professor_id"
+  add_foreign_key "users", "courses"
 end
