@@ -2,7 +2,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, authentication_keys: [:registration]
+         :recoverable, :rememberable, authentication_keys: [:registration]
 
   has_many :classes_students, foreign_key: 'student_id'
   has_many :university_classes, foreign_key: 'professor_id'
@@ -10,8 +10,8 @@ class User < ApplicationRecord
   has_many :monitorings_students, foreign_key: 'student_id'
 
   validates :name, presence: true
-  validates :nickname, presence: true
-  validates :course_id, presence: false
+  validates :email, uniqueness: false
+  # validates :course_id, presence: false
 
   def student?
     student
