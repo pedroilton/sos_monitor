@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_10_174516) do
-
+ActiveRecord::Schema.define(version: 20_201_210_192_045) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -104,12 +103,11 @@ ActiveRecord::Schema.define(version: 2020_12_10_174516) do
     t.string "phone_number"
     t.bigint "course_id"
     t.boolean "student", default: false
-    t.boolean "prfessor", default: false
+    t.boolean "professor", default: false
     t.boolean "coordinator", default: false
     t.boolean "admin", default: false
-    t.string "registration"
-    t.index ["course_id"], name: "index_users_on_course_id"
-    t.index ["email"], name: "index_users_on_email", unique: true
+    t.string "registration", null: false
+    t.index ["registration"], name: "index_users_on_registration", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
