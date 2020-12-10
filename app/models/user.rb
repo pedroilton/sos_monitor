@@ -11,6 +11,7 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :email, uniqueness: false
+  # validates :course_id, presence: false
 
   def student?
     student
