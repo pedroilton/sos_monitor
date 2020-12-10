@@ -6,10 +6,10 @@ class User < ApplicationRecord
 
   belongs_to :course
 
-  has_many :classes_students
-  has_many :university_classes
-  has_many :monitors
-  has_many :monitorings_students
+  has_many :classes_students, foreign_key: 'student_id'
+  has_many :university_classes, foreign_key: 'professor_id'
+  has_many :monitors, foreign_key: 'student_id'
+  has_many :monitorings_students, foreign_key: 'student_id'
 
   validates :name, presence: true
   validates :nickname, presence: true
