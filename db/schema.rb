@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_192045) do
     t.string "phone_number"
     t.bigint "course_id"
     t.boolean "student", default: false
-    t.boolean "professor", default: false
+    t.boolean "prfessor", default: false
     t.boolean "coordinator", default: false
     t.boolean "admin", default: false
     t.string "registration", null: false
