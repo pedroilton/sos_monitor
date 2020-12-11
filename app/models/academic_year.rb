@@ -1,5 +1,5 @@
 class AcademicYear < ApplicationRecord
-  has_many :classes
+  has_many :classes, dependent: :destroy
 
   validates :title, presence: true
   validates :start_date, presence: true

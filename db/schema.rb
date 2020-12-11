@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_10_223337) do
+ActiveRecord::Schema.define(version: 2020_12_11_180846) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,29 +41,12 @@ ActiveRecord::Schema.define(version: 2020_12_10_223337) do
     t.index ["university_class_id"], name: "index_classes_students_on_university_class_id"
   end
 
-  create_table "courses", force: :cascade do |t|
-    t.string "title"
-    t.string "code"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "department_id"
-    t.index ["department_id"], name: "index_courses_on_department_id"
-  end
-
-  create_table "departments", force: :cascade do |t|
-    t.string "title"
-    t.string "code"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "disciplines", force: :cascade do |t|
-    t.bigint "course_id", null: false
     t.string "title"
     t.string "code"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["course_id"], name: "index_disciplines_on_course_id"
+    t.boolean "active"
   end
 
   create_table "monitorings", force: :cascade do |t|
@@ -111,14 +94,11 @@ ActiveRecord::Schema.define(version: 2020_12_10_223337) do
     t.string "name"
     t.string "nickname"
     t.string "phone_number"
-    t.bigint "course_id"
     t.boolean "student", default: false
     t.boolean "professor", default: false
-    t.boolean "coordinator", default: false
     t.boolean "admin", default: false
     t.string "registration", null: false
-    t.bigint "department_id"
-    t.index ["department_id"], name: "index_users_on_department_id"
+    t.boolean "active"
     t.index ["registration"], name: "index_users_on_registration", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -127,12 +107,10 @@ ActiveRecord::Schema.define(version: 2020_12_10_223337) do
   add_foreign_key "class_monitors", "users", column: "student_id"
   add_foreign_key "classes_students", "university_classes"
   add_foreign_key "classes_students", "users", column: "student_id"
-  add_foreign_key "disciplines", "courses"
   add_foreign_key "monitorings", "class_monitors"
   add_foreign_key "monitorings_students", "monitorings"
   add_foreign_key "monitorings_students", "users", column: "student_id"
   add_foreign_key "university_classes", "academic_years"
   add_foreign_key "university_classes", "disciplines"
   add_foreign_key "university_classes", "users", column: "professor_id"
-  add_foreign_key "users", "courses"
 end
