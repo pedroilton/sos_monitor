@@ -20,6 +20,10 @@ class User < ApplicationRecord
     student
   end
 
+  def monitor?
+    monitor
+  end
+
   def professor?
     professor
   end

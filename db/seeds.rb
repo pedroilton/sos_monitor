@@ -18,12 +18,12 @@ puts 'Destroying ClassMonitor'
 ClassMonitor.destroy_all
 puts 'Destroying UniversityClass'
 UniversityClass.destroy_all
-puts 'Destroying AcademicYear'
-AcademicYear.destroy_all
-puts 'Destroying User'
-User.destroy_all
 puts 'Destroying Discipline'
 Discipline.destroy_all
+puts 'Destroying User'
+User.destroy_all
+puts 'Destroying AcademicYear'
+AcademicYear.destroy_all
 
 puts 'Creating AcademicYear'
 academic_year = AcademicYear.create(title: '2020/1', start_date: Date.parse('01-01-2020'),
@@ -40,7 +40,7 @@ csv_options = { col_sep: ';', headers: :first_row }
 
 puts 'Creating Discipline'
 CSV.foreach('storage/seeds/disciplines.csv', csv_options) do |row|
-  discipline = Discipline.create(title: row['title'], code: row['code'], course: Course.find_by(code: row['course']))
+  discipline = Discipline.create(title: row['title'], code: row['code'])
   puts discipline.title
 end
 
@@ -51,34 +51,16 @@ User.create(name: 'Demilson Nascimento',
             password: '123456',
             student: true,
             nickname: 'Demilson',
-            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}",
-            course: Course.find_by(code: 306))
+            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
 User.create(name: 'Demilson Nascimento',
             registration: '211',
             email: 'demilson@email.com',
             password: '123456',
             professor: true,
             nickname: 'Demilson',
-            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}",
-            department: Department.find_by(code: 304))
+            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
 User.create(name: 'Demilson Nascimento',
             registration: '311',
-            email: 'demilson@email.com',
-            password: '123456',
-            coordinator: true,
-            nickname: 'Demilson',
-            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}",
-            course: Course.find_by(code: 306))
-User.create(name: 'Demilson Nascimento',
-            registration: '411',
-            email: 'demilson@email.com',
-            password: '123456',
-            coordinator: true,
-            nickname: 'Demilson',
-            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}",
-            department: Department.find_by(code: 304))
-User.create(name: 'Demilson Nascimento',
-            registration: '511',
             email: 'demilson@email.com',
             password: '123456',
             admin: true,
@@ -92,34 +74,16 @@ User.create(name: 'Eduardo Ritter',
             password: '123456',
             student: true,
             nickname: 'Eduardo',
-            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}",
-            course: Course.find_by(code: 306))
+            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
 User.create(name: 'Eduardo Ritter',
             registration: '222',
             email: 'eduardo@email.com',
             password: '123456',
             professor: true,
             nickname: 'Eduardo',
-            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}",
-            department: Department.find_by(code: 304))
+            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
 User.create(name: 'Eduardo Ritter',
             registration: '322',
-            email: 'eduardo@email.com',
-            password: '123456',
-            coordinator: true,
-            nickname: 'Eduardo',
-            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}",
-            course: Course.find_by(code: 306))
-User.create(name: 'Eduardo Ritter',
-            registration: '422',
-            email: 'eduardo@email.com',
-            password: '123456',
-            coordinator: true,
-            nickname: 'Eduardo',
-            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}",
-            department: Department.find_by(code: 304))
-User.create(name: 'Eduardo Ritter',
-            registration: '522',
             email: 'eduardo@email.com',
             password: '123456',
             admin: true,
@@ -133,34 +97,16 @@ User.create(name: 'Uellington Cortes',
             password: '123456',
             student: true,
             nickname: 'Uellington',
-            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}",
-            course: Course.find_by(code: 306))
+            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
 User.create(name: 'Uellington Cortes',
             registration: '233',
             email: 'uellington@email.com',
             password: '123456',
             professor: true,
             nickname: 'Uellington',
-            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}",
-            department: Department.find_by(code: 304))
+            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
 User.create(name: 'Uellington Cortes',
             registration: '333',
-            email: 'uellington@email.com',
-            password: '123456',
-            coordinator: true,
-            nickname: 'Uellington',
-            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}",
-            course: Course.find_by(code: 306))
-User.create(name: 'Uellington Cortes',
-            registration: '433',
-            email: 'uellington@email.com',
-            password: '123456',
-            coordinator: true,
-            nickname: 'Uellington',
-            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}",
-            department: Department.find_by(code: 304))
-User.create(name: 'Uellington Cortes',
-            registration: '533',
             email: 'uellington@email.com',
             password: '123456',
             admin: true,
@@ -174,34 +120,16 @@ User.create(name: 'Pedro Ilton',
             password: '123456',
             student: true,
             nickname: 'Pedro',
-            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}",
-            course: Course.find_by(code: 306))
+            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
 User.create(name: 'Pedro Ilton',
             registration: '244',
             email: 'pedro@email.com',
             password: '123456',
             professor: true,
             nickname: 'Pedro',
-            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}",
-            department: Department.find_by(code: 304))
+            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
 User.create(name: 'Pedro Ilton',
             registration: '344',
-            email: 'pedro@email.com',
-            password: '123456',
-            coordinator: true,
-            nickname: 'Pedro',
-            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}",
-            course: Course.find_by(code: 306))
-User.create(name: 'Pedro Ilton',
-            registration: '444',
-            email: 'pedro@email.com',
-            password: '123456',
-            coordinator: true,
-            nickname: 'Pedro',
-            phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}",
-            department: Department.find_by(code: 304))
-User.create(name: 'Pedro Ilton',
-            registration: '544',
             email: 'pedro@email.com',
             password: '123456',
             admin: true,
