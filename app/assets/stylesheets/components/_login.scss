@@ -1,19 +1,28 @@
-.text-center {
-  text-align: center;
+.title {
+  margin: 0;
+  height: 25%;
 }
 
-.font-bold {
-  font-weight: bold;
+.title > h1 {
+  padding-top: 32px;
+  padding-bottom: 8px;
+}
+
+.row  {
+  height: 50%;
+  text-align-last: center;
+}
+
+.col-8 {
+  align-self: center;
 }
 
 #bg-ufmt {
-  background-image: linear-gradient(rgba(33, 188, 250, 0.5),
-                                    rgba(255, 255, 255, 0.8)),
-                                    image-url('biblioteca');
+  background-image: linear-gradient(rgba(164, 172, 175, 0.3), rgba(0, 0, 0, 0.3)),
+                    asset-url('biblioteca2.jpg');
+  height: 100%;
+  width: 100%;
+  position: fixed;
   background-size: cover;
-}
-.row  {
-  height: 70vh;
-  text-align: center;
-  align-items: end;
+  // background-position-x: -324px;
 }
