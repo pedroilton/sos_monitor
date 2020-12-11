@@ -19,7 +19,13 @@
           <%= link_to "Messages", "#", class: "nav-link" %>
         </li>
         <li class="nav-item dropdown">
-          <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+          <!-- IMPLEMENTAR A LÓGICA PARA TROCAR A CLASSE DA IMAGEM DE AVATAR DE ACORDO COM O PERFIL DO USUÁRIO
+          avatar-blue    => aluno
+          avatar-laranja => monitor
+          avatar-green   => professor
+          avatar-purple  => coordenador
+          avatar-red     => admin -->
+          <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar avatar-blue dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
             <%= link_to "Action", "#", class: "dropdown-item" %>
             <%= link_to "Another action", "#", class: "dropdown-item" %>
