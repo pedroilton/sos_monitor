@@ -16,14 +16,14 @@ puts 'Destroying Monitoring'
 Monitoring.destroy_all
 puts 'Destroying ClassMonitor'
 ClassMonitor.destroy_all
+puts 'Destroying AcademicYear'
+AcademicYear.destroy_all
 puts 'Destroying UniversityClass'
 UniversityClass.destroy_all
 puts 'Destroying Discipline'
 Discipline.destroy_all
 puts 'Destroying User'
 User.destroy_all
-puts 'Destroying AcademicYear'
-AcademicYear.destroy_all
 
 puts 'Creating AcademicYear'
 academic_year = AcademicYear.create(title: '2020/1', start_date: Date.parse('01-01-2020'),
@@ -41,7 +41,7 @@ csv_options = { col_sep: ';', headers: :first_row }
 puts 'Creating Discipline'
 CSV.foreach('storage/seeds/disciplines.csv', csv_options) do |row|
   discipline = Discipline.create(title: row['title'], code: row['code'])
-  puts discipline.title
+  puts discipline
 end
 
 puts 'Creating Demilson'
@@ -135,3 +135,64 @@ User.create(name: 'Pedro Ilton',
             admin: true,
             nickname: 'Pedro',
             phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
+
+puts 'Creating Users'
+CSV.foreach('storage/seeds/users.csv', csv_options) do |row|
+  user = User.create(name: row['name'], registration: row['registration'],
+                     nickname: row['nickname'], password: row['password'],
+                     email: row['email'])
+  user.professor = true if row['professor'] == 'true'
+  user.admin = true if row['admin'] == 'true'
+  user.save
+  puts user.name
+end
+
+puts 'Creating Students'
+CSV.foreach('storage/seeds/students.csv', csv_options) do |row|
+  user = User.create(name: row['name'], registration: row['registration'],
+                     password: row['password'], email: row['email'], student: true)
+  puts user.name
+end
+
+puts 'Creating Classes'
+CSV.foreach('storage/seeds/classes.csv', csv_options) do |row|
+  university_class = UniversityClass.create(title: row['title'], discipline: Discipline.find_by(code: row['discipline']),
+                                            professor: User.find_by(registration: row['professor']),
+                                            academic_year: AcademicYear.where(['start_date < ? and end_date > ?',
+                                                                               Date.today, Date.today]).first)
+  puts Discipline.find_by(code: row['discipline'])
+  row['discipline']
+  # puts User.find_by(registration: row['professor'])
+  # puts AcademicYear.where(['start_date < ? and end_date > ?', Date.today, Date.today]).first
+  puts university_class.title
+end
+
+puts 'Creating ClassesStudent'
+User.select(&:student?).each do |student|
+  classes_student = ClassesStudent.create(
+    student: student,
+    university_class: UniversityClass.where(['title < ? and discipline_id > ?',
+                                             'T',
+                                             Discipline.find_by(code: '108208160')]).first
+  )
+  puts classes_student.student.name
+end
+
+puts 'Creating ClassMonitor'
+3.times do
+  class_monitor = ClassMonitor.create(student: User.select(&:student?).sample, university_class: UniversityClass.first)
+  puts class_monitor.student.name
+end
+
+puts 'Creating Monitorings'
+3.times do
+  monitoring = Monitoring.create(class_monitor: ClassMonitor.first, question: 'Como faz alguma coisa?', place: 'Sala 2',
+                                 date_time: Time.now)
+  puts monitoring.class_monitor.student.name
+end
+
+puts 'Creating MonitoringsStudent'
+3.times do
+  monitorings_student = MonitoringsStudent.create(monitoring: Monitoring.first, student: User.select(&:student?).sample)
+  puts monitorings_student.student.name
+end
