@@ -1,26 +1,29 @@
 <div class="navbar navbar-light navbar-lewagon">
   
+  <%# LOGO DA UFMT %>
   <%= link_to "#", class: "navbar-brand" do %>
     <%= image_tag "logo.png" %>
   <% end %>
   
+  <%# INDENTIFICAÇÃO DO USUÁRIO %>
   <div class="indentify text-center">
-    <p>Eduardo Ritter</p>
-    <small>ESTUDANTE</small>
+    <p><%= current_user.name %></p>
+    <small>
+      
+    </small>
   </div>
 
-
-
+  <%# AVATAR COM DROPDOWN MENU %>
   <div class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <i class="fas fa-caret-down"></i>
     <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-            <%= link_to "Perfil", "#", class: "dropdown-item" %>
-            <%= link_to "Alterar Senha", edit_user_registration_path, class: "dropdown-item" %>
-            <%= link_to "Opção 3", "#", class: "dropdown-item" %>
-            <%= link_to "Opção 4", "#", class: "dropdown-item" %>
-            <%= link_to "SAIR", destroy_user_session_path, method: :delete, style: "color: red", class: "dropdown-item" %>
-          </div>
-    
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+      <%= link_to "Perfil", "#", class: "dropdown-item" %>
+      <%= link_to "Alterar Senha", edit_user_registration_path, class: "dropdown-item" %>
+      <%= link_to "Opção 3", "#", class: "dropdown-item" %>
+      <%= link_to "Opção 4", "#", class: "dropdown-item" %>
+      <%= link_to "SAIR", destroy_user_session_path, method: :delete, style: "color: red", class: "dropdown-item" %>
+    </div>
   </div>
+
 </div>
