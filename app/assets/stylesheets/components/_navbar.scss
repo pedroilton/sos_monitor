@@ -1,3 +1,26 @@
+div {
+  line-height: 16px;
+}
+
+p {
+  margin: 0;
+}
+
+small {
+  font-style: italic;
+  color: rgb(100, 100, 100);
+  font-size: 66%;
+}
+
+.fa-caret-down {
+  color: gray;
+}
+
+.fa-caret-down:before {
+  content: "\f0d7";
+  position: absolute;
+}
+
 .navbar-lewagon {
   justify-content: space-between;
   background: white;
@@ -13,13 +36,4 @@
 
 .navbar-toggler {
   border: none;
-}
-
-.fa-caret-down {
-  color: gray;
-}
-
-.fa-caret-down:before {
-  content: "\f0d7";
-  position: absolute;
 }
