@@ -7,10 +7,14 @@
   
   <%# INDENTIFICAÇÃO DO USUÁRIO %>
   <div class="indentify text-center">
+    <%# NOME DO USUÁRIO %>
     <p><%= current_user.name %></p>
-    <small>
-      teste
-    </small>
+    <%# TIPO DE USUÁRIO %>
+    <% if current_user.professor? %>
+      <small>PROFESSOR</small>
+    <% else %>
+      <small>ESTUDANTE</small>
+    <% end %>
   </div>
 
   <%# AVATAR COM DROPDOWN MENU %>
