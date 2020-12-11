@@ -95,7 +95,7 @@ ActiveRecord::Schema.define(version: 2020_12_11_180846) do
     t.string "nickname"
     t.string "phone_number"
     t.boolean "student", default: false
-    t.boolean "prfessor", default: false
+    t.boolean "professor", default: false
     t.boolean "admin", default: false
     t.string "registration", null: false
     t.boolean "active"
