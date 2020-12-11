@@ -24,10 +24,6 @@ puts 'Destroying User'
 User.destroy_all
 puts 'Destroying Discipline'
 Discipline.destroy_all
-puts 'Destroying Course'
-Course.destroy_all
-puts 'Destroying Department'
-Department.destroy_all
 
 puts 'Creating AcademicYear'
 academic_year = AcademicYear.create(title: '2020/1', start_date: Date.parse('01-01-2020'),
@@ -41,19 +37,6 @@ academic_year = AcademicYear.create(title: '2021/1', start_date: Date.parse('01-
 puts academic_year.title
 
 csv_options = { col_sep: ';', headers: :first_row }
-
-puts 'Creating Department'
-CSV.foreach('storage/seeds/departments.csv', csv_options) do |row|
-  department = Department.create(title: row['title'], code: row['code'])
-  puts department.title
-end
-
-puts 'Creating Course'
-CSV.foreach('storage/seeds/courses.csv', csv_options) do |row|
-  course = Course.create(title: row['title'], code: row['code'],
-                         department: Department.find_by(code: row['department']))
-  puts course.title
-end
 
 puts 'Creating Discipline'
 CSV.foreach('storage/seeds/disciplines.csv', csv_options) do |row|
