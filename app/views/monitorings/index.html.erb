@@ -1,0 +1,8 @@
+<%= link_to 'Módulo monitor', monitor_schedule_path %>
+<h1>Monitorias</h1>
+<% @monitorings.each do |monitoring| %>
+  <p><%= monitoring.date_time %></p>
+  <p><%= monitoring.place %></p>
+  <p><%= monitoring.class_monitor.student.name %></p>
+  <br>
+<% end %>

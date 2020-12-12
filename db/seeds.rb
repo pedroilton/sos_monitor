@@ -41,7 +41,7 @@ csv_options = { col_sep: ';', headers: :first_row }
 puts 'Creating Discipline'
 CSV.foreach('storage/seeds/disciplines.csv', csv_options) do |row|
   discipline = Discipline.create(title: row['title'], code: row['code'])
-  puts discipline
+  puts discipline.title
 end
 
 puts 'Creating Demilson'
@@ -160,10 +160,6 @@ CSV.foreach('storage/seeds/classes.csv', csv_options) do |row|
                                             professor: User.find_by(registration: row['professor']),
                                             academic_year: AcademicYear.where(['start_date < ? and end_date > ?',
                                                                                Date.today, Date.today]).first)
-  puts Discipline.find_by(code: row['discipline'])
-  row['discipline']
-  # puts User.find_by(registration: row['professor'])
-  # puts AcademicYear.where(['start_date < ? and end_date > ?', Date.today, Date.today]).first
   puts university_class.title
 end
 
@@ -181,14 +177,41 @@ end
 puts 'Creating ClassMonitor'
 3.times do
   class_monitor = ClassMonitor.create(student: User.select(&:student?).sample, university_class: UniversityClass.first)
+  # class_monitor.student.monitor = true
+  # class_monitor.save
   puts class_monitor.student.name
 end
 
+schedule = { mon: [{ start: DateTime.strptime('12:00', '%H:%M'), duration: 2 },
+                   start: DateTime.strptime('18:30', '%H:%M'), duration: 1],
+             tue: [{ start: DateTime.strptime('08:00', '%H:%M'), duration: 4 }],
+             wed: [],
+             thu: [{ start: DateTime.strptime('13:00', '%H:%M'), duration: 1 }],
+             fri: [],
+             sat: [],
+             sun: [] }
+
 puts 'Creating Monitorings'
-3.times do
-  monitoring = Monitoring.create(class_monitor: ClassMonitor.first, question: 'Como faz alguma coisa?', place: 'Sala 2',
-                                 date_time: Time.now)
-  puts monitoring.class_monitor.student.name
+ClassMonitor.all.each do |class_monitor|
+  (Date.today..AcademicYear.where(['start_date < ? and end_date > ?', Date.today, Date.today]).first.end_date).each do
+    |date|
+    # puts date.strftime("%a").downcase.to_sym
+    # p schedule[date.strftime("%a").downcase.to_sym]
+    schedule[date.strftime("%a").downcase.to_sym].each do |monitoring_session|
+      index = 0
+      monitoring_session[:duration].times do
+        monitoring = Monitoring.create(
+          class_monitor: class_monitor,
+          question: 'Como faz alguma coisa?',
+          place: "Sala #{rand(1..30)}",
+          date_time: DateTime.parse(date.strftime("%Y-%m-%dT#{(monitoring_session[:start] + index.hours)
+            .strftime('%H:%M')}:00%z"))
+        )
+        puts monitoring.date_time
+        index += 1
+      end
+    end
+  end
 end
 
 puts 'Creating MonitoringsStudent'
