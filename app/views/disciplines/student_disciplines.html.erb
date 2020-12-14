@@ -1,0 +1,25 @@
+<p><%= link_to 'Voltar', monitorings_path %></p>
+
+<h1>Agendamento de monitoria</h1>
+<div data-controller="monitorings">
+  <select class="custom-select" data-action="change->monitorings#filterDiscipline" id="disciplines">
+    <option selected>Disciplina</option>
+    <%= @disciplines.each do |discipline| %>
+      <option value="<%= discipline.id %>"><%= discipline.title %></option>
+    <% end %>
+  </select>
+
+  <div data-monitorings-target="calendar">
+
+    <div id="fixed">
+      <input type="hidden" name="_method" value="patch">
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <div class="form-group text optional monitoring_question">
+        <label class="text optional" for="monitoring_question">Dúvida</label>
+        <textarea class="form-control text optional" name="monitoring[question]" id="monitoring_question"></textarea>
+      </div>
+      <input type="submit" name="commit" value="Submit" class="btn btn-primary" data-disable-with="Submit" id="submit" disabled>
+    </div>
+
+  </div>
+</div>
