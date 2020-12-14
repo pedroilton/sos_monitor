@@ -22,9 +22,22 @@ class MonitoringsStudentsController < ApplicationController
     redirect_to monitorings_path
   end
 
+  def update
+    @monitorings_student = MonitoringsStudent.find(params[:id])
+    if @monitorings_student.update(monitorings_student_params)
+      redirect_to @monitorings_student.monitoring
+    else
+      render @monitorings_student.monitoring
+    end
+  end
+
   private
 
   def authorize_monitorings_student
     authorize @monitorings_student
+  end
+
+  def monitorings_student_params
+    params.require(:monitorings_student).permit(:monitor, :student, :rating, :review)
   end
 end

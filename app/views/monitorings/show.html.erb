@@ -47,15 +47,35 @@
       <%= f.submit "Submit", class: "btn btn-primary" %>
     <% end %>
   <% end %>
+  <% if @monitoring.date_time < Time.now %>
+    <% if @current_monitorings_student.rating.nil? %>
+      <%= simple_form_for(@current_monitorings_student, remote: true) do |f| %>
+        <%= f.input :rating, collection: (1..5) %>
+        <%= f.input :review %>
+        <%= f.submit "Submit", class: "btn btn-primary" %>
+      <% end %>
+    <% end %>
+  <% end %>
 <% else %>
   <p>Participantes:</p>
   <% @monitoring.students.each do |student| %>
     <p><%= student.name %></p>
   <% end %>
-  <% unless @monitoring.excuse %>
+  <% unless @monitoring.excuse || @monitoring.date_time <= Time.now %>
     <%= simple_form_for @monitoring, url: monitoring_cancel_path(@monitoring), method: :patch, remote: true do |f| %>
       <%= f.input :excuse %>
       <%= f.submit "Cancelar monitoria", class: "btn btn-primary" %>
+    <% end %>
+  <% end %>
+<% end %>
+<% if @monitoring.date_time < Time.now %>
+  <p>Avaliações da monitoria:</p>
+  <% @monitoring.monitorings_students.each do |monitorings_student| %>
+    <% if monitorings_student.rating %>
+      <p><%= monitorings_student.student.name %></p>
+      <p><%= monitorings_student.rating %></p>
+      <p><%= monitorings_student.review %></p>
+      <br>
     <% end %>
   <% end %>
 <% end %>

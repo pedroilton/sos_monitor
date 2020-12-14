@@ -12,6 +12,10 @@
   <p><%= monitoring.class_monitor.student.name %></p>
   <% if monitoring.excuse %>
     <p>Cancelada</p>
+  <% elsif MonitoringsStudent.find_by(student: current_user, monitoring: monitoring).rating.nil? %>
+    <p>Avalie sua monitoria!</p>
+  <% else %>
+    <%= MonitoringsStudent.find_by(student: current_user, monitoring: monitoring).rating %>
   <% end %>
   <br>
 <% end %>
