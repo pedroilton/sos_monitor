@@ -9,7 +9,7 @@ class DisciplinesController < ApplicationController
     @disciplines.select! do |discipline|
       discipline.university_classes.select do |university_class|
         university_class.academic_year ==
-          AcademicYear.where(['start_date < ? and end_date > ?', Date.today, Date.today]).first
+          AcademicYear.where(['start_date <= ? and end_date >= ?', Date.today, Date.today]).first
       end
     end
   end

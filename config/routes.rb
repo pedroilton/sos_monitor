@@ -12,13 +12,12 @@ Rails.application.routes.draw do
 
     # Monitorias do monitor
     get 'monitor_schedule', to: 'monitorings#list'
-    get 'monitor_schedule_old', to: 'monitorings#old_list', as: 'monitor_schedule_old'
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   resources :monitorings, only: %i[index show edit update destroy] do
     resources :monitorings_students, only: :create
   end
-  resources :monitorings_students, only: :destroy
+  resources :monitorings_students, only: %i[destroy update]
 
   # Monitorias concluidas do aluno
   get 'monitorings_old', to: 'monitorings#old_index', as: 'monitorings_old'

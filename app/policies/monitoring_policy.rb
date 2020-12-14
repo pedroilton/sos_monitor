@@ -3,7 +3,7 @@ class MonitoringPolicy < ApplicationPolicy
     def resolve
       current_monitorings = scope.select do |monitoring|
         monitoring.class_monitor.university_class.academic_year ==
-          AcademicYear.where(['start_date < ? and end_date > ?', Date.today, Date.today]).first
+          AcademicYear.where(['start_date <= ? and end_date >= ?', Date.today, Date.today]).first
       end
 
       return current_monitorings if user.admin?
@@ -20,7 +20,7 @@ class MonitoringPolicy < ApplicationPolicy
       disciplines.select! do |discipline|
         discipline.university_classes.select do |university_class|
           university_class.academic_year ==
-            AcademicYear.where(['start_date < ? and end_date > ?', Date.today, Date.today]).first
+            AcademicYear.where(['start_date <= ? and end_date >= ?', Date.today, Date.today]).first
         end
       end
 
@@ -30,7 +30,7 @@ class MonitoringPolicy < ApplicationPolicy
           university_class.class_monitors.map do |class_monitor|
             class_monitor.monitorings.select do |monitoring|
               monitoring.class_monitor.university_class.academic_year ==
-                AcademicYear.where(['start_date < ? and end_date > ?', Date.today, Date.today]).first &&
+                AcademicYear.where(['start_date <= ? and end_date >= ?', Date.today, Date.today]).first &&
                 monitoring.monitorings_students.empty?
             end
           end

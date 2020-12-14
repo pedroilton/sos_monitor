@@ -21,15 +21,7 @@ class MonitoringsController < ApplicationController
   # Lista de monitorias futuras do monitor
   def list
     @monitorings = policy_scope(Monitoring).select do |monitoring|
-      monitoring.class_monitor.student == current_user && monitoring.date_time >= Time.now
-    end
-    @monitorings.sort_by!(&:date_time)
-  end
-
-  # Lista de monitorias futuras do monitor
-  def old_list
-    @monitorings = policy_scope(Monitoring).select do |monitoring|
-      monitoring.class_monitor.student == current_user && monitoring.date_time < Time.now
+      monitoring.class_monitor.student == current_user
     end
     @monitorings.sort_by!(&:date_time)
   end
@@ -38,13 +30,14 @@ class MonitoringsController < ApplicationController
     @monitoring = Monitoring.find(params[:id])
     classes = @monitoring.class_monitor.university_class.discipline.university_classes.select do |university_class|
       university_class.academic_year ==
-        AcademicYear.where(['start_date < ? and end_date > ?', Date.today, Date.today]).first
+        AcademicYear.where(['start_date <= ? and end_date >= ?', Date.today, Date.today]).first
     end
     @students = classes.map(&:classes_students).flatten.map(&:student).reject do |student|
       @monitoring.students.include? student
     end
     @students.sort_by!(&:name)
     @monitorings_student = MonitoringsStudent.new
+    @current_monitorings_student = MonitoringsStudent.find_by(student: current_user, monitoring: @monitoring)
   end
 
   # Usado pelo ajax para filtrar as monitorias por horario
