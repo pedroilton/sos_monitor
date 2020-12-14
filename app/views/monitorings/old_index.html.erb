@@ -2,9 +2,9 @@
   <p><%= link_to 'Módulo monitor', monitor_schedule_path(current_user) %></p>
 <% end %>
 <p><%= link_to 'Agendar monitoria', student_disciplines_path %></p>
-<p><%= link_to 'Monitorias concluídas', monitorings_old_path %></p>
+<p><%= link_to 'Monitorias agendadas', monitorings_path %></p>
 
-<h1>Monitorias</h1>
+<h1>Monitorias concluídas</h1>
 <% @monitorings.each do |monitoring| %>
   <h5><%= link_to monitoring.class_monitor.university_class.discipline.title, monitoring %></h5>
   <p><%= monitoring.date_time %></p>
@@ -12,10 +12,6 @@
   <p><%= monitoring.class_monitor.student.name %></p>
   <% if monitoring.excuse %>
     <p>Cancelada</p>
-  <% else %>
-    <p><%= link_to 'Editar', edit_monitoring_path(monitoring) %></p>
-    <p><%= link_to 'Cancelar agendamento', monitoring, method: :delete,
-      data: { confirm: 'Tem certeza que deseja cancelar o agendamento?' }, remote: true %></p>
   <% end %>
   <br>
 <% end %>

@@ -163,23 +163,28 @@ CSV.foreach('storage/seeds/classes.csv', csv_options) do |row|
   puts university_class.title
 end
 
-puts 'Creating ClassesStudent'
-User.select(&:student?).each do |student|
-  classes_student = ClassesStudent.create(
-    student: student,
-    university_class: UniversityClass.where(['title < ? and discipline_id > ?',
-                                             'T',
-                                             Discipline.find_by(code: '108208160')]).first
-  )
-  puts classes_student.student.name
-end
+monitor_class = UniversityClass.where(['title < ? and discipline_id > ?',
+                                       'T', Discipline.find_by(code: '108208160')]).first
 
 puts 'Creating ClassMonitor'
 3.times do
-  class_monitor = ClassMonitor.create(student: User.select(&:student?).sample, university_class: UniversityClass.first)
-  # class_monitor.student.monitor = true
-  # class_monitor.save
+  class_monitor = ClassMonitor.create(student: User.select(&:student?).sample, university_class: monitor_class)
   puts class_monitor.student.name
+end
+
+puts 'Creating ClassesStudent'
+User.select { |user| user.student? && !user.monitor? }.each do |student|
+  classes_student = ClassesStudent.create(student: student, university_class: monitor_class)
+  puts classes_student.student.name
+end
+
+User.select(&:student?).each do |student|
+  5.times do
+    classes_student = ClassesStudent.create(student: student, university_class: UniversityClass.all.reject do |uclass|
+      uclass == monitor_class
+    end.sample)
+    puts classes_student.student.name
+  end
 end
 
 schedule = { mon: [{ start: DateTime.strptime('12:00', '%H:%M'), duration: 2 },
@@ -193,16 +198,14 @@ schedule = { mon: [{ start: DateTime.strptime('12:00', '%H:%M'), duration: 2 },
 
 puts 'Creating Monitorings'
 ClassMonitor.all.each do |class_monitor|
-  (Date.today..AcademicYear.where(['start_date < ? and end_date > ?', Date.today, Date.today]).first.end_date).each do
+  ((Date.today - 7)..AcademicYear.where(['start_date < ? and end_date > ?', Date.today, Date.today]).first.end_date)
+    .each do
     |date|
-    # puts date.strftime("%a").downcase.to_sym
-    # p schedule[date.strftime("%a").downcase.to_sym]
     schedule[date.strftime("%a").downcase.to_sym].each do |monitoring_session|
       index = 0
       monitoring_session[:duration].times do
         monitoring = Monitoring.create(
           class_monitor: class_monitor,
-          question: 'Como faz alguma coisa?',
           place: "Sala #{rand(1..30)}",
           date_time: DateTime.parse(date.strftime("%Y-%m-%dT#{(monitoring_session[:start] + index.hours)
             .strftime('%H:%M')}:00%z"))
@@ -215,6 +218,9 @@ ClassMonitor.all.each do |class_monitor|
 end
 
 puts 'Creating MonitoringsStudent'
+monitoring = Monitoring.first
+monitoring.question = 'Como faz alguma coisa?'
+monitoring.save
 3.times do
   monitorings_student = MonitoringsStudent.create(monitoring: Monitoring.first, student: User.select(&:student?).sample)
   puts monitorings_student.student.name

@@ -1,9 +1,16 @@
-<%= link_to 'Módulo aluno', monitorings_path %>
+<% if current_user.student? %>
+  <p><%= link_to 'Módulo aluno', monitorings_path %></p>
+  <p><%= link_to 'Monitorias concluídas',monitor_schedule_old_path %></p>
+<% end %>
+
 <h1>Monitorias</h1>
 <% @monitorings.each do |monitoring| %>
+  <h5><%= link_to monitoring.class_monitor.university_class.discipline.title, monitoring %></h5>
   <p><%= monitoring.date_time %></p>
   <p><%= monitoring.place %></p>
-  <% if monitoring.monitorings_students.empty? %>
+  <% if monitoring.excuse %>
+    <p>Cancelada</p>
+  <% elsif monitoring.monitorings_students.empty? %>
     <p><%= 'Horário disponível' %></p>
   <% else %>
     <% if monitoring.students.count > 1 %>

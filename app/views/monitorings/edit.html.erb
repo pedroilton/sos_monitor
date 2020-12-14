@@ -1,0 +1,51 @@
+<% if @monitoring.students.include? current_user %>
+  <%= link_to 'Voltar para monitorias', monitorings_path %>
+<% else %>
+  <%= link_to 'Voltar para monitorias', monitor_schedule_path(@monitoring.class_monitor.student) %>
+<% end %>
+
+<h1>Monitoria de <%= @monitoring.class_monitor.university_class.discipline.title %></h1>
+<div data-controller="monitorings">
+  <div id="disciplines" data-discipline-id="<%= @monitoring.class_monitor.university_class.discipline.id %>"></div>
+  <select class="custom-select" data-action="change->monitorings#editDate">
+    <option selected="<%= @monitoring.date_time.strftime("%d/%m/%Y") %>">
+      <%= @monitoring.date_time.strftime("%d/%m/%Y") %>
+    </option>
+    <% @other_dates.each do |date| %>
+      <option value="<%= date %>"><%= date %></option>
+    <% end %>
+  </select>
+
+  <div data-monitorings-target="schedule">
+    <div class="radio" data-action="change->monitorings#editSchedule">
+      <% @day_monitorings.map { |monitoring| monitoring.class_monitor.student }.uniq.each do |monitor| %>
+        <p><%= monitor.nickname.nil? ? monitor.name : monitor.nickname %></p>
+        <% @day_monitorings.select { |monitoring| monitoring.class_monitor.student == monitor }.each do |monitoring| %>
+          <% if monitoring == @monitoring %>
+            <input type="radio" id="<%= monitoring.id %>" class="schedule-option" name="schedule" value="<%= monitoring.id %>" checked="checked">
+          <% else %>
+            <input type="radio" id="<%= monitoring.id %>" class="schedule-option" name="schedule" value="<%= monitoring.id %>">
+          <% end %>
+          <label for="<%= monitoring.id %>"><%= monitoring.date_time.strftime("%k:%M") %></label>
+          <br>
+        <% end %>
+      <% end %>
+    </div>
+    <div data-monitorings-target="question">
+      <form class="simple_form edit_monitoring" id="edit_monitoring_<%= @monitoring.id %>" novalidate="novalidate" action="/monitorings/<%= @monitoring.id %>" accept-charset="UTF-8" method="post">
+      
+        <div id="fixed">
+          <input type="hidden" name="_method" value="patch">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <%= hidden_field_tag :old_monitoring_id, @monitoring.id %>
+          <div class="form-group text optional monitoring_question">
+            <label class="text optional" for="monitoring_question">Dúvida</label>
+            <textarea class="form-control text optional" name="monitoring[question]" id="monitoring_question"><%= @monitoring.question %></textarea>
+          </div>
+          <input type="submit" name="commit" value="Submit" class="btn btn-primary" data-disable-with="Submit" id="submit">
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
