@@ -1,4 +1,4 @@
-<div class="navbar navbar-light navbar-lewagon">
+<div class="navbar navbar-light navbar-lewagon" id="navbar-ufmt">
   
   <%# LOGO DA UFMT %>
   <%= link_to "#", class: "navbar-brand" do %>
@@ -8,12 +8,34 @@
   <%# INDENTIFICAÇÃO DO USUÁRIO %>
   <div class="indentify text-center">
     <%# NOME DO USUÁRIO %>
-    <p><%= current_user.name %></p>
+    <p class="m-2"><%= current_user.name.split[0] %> <%= current_user.name.split[-1] %></p>
     <%# TIPO DE USUÁRIO %>
     <% if current_user.professor? %>
       <small>PROFESSOR</small>
     <% else %>
-      <small>ESTUDANTE</small>
+      <% if current_user.monitor? %>
+        <div class="toggle-class d-flex">
+          <%# <span style="color: red; font-size: 12px">ESTUDANTE</span> %>
+          <span>
+            <%# BOTAO DO TIPO TOGGLE - IMPORTADO DO CODEPEN %>
+            <div data-controller="toggle">
+              <label class='toggler__label'>
+                <% if current_page?(monitor_schedule_path(current_user)) %>
+                  <input type="checkbox" hidden checked data-action="change->toggle#toggleActive">
+                <% else %>
+                  <input type="checkbox" hidden data-action="change->toggle#toggleActive">
+                <% end %>
+                <span class="student-class-name">Estudante</span>
+                <div class='toggler'></div>
+                <span class="student-class-name">Monitor</span>
+              </label>
+            </div>
+          </span>
+          <%# <span style="color: red; font-size: 12px">MONITOR</span> %>
+        </div>
+      <% else %>
+        <small>ESTUDANTE</small>
+      <% end %>
     <% end %>
   </div>
 
@@ -24,10 +46,18 @@
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
       <%= link_to "Perfil", "#", class: "dropdown-item" %>
       <%= link_to "Alterar Senha", edit_user_registration_path, class: "dropdown-item" %>
-      <%= link_to "Opção 3", "#", class: "dropdown-item" %>
-      <%= link_to "Opção 4", "#", class: "dropdown-item" %>
+      <% if current_user.monitor? %>
+        <%= link_to "Módulo Monitor", monitor_schedule_path(current_user), class: "dropdown-item" %>
+      <% end %>
+      <% if current_user.monitor? %>
+        <%= link_to "Módulo Estudante", "#", class: "dropdown-item" %>
+      <% end %>
+      <%= link_to "Outra Opção", "#", class: "dropdown-item" %>
       <%= link_to "SAIR", destroy_user_session_path, method: :delete, style: "color: red", class: "dropdown-item" %>
     </div>
   </div>
 
 </div>
+
+<%# DIV VAZIA PARA CAPTAR O USER-ID PARA ENVIAR AO JAVASCRIPT %>
+<div id="user" data-user-id="<%= current_user.id %>"></div>
