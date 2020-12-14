@@ -103,6 +103,7 @@ class MonitoringsController < ApplicationController
     end
   end
 
+  # Cancelamento por parte do aluno
   def destroy
     @monitoring.question = ''
     @monitoring.save
@@ -111,6 +112,7 @@ class MonitoringsController < ApplicationController
     redirect_to monitorings_path
   end
 
+  # Cacelamento por parte do monitor
   def cancel
     if @monitoring.update(monitoring_params)
       redirect_to @monitoring
