@@ -1,12 +1,10 @@
-<%= render '/shared/banner' %>
-
-<!-- Formulário de users/new -->
+<!-- Formulário de users/new e users/edit -->
 <div>
     <div class="container mt-3">
 
       <div class="system-area">
     <!-- Início do Formulário de cadastro -->
-        <%= image_tag 'cad_usuarios', class:"d-none d-sm-block" %>
+        <%= image_tag 'biblioteca2', class:"d-none d-sm-block" %>
         <div class="system-area-data">
               <h2>Cadastro de Usuários</h2>
             <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
@@ -56,15 +54,6 @@
                               placeholder: 'Senha',
                               required: true,
                               input_html: { autocomplete: "new-password" } %>
-            </div>
-            <div>
-            <%= f.input :student?, as: :boolean,
-                        label: 'Aluno?' %>
-            <%= f.input :professor?, as: :boolean,
-                        label: 'Professor?' %>
-            <%= f.input :admin?, as: :boolean,
-                        label: 'Administrador do Sistema?',
-                        hint: "Marcar somente se o usuário tiver privilégios de administrador" %>
             </div>
             </div>
 

@@ -2,7 +2,6 @@
   <br>
   <h1 class="font-bold text-center">SOS Monitor</h1>
   <p class="text-center">Encontre um monitor disponível e tire as suas dúvidas. </p>
-  <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar avatar-red dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
   <div class="row">
     <div class="container col-8 col-md-2">
     
@@ -10,8 +9,8 @@
         <div class="form-inputs">
           <h2 class="text-center font-bold">Acesso</h2>
           <%= f.input :registration,
-                      label: 'Acesse usando RGA ou CPF',
-                      placeholder: 'RGA ou CPF',
+                      label: 'Matrícula',
+                      placeholder: 'Matrícula',
                       required: false,
                       autofocus: true %>
           <%= f.input :password,
