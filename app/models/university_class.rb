@@ -4,7 +4,7 @@ class UniversityClass < ApplicationRecord
   belongs_to :academic_year
 
   has_many :classes_students, dependent: :destroy
-  has_many :monitors, dependent: :destroy
+  has_many :class_monitors, dependent: :destroy
 
   validates :title, presence: true
 end
