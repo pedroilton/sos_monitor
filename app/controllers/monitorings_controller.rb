@@ -1,13 +1,13 @@
 class MonitoringsController < ApplicationController
   before_action :set_monitoring, only: %i[show edit schedule destroy cancel]
-  after_action :authorize_monitoring, except: %i[index list monitoring_days destroy old_index old_list]
+  after_action :authorize_monitoring, except: %i[index list monitoring_days day_monitorings destroy old_index old_list]
 
   # Lista de monitorias agendadas do aluno
   def index
     @monitorings = policy_scope(Monitoring).select do |monitoring|
       monitoring.students.include?(current_user) && monitoring.date_time >= Time.now
     end
-    @monitorings.sort_by!(&:date_time)
+    @monitorings.sort_by! { |monitoring| [monitoring.date_time, monitoring.class_monitor.student.name] }
   end
 
   # Lista de monitorias agendadas do aluno
@@ -15,15 +15,20 @@ class MonitoringsController < ApplicationController
     @monitorings = policy_scope(Monitoring).select do |monitoring|
       monitoring.students.include?(current_user) && monitoring.date_time < Time.now
     end
-    @monitorings.sort_by!(&:date_time)
+    @monitorings.sort_by! { |monitoring| [monitoring.date_time, monitoring.class_monitor.student.name] }
   end
 
-  # Lista de monitorias futuras do monitor
+  # Lista de monitorias do monitor
   def list
-    @monitorings = policy_scope(Monitoring).select do |monitoring|
-      monitoring.class_monitor.student == current_user
+    @monitorings = monitor_monitorings
+
+    @monitorings_days = @monitorings.map { |monitoring| monitoring.date_time.strftime("%d/%m/%Y") }.uniq
+
+    @current_monitorings_day = @monitorings_days.select { |date| Date.strptime(date, '%d/%m/%Y') >= Date.today }.first
+
+    @current_monitorings = @monitorings.select do |monitoring|
+      monitoring.date_time.strftime("%d/%m/%Y") == @current_monitorings_day
     end
-    @monitorings.sort_by!(&:date_time)
   end
 
   def show
@@ -48,10 +53,21 @@ class MonitoringsController < ApplicationController
     respond_to { |format| format.json { render json: { monitorings: @monitorings, monitors: monitors, users: users } } }
   end
 
+  def day_monitorings
+    @monitorings = monitor_monitorings.select do |monitoring|
+      monitoring.date_time.strftime("%d/%m/%Y") == Monitoring.find(params[:id]).date_time.strftime("%d/%m/%Y")
+    end
+    disciplines = @monitorings.map { |monitoring| monitoring.class_monitor.university_class.discipline }
+    users = @monitorings.map(&:students)
+    respond_to do |format|
+      format.json { render json: { monitorings: @monitorings, disciplines: disciplines, users: users } }
+    end
+  end
+
   def edit
     @monitorings = available_monitorings(@monitoring.class_monitor.university_class.discipline)
     @monitorings << @monitoring
-    @monitorings.sort_by!(&:date_time)
+    @monitorings.sort_by! { |monitoring| [monitoring.date_time, monitoring.class_monitor.student.name] }
 
     @other_dates = @monitorings.map { |monitoring| monitoring.date_time.strftime("%d/%m/%Y") }.uniq
     @other_dates.reject! { |date| date == @monitoring.date_time.strftime("%d/%m/%Y") }
@@ -123,7 +139,14 @@ class MonitoringsController < ApplicationController
     @monitorings.select! do |monitoring|
       monitoring.class_monitor.university_class.discipline == discipline && monitoring.date_time > Time.now
     end
-    @monitorings.sort_by(&:date_time)
+    @monitorings.sort_by { |monitoring| [monitoring.date_time, monitoring.class_monitor.student.name] }
+  end
+
+  def monitor_monitorings
+    monitorings = policy_scope(Monitoring).select do |monitoring|
+      monitoring.class_monitor.student == current_user
+    end
+    monitorings.sort_by { |monitoring| [monitoring.date_time, monitoring.class_monitor.student.name] }
   end
 
   def set_monitoring
