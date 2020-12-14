@@ -1,6 +1,5 @@
 class Discipline < ApplicationRecord
-  belongs_to :course
-  has_many :classes
+  has_many :university_classes
 
   validates :title, presence: true
   validates :code, presence: true

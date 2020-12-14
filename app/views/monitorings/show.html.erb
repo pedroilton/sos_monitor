@@ -1,0 +1,61 @@
+<% if @monitoring.students.include? current_user %>
+  <% if @monitoring.date_time >= Time.now %>
+    <p><%= link_to 'Voltar para monitorias agendadas', monitorings_path %></p>
+  <% else %>
+    <p><%= link_to 'Voltar para monitorias concluídas', monitorings_old_path %></p>
+  <% end %>
+  <% unless @monitoring.excuse || @monitoring.date_time < Time.now %>
+    <p><%= link_to 'Editar', edit_monitoring_path(@monitoring) %></p>
+    <% if @monitoring.students.count > 1 %>
+      <p><%= link_to 'Sair da monitoria', monitoring_leave_path(@monitoring), method: :delete ,
+        data: { confirm: 'Tem certeza que deseja sair dessa monitoria?' }%></p>
+    <% end %>
+    <p><%= link_to 'Cancelar agendamento', @monitoring, method: :delete,
+      data: { confirm: 'Tem certeza que deseja cancelar o agendamento?' } %></p>
+  <% end %>
+<% else %>
+  <p><%= link_to 'Voltar para monitorias agendadas', monitor_schedule_path(@monitoring.class_monitor.student) %></p>
+<% end %>
+
+<h1>Monitoria de <%= @monitoring.class_monitor.university_class.discipline.title %></h1>
+<p><%= @monitoring.date_time %></p>
+<p><%= @monitoring.place %></p>
+<% if @monitoring.excuse %>
+  <h4>Monitoria cancelada!</h4>
+  <p><%= @monitoring.excuse %></p>
+<% end %>
+<p><%= @monitoring.question %></p>
+<br>
+<% if @monitoring.students.include? current_user %>
+  <p><%= @monitoring.class_monitor.student.name %></p>
+  <% if @monitoring.students.reject { |student| student == current_user }.any? %>
+    <p>Demais participantes:</p>
+    <% @monitoring.students.sort_by(&:name).reject { |student| student == current_user }.each do |student| %>
+      <% if @monitoring.excuse || @monitoring.date_time < Time.now %>
+        <p><%= student.name %></p>
+      <% else %>
+        <p><%= student.name %> - 
+          <%= link_to 'Remover da monitoria', MonitoringsStudent.find_by(student: student, monitoring: @monitoring), 
+            method: :delete, data: { confirm: 'Tem certeza que deseja remover esse estudante da monitoria?' },
+            remote: true %></p>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% unless @monitoring.excuse || @monitoring.date_time < Time.now %>
+    <%= simple_form_for([@monitoring, @monitorings_student], remote: true) do |f| %>
+      <%= f.input :student, collection: @students %>
+      <%= f.submit "Submit", class: "btn btn-primary" %>
+    <% end %>
+  <% end %>
+<% else %>
+  <p>Participantes:</p>
+  <% @monitoring.students.each do |student| %>
+    <p><%= student.name %></p>
+  <% end %>
+  <% unless @monitoring.excuse %>
+    <%= simple_form_for @monitoring, url: monitoring_cancel_path(@monitoring), method: :patch, remote: true do |f| %>
+      <%= f.input :excuse %>
+      <%= f.submit "Cancelar monitoria", class: "btn btn-primary" %>
+    <% end %>
+  <% end %>
+<% end %>
