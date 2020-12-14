@@ -2,7 +2,7 @@ import { Controller } from "stimulus";
 import { fetchWithToken } from "../utils/fetch_with_token";
 
 export default class extends Controller {
-  static targets = [ 'calendar', 'schedule', 'question' ];
+  static targets = [ 'calendar', 'schedule', 'question', 'monitorings' ];
 
   // Acoes do agendamento ------------------------------------------------------------------------------------------
   filterDiscipline(event) {
@@ -71,7 +71,7 @@ export default class extends Controller {
         // console.log(dayMonitorings);
         // console.log(dayMonitors);
         let monitoringsHTML = '<div class="radio" data-action="change->monitorings#filterSchedule">'
-        dayMonitors.forEach((dayMonitor) => {
+        dayMonitors.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)).forEach((dayMonitor) => {
           monitoringsHTML += `<p>${dayMonitor.name}</p>`
           dayMonitorings.forEach((dayMonitoring) => {
             if(dayMonitoring.class_monitor_id === dayMonitor.monitor_id) {
@@ -143,7 +143,7 @@ export default class extends Controller {
       // console.log(dayMonitorings);
       // console.log(dayMonitors);
       let monitoringsHTML = '<div class="radio" data-action="change->monitorings#editSchedule">'
-      dayMonitors.forEach((dayMonitor) => {
+      dayMonitors.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)).forEach((dayMonitor) => {
         monitoringsHTML += `<p>${dayMonitor.name}</p>`
         dayMonitorings.forEach((dayMonitoring) => {
           if(dayMonitoring.class_monitor_id === dayMonitor.monitor_id) {
@@ -176,5 +176,34 @@ export default class extends Controller {
     let questionHTML = `<form class="simple_form edit_monitoring" id="edit_monitoring_${monitoringId}" novalidate="novalidate" action="/monitorings/${monitoringId}" accept-charset="UTF-8" method="post">`
     questionHTML = questionHTML + document.getElementById("fixed").outerHTML + '</form>'
     this.questionTarget.innerHTML = questionHTML
+  }
+
+  monitorDate(event) {
+    fetchWithToken(`/day_monitorings/${event.target.value}`, { headers: { accept: "application/json" } })
+    .then(response => response.json())
+    .then((data) => {
+      // console.log(data);
+      let index = 0;
+      let monitoringsHTML = ''
+      data.monitorings.forEach((monitoring) => {
+        let date = new Date(Date.parse(monitoring.date_time));
+        date = new Date(date.getTime() + (date.getTimezoneOffset() * 60000));
+        monitoringsHTML += `<h5><a href="/monitorings/${monitoring.id}">${data.disciplines[index].title}</a></h5>`
+        monitoringsHTML += `<p>${date}</p>`
+        monitoringsHTML += `<p>${monitoring.place}</p>`
+        if(data.users[index].length === 0) {
+          monitoringsHTML += `<p>Horário disponível</p>`
+        } else {
+          if(data.users[index].length > 1) {
+            monitoringsHTML += `<p>${data.users[index][0].name} + ${data.users[index].length - 1}</p>`
+          } else {
+            monitoringsHTML += `<p>${data.users[index][0].name}</p>`
+          }
+        }
+        monitoringsHTML += `<br>`
+        index += 1;
+      });
+      this.monitoringsTarget.innerHTML = monitoringsHTML
+    });
   }
 }
