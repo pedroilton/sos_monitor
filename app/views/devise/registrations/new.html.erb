@@ -1,77 +1,93 @@
-<div id="bg-ufmt">
-  <br>
-  <h1 class="font-bold text-center">SOS Monitor</h1>
-  <p class="text-center">Encontre um monitor disponível e tire as suas dúvidas. </p>
-  <div class="row">
-    <div class="container col-8 col-md-2">
+<%= render '/shared/banner' %>
 
-      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-        <%= f.error_notification %>
-        <div class="form-inputs">
-          <h2 class="text-center font-bold">Cadastro</h2>
-            <%= f.input :name,
-                          label: 'Nome completo',
-                          placeholder: 'Nome completo',
-                          required: true,
-                          autofocus: true %>
-            <%= f.input :nickname,
-                          label: 'Nome para exibição',
-                          placeholder: 'Nome a ser exibido',
-                          required: true,
-                          autofocus: true %>
-              <%= f.input :registration,
-                          label: 'RGA (aluno) / CPF (servidor)',
-                          placeholder: 'RGA ou CPF',
-                          required: true,
-                          autofocus: true %>
-              <%= f.input :email,
-                          label: 'Email',
-                          placeholder: 'Email',
-                          required: true,
-                          autofocus: true,
-                          input_html: { autocomplete: "email" }%>
-              <%= f.input :password,
-                          label: 'Senha',
-                          placeholder: 'Senha',
-                          required: true,
-                          hint: ("mínimo #{@minimum_password_length} caracteres " if @minimum_password_length),
-                          input_html: { autocomplete: "new-password" } %>
-              <%= f.input :password_confirmation,
-                          label: 'Confirme a Senha',
-                          placeholder: 'Senha',
-                          required: true,
-                          input_html: { autocomplete: "new-password" } %>
-        </div>
+<!-- Formulário de users/new -->
+<div>
+    <div class="container mt-3">
 
-<<<<<<< HEAD
-        <div class="form-actions">
-          <%= f.button :submit, "Cadastrar", class:"btn btn-primary" %>
+      <div class="system-area">
+    <!-- Início do Formulário de cadastro -->
+        <%= image_tag 'cad_usuarios', class:"d-none d-sm-block" %>
+        <div class="system-area-data">
+              <h2>Cadastro de Usuários</h2>
+            <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+              <%= f.error_notification %>
+              <!-- form-inputs -->
+              <div class="form-inputs">
+              <div>
+                <%= f.input :name,
+                              label: 'Nome completo',
+                              placeholder: 'Nome completo',
+                              required: true,
+                              autofocus: true %>
+              </div>
+              <div>
+                <%= f.input :nickname,
+                              label: 'Nome para exibição',
+                              placeholder: 'Nome a ser exibido',
+                              required: true,
+                              autofocus: true %>
+              </div>
+              <div>
+                  <%= f.input :registration,
+                              label: 'Matricula',
+                              placeholder: 'RGA ou CPF',
+                              required: true,
+                              autofocus: true %>
+              </div>
+              <div>
+                  <%= f.input :email,
+                              label: 'Email',
+                              placeholder: 'Email',
+                              required: true,
+                              autofocus: true,
+                              input_html: { autocomplete: "email" }%>
+              </div>
+              <div>
+                  <%= f.input :password,
+                              label: 'Senha',
+                              placeholder: 'Senha',
+                              required: true,
+                              hint: ("mínimo #{@minimum_password_length} caracteres " if @minimum_password_length),
+                              input_html: { autocomplete: "new-password" } %>
+              </div>
+              <div>
+                  <%= f.input :password_confirmation,
+                              label: 'Confirme a Senha',
+                              placeholder: 'Senha',
+                              required: true,
+                              input_html: { autocomplete: "new-password" } %>
+            </div>
+            <div>
+            <%= f.input :student?, as: :boolean,
+                        label: 'Aluno?' %>
+            <%= f.input :professor?, as: :boolean,
+                        label: 'Professor?' %>
+            <%= f.input :admin?, as: :boolean,
+                        label: 'Administrador do Sistema?',
+                        hint: "Marcar somente se o usuário tiver privilégios de administrador" %>
+            </div>
+            </div>
+
+            <!-- form-inputs -->
+            <!-- form-actions -->
+            <div class="form-actions">
+              <%= f.button :submit, "Cadastrar", class:"btn btn-primary mb-2" %>
+            </div>
+            <div class="form-actions">
+              <%= link_to "Acesso", new_session_path(resource_name) %>
+            </div>
+            <!-- f -->
+          </div>
+  
+
         </div>
+        <!-- container -->
       <% end %>
-=======
-  <div class="form-inputs">
-  <%= f.input :name,
-                required: true,
-                autofocus: true %>
-    <%= f.input :registration,
-                required: true,
-                autofocus: true %>
-    <%= f.input :email,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "email" }%>
-    <%= f.input :password,
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
-  </div>
->>>>>>> master
 
-      <%= render "devise/shared/links" %>
-    
+      
+      </div>
+  <!-- Fim do Formulário de cadastro -->
+
     </div>
-  </div>
+</div>
 </div>
