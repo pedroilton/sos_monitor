@@ -1,0 +1,9 @@
+<h1><%= @university_class.discipline.title %> - Turma: <%= @university_class.title %></h1>
+<p>Monitores:</p>
+<% @university_class.class_monitors.map(&:student).sort_by(&:name).each do |monitor| %>
+  <p><%= monitor.name %> - <%= link_to 'Ver agenda', monitor_schedule_path(monitor.student) %></p>
+<% end %>
+<p>Alunos:</p>
+<% @university_class.students.sort_by(&:name).each do |student| %>
+  <p><%= student.name %></p>
+<% end %>

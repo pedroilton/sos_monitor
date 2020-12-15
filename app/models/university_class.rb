@@ -6,5 +6,7 @@ class UniversityClass < ApplicationRecord
   has_many :classes_students, dependent: :destroy
   has_many :class_monitors, dependent: :destroy
 
+  has_many :students, through: :classes_students
+
   validates :title, presence: true
 end

@@ -3,8 +3,7 @@
 <% end %>
 
 <div data-controller="monitorings">
-  <div id="disciplines" data-discipline-id="<%= @monitorings.first.class_monitor.university_class.discipline.id %>">
-  </div>
+  <div id="user" data-user-id="<%= @user.id %>"></div>
   <select class="custom-select" data-action="change->monitorings#monitorDate">
     <option selected="<%= @current_monitorings.first.id %>"><%= @current_monitorings_day %></option>
     <% @monitorings_days.reject { |date| date == @current_monitorings_day }.each do |date| %>

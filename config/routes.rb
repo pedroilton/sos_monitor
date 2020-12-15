@@ -9,15 +9,16 @@ Rails.application.routes.draw do
     unauthenticated do
       root 'devise/sessions#new', as: :unauthenticated_root
     end
-
-    # Monitorias do monitor
-    get 'monitor_schedule', to: 'monitorings#list'
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   resources :monitorings, only: %i[index show edit update destroy] do
     resources :monitorings_students, only: :create
   end
   resources :monitorings_students, only: %i[destroy update]
+  resources :university_classes, only: %i[index show]
+
+  # Monitorias do monitor
+  get 'monitor_schedule/:user_id', to: 'monitorings#list', as: 'monitor_schedule'
 
   # Monitorias concluidas do aluno
   get 'monitorings_old', to: 'monitorings#old_index', as: 'monitorings_old'

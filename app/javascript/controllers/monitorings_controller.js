@@ -182,9 +182,10 @@ export default class extends Controller {
     fetchWithToken(`/day_monitorings/${event.target.value}`, { headers: { accept: "application/json" } })
     .then(response => response.json())
     .then((data) => {
+      const user_id = document.getElementById("user").dataset.userId;
       // console.log(data);
       let index = 0;
-      let monitoringsHTML = ''
+      let monitoringsHTML = '<input type="hidden" name="user_id" value="<?php echo $param;?>">'
       data.monitorings.forEach((monitoring) => {
         let date = new Date(Date.parse(monitoring.date_time));
         date = new Date(date.getTime() + (date.getTimezoneOffset() * 60000));
