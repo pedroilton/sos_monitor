@@ -7,7 +7,7 @@
         <%= image_tag 'cad_turmas.jpg', class:"d-none d-sm-block" %>
         <div class="system-area-data">
               <h2>Cadastro de Turmas</h2>
-            <%= simple_form_for([@universityClass]) do |f| %>
+            <%= simple_form_for(@university_class) do |f| %>
               <!-- form-inputs -->
               <div class="form-inputs ml-2">
               <div>
@@ -23,12 +23,11 @@
                               required: true,
                               autofocus: true %>
 
-                  <%= f.association :professor, 
+                  <%= f.association :professor, collection: @professors, 
                               label: 'Professor',
                               placeholder: 'Professor',
                               required: true,
                               autofocus: true %>
-              
               
               </div>
               <%# <div class="inactive">
@@ -37,7 +36,7 @@
                               placeholder: "#{@academic_year}",
                               required: true,
                               autofocus: true %>
-              </div> %>
+              <!-- </div> -->
              
             </div>
 
@@ -45,7 +44,7 @@
             <!-- form-actions -->
             <div class="form-actions d-flex justify-content-center">
               <%= link_to "Vincular Alunos", university_classes_path, class:"btn btn-sm btn-outline-primary mx-2" %>
-              <%= f.button :submit, "Adicionar", class:"btn btn-sm btn-primary mx-2" %>
+              <%= f.submit "Adicionar", class:"btn btn-sm btn-primary mx-2" %>
 
             </div>
             <!-- f -->
