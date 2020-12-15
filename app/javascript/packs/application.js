@@ -29,6 +29,7 @@ import "bootstrap";
 import { initSelect2 } from '../components/init_select2';
 // Caso, queira importar o calendário do CodePen:
 // import { calendar } from '../components/init_monitor_calendar';
+import "../plugins/flatpickr"
 
 document.addEventListener('turbolinks:load', () => {
   // Call your functions here, e.g:

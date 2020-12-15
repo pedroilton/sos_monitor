@@ -15,6 +15,20 @@ class ClassMonitorsController < ApplicationController
     redirect_to @university_class
   end
 
+  # Envia um json com as monitorias do dia do monitor
+  def monitor_day
+    @class_monitor = User.find(params[:id]).class_monitors.last
+    @monitorings = @class_monitor.monitorings.select do |monitoring|
+      monitoring.date_time.strftime("%Y-%m-%d") == params[:date]
+    end
+    disciplines = @monitorings.map { |monitoring| monitoring.class_monitor.university_class.discipline }
+    users = @monitorings.map(&:students)
+    respond_to do |format|
+      format.json { render json: { monitorings: @monitorings, disciplines: disciplines, users: users } }
+    end
+    authorize @class_monitor
+  end
+
   # Pagina da edicao de horarios do monitor
   def edit_schedule
     @class_monitor = ClassMonitor.find(params[:id])

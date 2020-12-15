@@ -18,6 +18,11 @@
 <% end %>
 
 <div data-controller="monitorings">
+
+  <%= simple_form_for :search, method: "get" do |f| %>
+    <%= f.input :date, as: :string, required: false, input_html: {class: "datepicker", data: { action: "change->monitorings#monitorDate" } } %>
+  <% end %>
+
   <div id="monitor-user" data-user-id="<%= @user.id %>"></div>
   <select class="custom-select" data-action="change->monitorings#monitorDate">
     <option value="<%= @current_monitorings.first.id %>" selected="<%= @current_monitorings.first.id %>">

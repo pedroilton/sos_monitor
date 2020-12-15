@@ -23,6 +23,9 @@ Rails.application.routes.draw do
 
   # Monitorias do monitor
   get 'monitor_schedule/:user_id', to: 'monitorings#list', as: 'monitor_schedule'
+  # Monitorias do dia selecionado pelo monitor
+  get 'day_monitorings/:id', to: 'monitorings#day_monitorings', as: 'day_monitorings'
+  get 'monitor_day/:id', to: 'class_monitors#monitor_day', as: 'monitor_day'
 
   # Monitorias concluidas do aluno
   get 'monitorings_old', to: 'monitorings#old_index', as: 'monitorings_old'
@@ -37,9 +40,6 @@ Rails.application.routes.draw do
 
   # Cancelamento de monitoria pelo monitor
   patch 'monitoring_cancel/:id', to: 'monitorings#cancel', as: 'monitoring_cancel'
-
-  # Monitorias do dia selecionado pelo monitor
-  get 'day_monitorings/:id', to: 'monitorings#day_monitorings', as: 'day_monitorings'
 
   # Edicao dos horarios do monitor
   get 'monitor_edit_schedule/:id', to: 'class_monitors#edit_schedule', as: 'monitor_edit_schedule'

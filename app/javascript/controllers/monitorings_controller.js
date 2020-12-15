@@ -185,12 +185,13 @@ export default class extends Controller {
 
   monitorDate(event) {
     const user_id = document.getElementById("monitor-user").dataset.userId;
-    // console.log(`/day_monitorings/${event.target.value}?user_id=${user_id}`);
+    console.log(`/monitor_day/${user_id}?date=${event.target.value}`);
     // console.log(Date.now());
-    fetch(`/day_monitorings/${event.target.value}?user_id=${user_id}`, { headers: { accept: "application/json" } })
+    // fetch(`/day_monitorings/${event.target.value}?user_id=${user_id}`, { headers: { accept: "application/json" } })
+    fetch(`/monitor_day/${user_id}?date=${event.target.value}`, { headers: { accept: "application/json" } })
     .then(response => response.json())
     .then((data) => {
-      // console.log(data);
+      console.log(data);
       let index = 0;
       // let monitoringsHTML = `<input type="hidden" name="user_id" value="${user_id}">`
       let monitoringsHTML = ''

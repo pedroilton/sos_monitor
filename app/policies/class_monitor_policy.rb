@@ -16,4 +16,8 @@ class ClassMonitorPolicy < ApplicationPolicy
   def edit_schedule?
     create?
   end
+
+  def monitor_day?
+    user.admin || record.university_class.professor == user
+  end
 end
