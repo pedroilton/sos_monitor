@@ -2,10 +2,9 @@ import $ from 'jquery';
 import 'select2';
 
 const initSelect2 = () => {
-  $('.custom-select').select2({
-    placeholder: 'Disciplina',
+  $('.select2').select2({
+    placeholder: "Escolha uma opção",
     allowClear: true
-    // matcher: matchCustom
   }); 
 };
 
