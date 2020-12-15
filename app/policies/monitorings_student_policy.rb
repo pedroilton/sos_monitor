@@ -16,4 +16,8 @@ class MonitoringsStudentPolicy < ApplicationPolicy
   def leave?
     destroy?
   end
+
+  def update?
+    user.admin? || record.monitoring.students.include?(user)
+  end
 end
