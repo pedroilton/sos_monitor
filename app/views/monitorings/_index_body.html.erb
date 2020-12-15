@@ -1,6 +1,6 @@
 <div class="index-body" id="index-body">
   
-  <h3 class="title text-center m-3">Monitorias</h1>
+  <h3 class="monitorings-title text-center">Monitorias</h3>
   
   <% if @monitorings.count > 0 %>
     <% @monitorings.each do |monitoring| %>
@@ -25,7 +25,7 @@
             <%# ICONE DE DELETAR %>
             <p id="delete-icon">
               <%= link_to monitoring, method: :delete,
-                                      data: { confirm: 'Tem certeza que deseja cancelar o agendamento?' },
+                                      data: { confirm: 'Tem certeza que deseja cancelar o agendamento? (O cancelamento ocorrerá para todos os participantes)' },
                                       remote: true do %>
                 <i class="far fa-trash-alt"></i></i>
               <% end %>

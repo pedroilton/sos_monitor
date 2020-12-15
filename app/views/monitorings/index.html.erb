@@ -1,25 +1,3 @@
-<% if current_user.monitor? %>
-  <br>
-  <p class="text-center">Olá <strong>monitor</strong>, seja bem-vindo!</p>
-  <p class="text-center p-0 m-0">Acesse abaixo o</p>
-  <div class="monitor-btn d-flex justify-content-center m-3">
-    <button type="button" class="btn btn-success"><%= link_to 'Módulo monitor', monitor_schedule_path(current_user), :class => "btn" %></button>
-  </div>
-  <p class="text-center">Ou se preferir, veja suas monitorias <br> agendadas como <strong>estudante</strong>:</p>
-  <!--
-  <div class="monitor-btn d-flex justify-content-center m-3">
-    <div class="btn btn-primary">
-        <%= link_to 'Módulo  aluno ', "index-body", :class => "btn" %> 
-    </div>
-  </div>
-  -->
-  <div class="monitor-btn d-flex justify-content-center m-3">
-    <button type="button" class="btn btn-primary"><a href="#index-body" class="btn btn-primary">Módulo  aluno</a></button>
-    
-  </div>
-  
-  <hr>
-<% end %>
-
+<br>
 <%= render 'index_body' %>
 

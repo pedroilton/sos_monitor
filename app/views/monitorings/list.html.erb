@@ -1,12 +1,28 @@
+  <%# Caso queira importar o calendário do CodePen: %>
+  <%# <div class="calendar-box d-flex justify-content-center">
+    <div class="monitor-calendar">
+      <div id="calendar"></div>
+    </div>
+  </div> %>
+
+<div data-controller="monitorings">
+  <h3 class="monitorings-title text-center m-3">Sua Agenda</h3>
+  <div id="disciplines" data-discipline-id="<%= @monitorings.first.class_monitor.university_class.discipline.id %>">
+  </div>
+
 <% if current_user.student? %>
   <p><%= link_to 'Módulo aluno', monitorings_path %></p>
+<% elsif current_user.professor? %>
+  <p><%= link_to 'Voltar a suas turmas', university_classes_path %></p>
+  <p><%= link_to 'Voltar a turma', @current_monitorings.first.class_monitor.university_class %></p>
 <% end %>
 
 <div data-controller="monitorings">
-  <div id="disciplines" data-discipline-id="<%= @monitorings.first.class_monitor.university_class.discipline.id %>">
-  </div>
+  <div id="monitor-user" data-user-id="<%= @user.id %>"></div>
   <select class="custom-select" data-action="change->monitorings#monitorDate">
-    <option selected="<%= @current_monitorings.first.id %>"><%= @current_monitorings_day %></option>
+    <option value="<%= @current_monitorings.first.id %>" selected="<%= @current_monitorings.first.id %>">
+      <%= @current_monitorings_day %>
+    </option>
     <% @monitorings_days.reject { |date| date == @current_monitorings_day }.each do |date| %>
       <option value="<%= @monitorings.find { |monitoring| monitoring.date_time.strftime("%d/%m/%Y") == date }.id %>">
         <%= date %>
@@ -14,24 +30,6 @@
     <% end %>
   </select>
 
-  <h1>Monitorias</h1>
-  <div data-monitorings-target="monitorings">
-    <% @current_monitorings.each do |monitoring| %>
-      <h5><%= link_to monitoring.class_monitor.university_class.discipline.title, monitoring %></h5>
-      <p><%= monitoring.date_time %></p>
-      <p><%= monitoring.place %></p>
-      <% if monitoring.excuse %>
-        <p>Cancelada</p>
-      <% elsif monitoring.monitorings_students.empty? %>
-        <p><%= 'Horário disponível' %></p>
-      <% else %>
-        <% if monitoring.students.count > 1 %>
-          <p><%= "#{monitoring.students.first.name} + #{monitoring.students.count - 1}" %></p>
-        <% else %>
-          <p><%= monitoring.students.first.name %></p>
-        <% end %>
-      <% end %>
-      <br>
-    <% end %>
-  </div>
+<%= render 'list_monitor_monitorings' %>
+ 
 </div>
