@@ -14,6 +14,7 @@ class DisciplinesController < ApplicationController
           AcademicYear.where(['start_date <= ? and end_date >= ?', Date.today, Date.today]).first
       end
     end
+    @disciplines.sort_by!(&:title)
   end
 
   def index

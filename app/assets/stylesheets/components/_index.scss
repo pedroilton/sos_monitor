@@ -4,4 +4,60 @@
 @import "avatar";
 @import "navbar";
 @import "login";
+@import "toggle_btn";
 @import "banner";
+
+hr {
+  margin-top: 0;
+}
+
+a, i {
+  color: azul-boostrap;
+}
+
+.big-icons {
+  text-align-last: center;
+}
+
+.btn > a {
+  color: white;
+}
+
+.footer {
+  height: 10vh;
+  width: 100%;
+  background-color: white;
+  position: sticky;
+  bottom: 0;
+}
+
+.footer > span {
+  margin: 16px;
+}
+
+.index-body {
+  margin: 8px 16px;
+  height: 75vh;
+}
+
+.monitoring-box {
+  // border: 1px solid red;
+}
+
+.monitoring-info {
+  // border: 3px solid green;
+}
+
+.monitoring-icons {
+  // border: 3px solid purple;
+  display: inline-grid;
+  place-items: center;
+}
+
+.separador {
+  margin: 4px 64px;
+}
+
+.title {
+  text-shadow: 1px -2px 3px gray;
+}

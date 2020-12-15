@@ -33,6 +33,9 @@ Rails.application.routes.draw do
   # Cancelamento de monitoria pelo monitor
   patch 'monitoring_cancel/:id', to: 'monitorings#cancel', as: 'monitoring_cancel'
 
+  # Monitorias do dia selecionado pelo monitor
+  get 'day_monitorings/:id', to: 'monitorings#day_monitorings', as: 'day_monitorings'
+
   resources :university_classes
   resources :disciplines, except: %i[show destroy]
 end
