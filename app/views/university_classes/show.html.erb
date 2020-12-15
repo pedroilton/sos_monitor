@@ -2,9 +2,14 @@
 <h1><%= @university_class.discipline.title %> - Turma: <%= @university_class.title %></h1>
 <p>Monitores:</p>
 <% @university_class.class_monitors.sort_by { |monitor| monitor.student.name }.each do |monitor| %>
-  <p><%= monitor.student.name %> - <%= link_to 'Ver agenda', monitor_schedule_path(monitor.student) %> - 
-    <%= link_to 'Remover monitor', monitor, method: :delete,
+  <% if monitor.monitorings.empty? %>
+    <p><%= monitor.student.name %> - <%= link_to 'Remover monitor', monitor, method: :delete,
       data: { confirm: "Tem certeza que deseja remover esse monitor da turma? (Todas as monitorias serão apagadas)" } %></p>
+  <% else %>
+    <p><%= monitor.student.name %> - <%= link_to 'Ver agenda', monitor_schedule_path(monitor.student) %> - 
+      <%= link_to 'Remover monitor', monitor, method: :delete,
+        data: { confirm: "Tem certeza que deseja remover esse monitor da turma? (Todas as monitorias serão apagadas)" } %></p>
+  <% end %>
 <% end %>
 <%= simple_form_for([@university_class, @class_monitor], remote: true) do |f| %>
   <%= f.input :student, collection: @available_monitors %>

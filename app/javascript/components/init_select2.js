@@ -2,7 +2,7 @@ import $ from 'jquery';
 import 'select2';
 
 const initSelect2 = () => {
-  $('.custom-select').select2({
+  $('#disciplines').select2({
     placeholder: 'Disciplina',
     allowClear: true
     // matcher: matchCustom

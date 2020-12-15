@@ -3,7 +3,7 @@ import { fetchWithToken } from "../utils/fetch_with_token";
 
 export default class extends Controller {
 
-  static targets = [ 'calendar', 'schedule', 'question' ];
+  static targets = [ 'calendar', 'schedule', 'question', 'monitorings' ];
   connect(){
     $('.custom-select').on("select2:select", this.filterDiscipline)
   }

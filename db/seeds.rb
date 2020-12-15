@@ -173,7 +173,7 @@ puts 'Creating ClassMonitor'
 end
 
 puts 'Creating ClassesStudent'
-User.select { |user| user.student? && !user.monitor? }.each do |student|
+User.select { |user| user.student? && !user.monitor? }.first(30).each do |student|
   classes_student = ClassesStudent.create(student: student, university_class: monitor_class)
   puts classes_student.student.name
 end
