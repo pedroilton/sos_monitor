@@ -4,6 +4,8 @@ class MonitoringsController < ApplicationController
 
   # Lista de monitorias agendadas do aluno
   def index
+    redirect_to(university_classes_path) if current_user.professor?
+
     @monitorings = policy_scope(Monitoring).select do |monitoring|
       monitoring.students.include?(current_user) && monitoring.date_time >= Time.now
     end
@@ -29,6 +31,8 @@ class MonitoringsController < ApplicationController
     @current_monitorings = @monitorings.select do |monitoring|
       monitoring.date_time.strftime("%d/%m/%Y") == @current_monitorings_day
     end
+
+    @user = User.find(params[:user_id]) || current_user
   end
 
   def show
@@ -53,6 +57,7 @@ class MonitoringsController < ApplicationController
     respond_to { |format| format.json { render json: { monitorings: @monitorings, monitors: monitors, users: users } } }
   end
 
+  # Usado pelo ajax para listar as monitorias do dia do monitor
   def day_monitorings
     @monitorings = monitor_monitorings.select do |monitoring|
       monitoring.date_time.strftime("%d/%m/%Y") == Monitoring.find(params[:id]).date_time.strftime("%d/%m/%Y")
@@ -143,8 +148,9 @@ class MonitoringsController < ApplicationController
   end
 
   def monitor_monitorings
+    user = User.find(params[:user_id]) || current_user
     monitorings = policy_scope(Monitoring).select do |monitoring|
-      monitoring.class_monitor.student == current_user
+      monitoring.class_monitor.student == user
     end
     monitorings.sort_by { |monitoring| [monitoring.date_time, monitoring.class_monitor.student.name] }
   end

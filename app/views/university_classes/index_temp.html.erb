@@ -1,0 +1,6 @@
+<h1>Turmas</h1>
+<% @university_classes.each do |university_class| %>
+  <h5><%= link_to university_class.discipline.title, university_class %></h5>
+  <p>Turma: <%= university_class.title %></p>
+  <br>
+<% end %>

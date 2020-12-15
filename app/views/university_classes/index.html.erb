@@ -1,5 +1,4 @@
 
-
 <%= render '/shared/banner' %>
 
 <div>
@@ -24,9 +23,9 @@
           <th>Professor</th>
           <th>Semestre</th>
 
-          <% @universityClasses.each do |uc|%>
+          <% @university_classes.each do |uc|%>
           <tr>
-            <td><%= uc.discipline.title %></td>
+            <td><%= link_to uc.discipline.title, uc %></td>
             <td><%= uc.title %></td>
             <td><%= uc.professor.name %></td>
             <td><%= uc.academic_year.title %></td>
