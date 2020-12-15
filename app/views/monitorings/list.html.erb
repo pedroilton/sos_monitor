@@ -1,11 +1,15 @@
 <% if current_user.student? %>
   <p><%= link_to 'Módulo aluno', monitorings_path %></p>
+<% elsif current_user.professor? %>
+  <p><%= link_to 'Voltar a suas turmas', university_classes_path %></p>
 <% end %>
 
 <div data-controller="monitorings">
-  <div id="user" data-user-id="<%= @user.id %>"></div>
+  <div id="monitor-user" data-user-id="<%= @user.id %>"></div>
   <select class="custom-select" data-action="change->monitorings#monitorDate">
-    <option selected="<%= @current_monitorings.first.id %>"><%= @current_monitorings_day %></option>
+    <option value="<%= @current_monitorings.first.id %>" selected="<%= @current_monitorings.first.id %>">
+      <%= @current_monitorings_day %>
+    </option>
     <% @monitorings_days.reject { |date| date == @current_monitorings_day }.each do |date| %>
       <option value="<%= @monitorings.find { |monitoring| monitoring.date_time.strftime("%d/%m/%Y") == date }.id %>">
         <%= date %>
@@ -13,7 +17,11 @@
     <% end %>
   </select>
 
-  <h1>Monitorias</h1>
+  <% if @user == current_user %>
+    <h1>Minhas monitorias</h1>
+  <% else %>
+    <h1>Monitorias de <%= @user.name %></h1>
+  <% end %>
   <div data-monitorings-target="monitorings">
     <% @current_monitorings.each do |monitoring| %>
       <h5><%= link_to monitoring.class_monitor.university_class.discipline.title, monitoring %></h5>
@@ -22,7 +30,11 @@
       <% if monitoring.excuse %>
         <p>Cancelada</p>
       <% elsif monitoring.monitorings_students.empty? %>
-        <p><%= 'Horário disponível' %></p>
+        <% if monitoring.date_time > Time.now %>
+          <p>Horário disponível</p>
+        <% else %>
+          <p>Monitoria não agendada</p>
+        <% end %>
       <% else %>
         <% if monitoring.students.count > 1 %>
           <p><%= "#{monitoring.students.first.name} + #{monitoring.students.count - 1}" %></p>

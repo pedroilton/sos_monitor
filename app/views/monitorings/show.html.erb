@@ -11,7 +11,8 @@
         data: { confirm: 'Tem certeza que deseja sair dessa monitoria?' }%></p>
     <% end %>
     <p><%= link_to 'Cancelar agendamento', @monitoring, method: :delete,
-      data: { confirm: 'Tem certeza que deseja cancelar o agendamento?' } %></p>
+      data: { confirm: 'Tem certeza que deseja cancelar o agendamento? (O cancelamento ocorrerá para todos os participantes)' } %>
+    </p>
   <% end %>
 <% else %>
   <p><%= link_to 'Voltar para suas monitorias', monitor_schedule_path(@monitoring.class_monitor.student) %></p>
@@ -57,18 +58,22 @@
     <% end %>
   <% end %>
 <% else %>
-  <p>Participantes:</p>
-  <% @monitoring.students.each do |student| %>
-    <p><%= student.name %></p>
-  <% end %>
-  <% unless @monitoring.excuse || @monitoring.date_time <= Time.now %>
-    <%= simple_form_for @monitoring, url: monitoring_cancel_path(@monitoring), method: :patch, remote: true do |f| %>
-      <%= f.input :excuse %>
-      <%= f.submit "Cancelar monitoria", class: "btn btn-primary" %>
+  <% if @monitoring.students.any? %>
+    <p>Participantes:</p>
+    <% @monitoring.students.each do |student| %>
+      <p><%= student.name %></p>
     <% end %>
+    <% unless @monitoring.excuse || @monitoring.date_time <= Time.now %>
+      <%= simple_form_for @monitoring, url: monitoring_cancel_path(@monitoring), method: :patch, remote: true do |f| %>
+        <%= f.input :excuse %>
+        <%= f.submit "Cancelar monitoria", class: "btn btn-primary" %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <p>Monitoria não agendada</p>
   <% end %>
 <% end %>
-<% if @monitoring.date_time < Time.now %>
+<% if @monitoring.date_time < Time.now && @monitoring.students.any? %>
   <p>Avaliações da monitoria:</p>
   <% @monitoring.monitorings_students.each do |monitorings_student| %>
     <% if monitorings_student.rating %>

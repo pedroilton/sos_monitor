@@ -57,6 +57,7 @@ class MonitoringsController < ApplicationController
     respond_to { |format| format.json { render json: { monitorings: @monitorings, monitors: monitors, users: users } } }
   end
 
+  # Usado pelo ajax para listar as monitorias do dia do monitor
   def day_monitorings
     @monitorings = monitor_monitorings.select do |monitoring|
       monitoring.date_time.strftime("%d/%m/%Y") == Monitoring.find(params[:id]).date_time.strftime("%d/%m/%Y")
