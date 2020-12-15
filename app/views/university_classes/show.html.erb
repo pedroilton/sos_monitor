@@ -3,7 +3,8 @@
 <p>Monitores:</p>
 <% @university_class.class_monitors.sort_by { |monitor| monitor.student.name }.each do |monitor| %>
   <% if monitor.monitorings.empty? %>
-    <p><%= monitor.student.name %> - <%= link_to 'Remover monitor', monitor, method: :delete,
+    <p><%= monitor.student.name %> - <%= link_to 'Editar horários', monitor_edit_schedule_path(monitor) %> - 
+      <%= link_to 'Remover monitor', monitor, method: :delete,
       data: { confirm: "Tem certeza que deseja remover esse monitor da turma? (Todas as monitorias serão apagadas)" } %></p>
   <% else %>
     <p><%= monitor.student.name %> - <%= link_to 'Ver monitorias', monitor_schedule_path(monitor.student) %> - 

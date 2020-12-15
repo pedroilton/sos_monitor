@@ -19,9 +19,10 @@ class ClassMonitorsController < ApplicationController
   def edit_schedule
     @class_monitor = ClassMonitor.find(params[:id])
     @week_monitorings = @class_monitor.monitorings.select do |monitoring|
-      monitoring.date_time >= Date.today && monitoring.date_time <= Date.today + 6
+      monitoring.date_time >= Date.today && monitoring.date_time <= Date.today + 7
     end
-    @day_order = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday]
+    @day_order = %w[sun mon tue wed thu fri sat]
+    @portuguese_days = %w[Domingo Segunda-feira Terça-feira Quarta-feira Quinta-feira Sexta-feira Sábado]
     authorize @class_monitor
     # schedule = {}
     # @week_monitorings.each do |monitoring|

@@ -1,10 +1,3 @@
-<h1>Turmas</h1>
-<% @university_classes.each do |university_class| %>
-  <h5><%= link_to university_class.discipline.title, university_class %></h5>
-  <p>Turma: <%= university_class.title %></p>
-  <br>
-<% end %>
-
 
 <%= render '/shared/banner' %>
 
@@ -30,9 +23,9 @@
           <th>Professor</th>
           <th>Semestre</th>
 
-          <% @universityClasses.each do |uc|%>
+          <% @university_classes.each do |uc|%>
           <tr>
-            <td><%= uc.discipline.title %></td>
+            <td><%= link_to uc.discipline.title, uc %></td>
             <td><%= uc.title %></td>
             <td><%= uc.professor.name %></td>
             <td><%= uc.academic_year.title %></td>
