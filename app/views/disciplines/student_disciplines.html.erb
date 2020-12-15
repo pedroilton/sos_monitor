@@ -1,25 +1,26 @@
-<p><%= link_to 'Voltar', monitorings_path %></p>
 
-<h1>Agendamento de monitoria</h1>
+<h3 class="monitorings-title text-center m-3">Marque sua monitoria</h3>
+
 <div data-controller="monitorings">
+  <p>Escolha a disciplina:</p>
   <select class="custom-select" data-action="change->monitorings#filterDiscipline" id="disciplines">
     <!--<option selected>Disciplina</option>-->
+    <option value=""></option>
     <%= @disciplines.each do |discipline| %>
       <option value="<%= discipline.id %>" data-action="change->monitorings#filterDiscipline"><%= discipline.title %></option>
     <% end %>
   </select>
-
   <div data-monitorings-target="calendar" class="form-calendar">
-
     <div id="fixed">
       <input type="hidden" name="_method" value="patch">
       <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-      <div class="form-group text optional monitoring_question">
-        <label class="text optional" for="monitoring_question">Dúvida</label>
+      <div style="visibility: hidden" class="form-group text optional monitoring_question" id="form-duvidas">
+        <label class="text optional" for="monitoring_question">Descreva sua dúvida:</label>
         <textarea class="form-control text optional" name="monitoring[question]" id="monitoring_question"></textarea>
       </div>
-      <input type="submit" name="commit" value="Submit" class="btn btn-primary" data-disable-with="Submit" id="submit" disabled>
+      <input style="visibility: hidden" type="submit" name="commit" value="Submit" class="btn btn-primary" data-disable-with="Submit" id="submit" disabled>
     </div>
-
   </div>
 </div>
+
+<p><%= link_to 'Voltar', monitorings_path %></p>

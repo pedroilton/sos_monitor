@@ -3,8 +3,8 @@ import 'select2';
 
 const initSelect2 = () => {
   $('#disciplines').select2({
-    placeholder: 'Disciplina',
-    allowClear: true
+    placeholder: "Escolha uma opção",
+    allowClear: false
     // matcher: matchCustom
   }); 
 };
