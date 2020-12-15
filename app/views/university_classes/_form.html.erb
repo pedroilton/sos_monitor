@@ -1,5 +1,4 @@
-
-<!-- Formulário de users/new -->
+<!-- Formulário de university_classes/new -->
 <div>
     <div class="container mt-3">
 
@@ -8,7 +7,7 @@
         <%= image_tag 'cad_turmas', class:"d-none d-sm-block" %>
         <div class="system-area-data">
               <h2>Cadastro de Turmas</h2>
-            <%= simple_form_for(@classes) do |f| %>
+            <%= simple_form_for([@universityClass]) do |f| %>
               <!-- form-inputs -->
               <div class="form-inputs">
               <div>
@@ -26,9 +25,16 @@
                               autofocus: true %>
               </div>
               <div>
-                  <%= f.association :professor_id,
+                  <%= f.association :professor,
                               label: 'Professor',
                               placeholder: 'Professor',
+                              required: true,
+                              autofocus: true %>
+              </div>
+              <div>
+                <%= f.association :academic_year,
+                              label: 'Semestre',
+                              placeholder: 'Semestre',
                               required: true,
                               autofocus: true %>
               </div>
@@ -41,7 +47,7 @@
               <%= f.button :submit, "Adicionar", class:"btn btn-primary mb-2" %>
             </div>
             <div class="form-actions">
-              <%= link_to "Vincular Aluno", new_session_path(resource_name), class:"btn btn-outline-primary" %>
+              <%= link_to "Vincular Aluno", university_classes_path, class:"btn btn-outline-primary" %>
             </div>
             <!-- f -->
           </div>
