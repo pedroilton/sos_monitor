@@ -9,8 +9,20 @@
   <h3 class="monitorings-title text-center m-3">Sua Agenda</h3>
   <div id="disciplines" data-discipline-id="<%= @monitorings.first.class_monitor.university_class.discipline.id %>">
   </div>
+
+<% if current_user.student? %>
+  <p><%= link_to 'Módulo aluno', monitorings_path %></p>
+<% elsif current_user.professor? %>
+  <p><%= link_to 'Voltar a suas turmas', university_classes_path %></p>
+  <p><%= link_to 'Voltar a turma', @current_monitorings.first.class_monitor.university_class %></p>
+<% end %>
+
+<div data-controller="monitorings">
+  <div id="monitor-user" data-user-id="<%= @user.id %>"></div>
   <select class="custom-select" data-action="change->monitorings#monitorDate">
-    <option selected="<%= @current_monitorings.first.id %>"><%= @current_monitorings_day %></option>
+    <option value="<%= @current_monitorings.first.id %>" selected="<%= @current_monitorings.first.id %>">
+      <%= @current_monitorings_day %>
+    </option>
     <% @monitorings_days.reject { |date| date == @current_monitorings_day }.each do |date| %>
       <option value="<%= @monitorings.find { |monitoring| monitoring.date_time.strftime("%d/%m/%Y") == date }.id %>">
         <%= date %>
@@ -18,5 +30,6 @@
     <% end %>
   </select>
 
-  <%= render 'list_monitor_monitorings' %>
+<%= render 'list_monitor_monitorings' %>
+ 
 </div>

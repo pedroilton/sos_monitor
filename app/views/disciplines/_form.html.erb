@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="system-area">
+    <!-- Início do Formulário de cadastro -->
+        
+      <%= image_tag 'disciplinas.jpg', class:"d-none d-sm-block" %>
+      <div class="system-area-data">
+        <h2>Cadastro de Disciplinas</h2>
+      <%= simple_form_for @discipline do |f| %>
+      <div id="AddDiscipline" class="form-inputs form-actions">
+        <div id="code">
+          <%= f.input :code,
+                        label: 'Código da Disciplina',
+                        placeholder: 'Código da disciplina',
+                        required: true,
+                        autofocus: true %>
+        </div>
+        <div id="discipline-title">
+          <%= f.input :title,
+                        label: 'Nome da Disciplina',
+                        placeholder: 'Nome da disciplina',
+                        required: true,
+                        autofocus: true %>
+        </div>
+        <% if current_page?(new_discipline_path) %>
+          <div class="check-box d-none">
+            <%= f.input :active, as: :boolean,
+                       label: 'A disciplina está ativa?' %>
+          </div>
+          <% else %>
+          <div class="check-box">
+            <%= f.input :active, as: :boolean,
+                       label: 'A disciplina está ativa?' %>
+          </div>
+        <% end %>
+        <div class="form-actions">
+          <%= f.button :submit, "Salvar", class:"btn btn-primary" %>
+        </div>
+        <div class="form-actions">
+          <%= link_to 'Voltar', disciplines_path %>
+        </div>
+      </div>
+    <% end %>
