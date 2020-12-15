@@ -1,3 +1,4 @@
+<p><%= link_to 'Voltar para as turmas', university_classes_path %></p>
 <h1><%= @university_class.discipline.title %> - Turma: <%= @university_class.title %></h1>
 <p>Monitores:</p>
 <% @university_class.class_monitors.sort_by { |monitor| monitor.student.name }.each do |monitor| %>
