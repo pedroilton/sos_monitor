@@ -1,0 +1,2 @@
+class ClassMonitorsController < ApplicationController
+end

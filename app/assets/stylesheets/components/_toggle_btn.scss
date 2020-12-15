@@ -1,0 +1,84 @@
+@mixin toggler(
+      $size       : 16px,
+      $transition : .2s ease-out,
+      $color-bg   : #E1E1E1,
+      $color-on   : #16B5FF
+    ){
+      
+    background    : $color-bg;
+    border-radius : $size*1.5;
+    width         : $size*3;
+    transition    : $transition;
+      
+    &__label input:checked ~ .toggler{ background:$color-on; }
+      
+    &::before{
+        border-radius : $size;
+        width         : $size;
+        height        : $size;
+        transition    : $transition;
+    }
+}
+
+
+.toggler{
+    padding : 3px;
+    position : relative;
+  
+    @keyframes moveCircle1{
+        50%  { padding:0 12%; }
+    }
+
+    @keyframes moveCircle2{
+        50%  { padding:0 12%; }
+    }
+
+    &__label{
+        user-select:none;
+        display: flex;
+        align-items:center;
+        cursor:pointer;
+
+        span{ margin-right:1em; margin-left:1em; }
+
+        input{
+            &:checked{
+                ~ .toggler{
+                    &::before{
+                        transform : translateX(-100%);
+                        left      : 100%;
+                        animation : moveCircle2 .2s ease 1;
+                    }
+                }
+            }
+        }
+    }
+
+    &::before{
+        content       : '';
+        display       : block;
+        background    : white;
+        position      : relative;
+        left          : 0;
+        animation     : moveCircle1 .2s ease 1;
+    }
+}
+
+// extend "toggler" with specific settings
+.toggler{
+    @include toggler(12px, .2s cubic-bezier(.7,.15,.36,1), #E1E1E1, #16B5FF)
+}
+
+
+
+//  PAGE RESET 
+// ---------------------------
+
+// html{ height:100%; }
+// body{ 
+//   display:flex;
+//   align-items:center;
+//   justify-content:center;
+//   color:#16B5FF;
+//   height:100%; text-align:center; font:2.2em 'Oleo Script', arial;
+// }

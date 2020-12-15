@@ -18,7 +18,7 @@
 
   <div data-monitorings-target="schedule">
     <div class="radio" data-action="change->monitorings#editSchedule">
-      <% @day_monitorings.map { |monitoring| monitoring.class_monitor.student }.uniq.each do |monitor| %>
+      <% @day_monitorings.map { |monitoring| monitoring.class_monitor.student }.uniq.sort_by(&:name).each do |monitor| %>
         <p><%= monitor.nickname.nil? ? monitor.name : monitor.nickname %></p>
         <% @day_monitorings.select { |monitoring| monitoring.class_monitor.student == monitor }.each do |monitoring| %>
           <% if monitoring == @monitoring %>

@@ -2,21 +2,36 @@
   <p><%= link_to 'Módulo aluno', monitorings_path %></p>
 <% end %>
 
-<h1>Monitorias</h1>
-<% @monitorings.each do |monitoring| %>
-  <h5><%= link_to monitoring.class_monitor.university_class.discipline.title, monitoring %></h5>
-  <p><%= monitoring.date_time %></p>
-  <p><%= monitoring.place %></p>
-  <% if monitoring.excuse %>
-    <p>Cancelada</p>
-  <% elsif monitoring.monitorings_students.empty? %>
-    <p><%= 'Horário disponível' %></p>
-  <% else %>
-    <% if monitoring.students.count > 1 %>
-      <p><%= "#{monitoring.students.first.name} + #{monitoring.students.count - 1}" %></p>
-    <% else %>
-      <p><%= monitoring.students.first.name %></p>
+<div data-controller="monitorings">
+  <div id="disciplines" data-discipline-id="<%= @monitorings.first.class_monitor.university_class.discipline.id %>">
+  </div>
+  <select class="custom-select" data-action="change->monitorings#monitorDate">
+    <option selected="<%= @current_monitorings.first.id %>"><%= @current_monitorings_day %></option>
+    <% @monitorings_days.reject { |date| date == @current_monitorings_day }.each do |date| %>
+      <option value="<%= @monitorings.find { |monitoring| monitoring.date_time.strftime("%d/%m/%Y") == date }.id %>">
+        <%= date %>
+      </option>
     <% end %>
-  <% end %>
-  <br>
-<% end %>
+  </select>
+
+  <h1>Monitorias</h1>
+  <div data-monitorings-target="monitorings">
+    <% @current_monitorings.each do |monitoring| %>
+      <h5><%= link_to monitoring.class_monitor.university_class.discipline.title, monitoring %></h5>
+      <p><%= monitoring.date_time %></p>
+      <p><%= monitoring.place %></p>
+      <% if monitoring.excuse %>
+        <p>Cancelada</p>
+      <% elsif monitoring.monitorings_students.empty? %>
+        <p><%= 'Horário disponível' %></p>
+      <% else %>
+        <% if monitoring.students.count > 1 %>
+          <p><%= "#{monitoring.students.first.name} + #{monitoring.students.count - 1}" %></p>
+        <% else %>
+          <p><%= monitoring.students.first.name %></p>
+        <% end %>
+      <% end %>
+      <br>
+    <% end %>
+  </div>
+</div>
