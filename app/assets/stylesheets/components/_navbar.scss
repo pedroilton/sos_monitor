@@ -2,14 +2,14 @@ div {
   line-height: 16px;
 }
 
-p {
-  margin: 0;
-}
-
 small {
   font-style: italic;
   color: rgb(100, 100, 100);
   font-size: 66%;
+}
+
+.navbar p {
+  margin: 0;
 }
 
 .fa-caret-down {
@@ -36,4 +36,14 @@ small {
 
 .navbar-toggler {
   border: none;
+  padding: 4px 0;
+}
+
+.student-class-name {
+  font-size: 12px;
+}
+
+#navbar-ufmt {
+  position: sticky !important;
+  top: 0;
 }
