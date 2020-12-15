@@ -5,7 +5,11 @@ class ClassMonitorPolicy < ApplicationPolicy
     end
   end
 
-  def destroy?
+  def create?
     user.admin || record.university_class.professor == user
+  end
+
+  def destroy?
+    create?
   end
 end

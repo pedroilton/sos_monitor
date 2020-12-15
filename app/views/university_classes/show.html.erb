@@ -5,6 +5,11 @@
     <%= link_to 'Remover monitor', monitor, method: :delete,
       data: { confirm: "Tem certeza que deseja remover esse monitor da turma? (Todas as monitorias serão apagadas)" } %></p>
 <% end %>
+<%= simple_form_for([@university_class, @class_monitor], remote: true) do |f| %>
+  <%= f.input :student, collection: @available_monitors %>
+  <%= f.submit "Submit", class: "btn btn-primary" %>
+<% end %>
+
 <p>Alunos:</p>
 <% @university_class.students.sort_by(&:name).each do |student| %>
   <p><%= student.name %></p>

@@ -2,9 +2,10 @@ class MonitoringsStudentsController < ApplicationController
   after_action :authorize_monitorings_student, except: :leave
 
   def create
+    @monitoring = Monitoring.find(params[:monitoring_id])
     @monitorings_student = MonitoringsStudent.create(student: User.find(params[:monitorings_student][:student]),
-                                                     monitoring: Monitoring.find(params[:monitoring_id]))
-    redirect_to Monitoring.find(params[:monitoring_id])
+                                                     monitoring: @monitoring)
+    redirect_to @monitoring
   end
 
   def destroy
