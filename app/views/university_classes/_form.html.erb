@@ -23,28 +23,30 @@
                               required: true,
                               autofocus: true %>
 
-                  <%= f.association :professor,
+                  <%= f.association :professor, 
                               label: 'Professor',
                               placeholder: 'Professor',
                               required: true,
                               autofocus: true %>
+              
+              
               </div>
-              <div class="d-none">
+              <%# <div class="inactive">
                 <%= f.association :academic_year,
                               label: 'Semestre',
-                              placeholder: 'Semestre',
+                              placeholder: "#{@academic_year}",
                               required: true,
                               autofocus: true %>
-              </div>
+              </div> %>
              
             </div>
 
             <!-- form-inputs -->
             <!-- form-actions -->
-            <div class="form-actions">
+            <div class="form-actions d-flex justify-content-center">
+              <%= link_to "Vincular Alunos", university_classes_path, class:"btn btn-sm btn-outline-primary mx-2" %>
               <%= f.button :submit, "Adicionar", class:"btn btn-sm btn-primary mx-2" %>
 
-              <%= link_to "Vincular Alunos", university_classes_path, class:"btn btn-sm btn-outline-primary mx-2" %>
             </div>
             <!-- f -->
           </div>

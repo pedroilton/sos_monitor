@@ -6,18 +6,18 @@ class DisciplinePolicy < ApplicationPolicy
   end
 
   def create?
-    user.admin?
+    user.admin? || user.professor?
   end
 
   def new?
-    user.admin?
+    user.admin? || user.professor?
   end
 
   def edit?
-    user.admin?
+    user.admin? || user.professor?
   end
 
   def update?
-    user.admin?
+    user.admin? || user.professor?
   end
 end

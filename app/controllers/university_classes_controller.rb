@@ -10,8 +10,11 @@ class UniversityClassesController < ApplicationController
   end
 
   def create
+    @academicYear == AcademicYear.where(['start_date <= ? and end_date >= ?', Date.today, Date.today]).first
     @universityClass = UniversityClass.new(universityClass_params)
+    @universityClass.academic_year = @academicYear
     authorize @universityClass
+
     if @universityClass.save
       redirect_to new_universityClasss_path
     else
@@ -40,6 +43,7 @@ class UniversityClassesController < ApplicationController
   end
 
   def universityClass_params
-    params.require(:universityClass).permit(:title, :code, :active)
+    params.require(:universityClass).permit(:discipline, :title, :professor)
+    # , :academic_year
   end
 end
