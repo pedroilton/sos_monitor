@@ -3,10 +3,11 @@ import 'select2';
 
 const initSelect2 = () => {
 
+
   $('.select2').select2({
     placeholder: "Escolha uma opção",
-
     allowClear: true
+
   }); 
 };
 
