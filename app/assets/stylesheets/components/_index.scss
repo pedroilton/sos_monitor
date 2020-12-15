@@ -8,6 +8,8 @@
 @import "banner";
 @import "system_area";
 @import "background";
+@import "monitor_list";
+@import "monitor_calendar";
 
 hr {
   margin-top: 0;
@@ -29,7 +31,7 @@ a, i {
   height: 10vh;
   width: 100%;
   background-color: white;
-  position: sticky;
+  position: fixed;
   bottom: 0;
 }
 
@@ -38,7 +40,7 @@ a, i {
 }
 
 .index-body {
-  margin: 8px 16px;
+  margin: 0 16px;
   height: 75vh;
 }
 
@@ -60,6 +62,7 @@ a, i {
   margin: 4px 64px;
 }
 
-.title {
+.monitorings-title {
   text-shadow: 1px -2px 3px gray;
+  padding-top: 16px;
 }

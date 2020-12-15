@@ -1,3 +1,15 @@
+  <%# Caso queira importar o calendário do CodePen: %>
+  <%# <div class="calendar-box d-flex justify-content-center">
+    <div class="monitor-calendar">
+      <div id="calendar"></div>
+    </div>
+  </div> %>
+
+<div data-controller="monitorings">
+  <h3 class="monitorings-title text-center m-3">Sua Agenda</h3>
+  <div id="disciplines" data-discipline-id="<%= @monitorings.first.class_monitor.university_class.discipline.id %>">
+  </div>
+
 <% if current_user.student? %>
   <p><%= link_to 'Módulo aluno', monitorings_path %></p>
 <% elsif current_user.professor? %>
@@ -18,32 +30,6 @@
     <% end %>
   </select>
 
-  <% if @user == current_user %>
-    <h1>Minhas monitorias</h1>
-  <% else %>
-    <h1>Monitorias de <%= @user.name %></h1>
-  <% end %>
-  <div data-monitorings-target="monitorings">
-    <% @current_monitorings.each do |monitoring| %>
-      <h5><%= link_to monitoring.class_monitor.university_class.discipline.title, monitoring %></h5>
-      <p><%= monitoring.date_time %></p>
-      <p><%= monitoring.place %></p>
-      <% if monitoring.excuse %>
-        <p>Cancelada</p>
-      <% elsif monitoring.monitorings_students.empty? %>
-        <% if monitoring.date_time > Time.now %>
-          <p>Horário disponível</p>
-        <% else %>
-          <p>Monitoria não agendada</p>
-        <% end %>
-      <% else %>
-        <% if monitoring.students.count > 1 %>
-          <p><%= "#{monitoring.students.first.name} + #{monitoring.students.count - 1}" %></p>
-        <% else %>
-          <p><%= monitoring.students.first.name %></p>
-        <% end %>
-      <% end %>
-      <br>
-    <% end %>
-  </div>
+<%= render 'list_monitor_monitorings' %>
+ 
 </div>
