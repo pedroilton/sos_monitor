@@ -2,11 +2,15 @@
 
 <h1>Agendamento de monitoria</h1>
 <div data-controller="monitorings">
-  <select class="custom-select" data-action="change->monitorings#filterDiscipline" id="disciplines">
-    <!--<option selected>Disciplina</option>-->
-    <%= @disciplines.each do |discipline| %>
-      <option value="<%= discipline.id %>" data-action="change->monitorings#filterDiscipline"><%= discipline.title %></option>
-    <% end %>
+  <select class="custom-select select2" data-action="change->monitorings#filterDiscipline" id="disciplines">
+    <option></option>
+    <optgroup label="Disciplina">
+      <%= @disciplines.each do |discipline| %>
+        <option value="<%= discipline.id %>" data-action="change->monitorings#filterDiscipline">
+          <%= discipline.title %>
+        </option>
+      <% end %>
+    </optgroup>
   </select>
 
   <div data-monitorings-target="calendar" class="form-calendar">
