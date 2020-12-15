@@ -26,7 +26,7 @@ export default class extends Controller {
           // console.log(data.monitorings);
           // Codigo a ser alterado pelo calendario ------------
           // console.log(formattedDates);
-          let calendarHTML = '<br><p>teste</p><select class="custom-select" data-action="change->monitorings#filterDate">'
+          let calendarHTML = '<br><p class="text-form-optins">Escolha a data:</p><select class="custom-select" data-action="change->monitorings#filterDate">'
           calendarHTML += '<option selected="">Data</option>';
           formattedDates.forEach((formattedDate) => {
             calendarHTML += `<option value="${formattedDate}">${formattedDate}</option>`;
@@ -75,7 +75,7 @@ export default class extends Controller {
         // Codigo a ser alterado --------------------------------
         // console.log(dayMonitorings);
         // console.log(dayMonitors);
-        let monitoringsHTML = '<br><p>Escolha o monitor e o horário:</p><div class="radio" data-action="change->monitorings#filterSchedule">'
+        let monitoringsHTML = '<br><p class="text-form-optins">Escolha o monitor e o horário:</p><div class="radio" data-action="change->monitorings#filterSchedule">'
         dayMonitors.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)).forEach((dayMonitor) => {
           monitoringsHTML += `<p>${dayMonitor.name}</p>`
           dayMonitorings.forEach((dayMonitoring) => {
@@ -114,7 +114,7 @@ export default class extends Controller {
     });
     //
     let questionHTML = `<form class="simple_form edit_monitoring" id="edit_monitoring_${monitoringId}" novalidate="novalidate" action="/schedule/${monitoringId}" accept-charset="UTF-8" method="post">`
-    questionHTML = questionHTML + '<p>teste</p>' + document.getElementById("fixed").outerHTML + '</form>'
+    questionHTML = questionHTML + document.getElementById("fixed").outerHTML + '</form>'
     this.questionTarget.innerHTML = questionHTML
   }
 
