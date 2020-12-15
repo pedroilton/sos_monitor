@@ -3,7 +3,10 @@ import { fetchWithToken } from "../utils/fetch_with_token";
 
 export default class extends Controller {
   static targets = [ 'calendar', 'schedule', 'question' ];
-
+  connect(){
+    $('.custom-select').on("select2:select", this.filterDiscipline)
+  }
+  
   // Acoes do agendamento ------------------------------------------------------------------------------------------
   filterDiscipline(event) {
     if(event.target.value !== 'Disciplina') {
@@ -18,7 +21,7 @@ export default class extends Controller {
               formattedDates.push(formattedDate);
             }
           });
-
+          // console.log(data.monitorings);
           // Codigo a ser alterado pelo calendario ------------
           // console.log(formattedDates);
           let calendarHTML = '<select class="custom-select" data-action="change->monitorings#filterDate">'
@@ -31,7 +34,7 @@ export default class extends Controller {
           // --------------------------------------------------
           // console.log(this.calendarTarget)
           calendarHTML = calendarHTML + document.getElementById("fixed").outerHTML + '</div>'
-          this.calendarTarget.innerHTML = calendarHTML
+          document.querySelector(".form-calendar").innerHTML = calendarHTML
         });
     }
   }
