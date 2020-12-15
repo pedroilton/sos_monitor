@@ -11,7 +11,6 @@
       <%= image_tag 'cad_turmas', class:"d-none d-sm-block" %>
       <div class="system-area-data">
         <h2>Turmas Cadastradas</h2>
-        <h2><%= "Usuário ADMIN: #{current_user.admin?}" %> </h2>
         <div class="form-actions">
         <% if current_user.admin? %>
               <%= link_to "Adicionar Disciplina", new_discipline_path, class:"btn btn-sm btn-primary mx-1" %>

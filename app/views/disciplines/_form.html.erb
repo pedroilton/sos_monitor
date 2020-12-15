@@ -21,10 +21,17 @@
                         required: true,
                         autofocus: true %>
         </div>
-        <div class="check-box">
-          <%= f.input :active, as: :boolean,
-                      label: 'A disciplina está ativa?' %>
-        </div>
+        <% if current_page?(new_discipline_path) %>
+          <div class="check-box d-none">
+            <%= f.input :active, as: :boolean,
+                       label: 'A disciplina está ativa?' %>
+          </div>
+          <% else %>
+          <div class="check-box">
+            <%= f.input :active, as: :boolean,
+                       label: 'A disciplina está ativa?' %>
+          </div>
+        <% end %>
         <div class="form-actions">
           <%= f.button :submit, "Salvar", class:"btn btn-primary" %>
         </div>

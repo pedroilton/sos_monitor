@@ -33,7 +33,7 @@ class DisciplinesController < ApplicationController
     @discipline = Discipline.new(discipline_params)
     authorize @discipline
     if @discipline.save
-      redirect_to new_disciplines_path
+      redirect_to disciplines_path, notice: "Disciplina #{@discipline.title.upcase} criada com sucesso."
     else
       render :new
     end
