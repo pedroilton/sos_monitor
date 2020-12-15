@@ -4,3 +4,47 @@
   <p>Turma: <%= university_class.title %></p>
   <br>
 <% end %>
+
+
+<%= render '/shared/banner' %>
+
+<div>
+
+  <div class="container">
+    <div class="system-area">
+    <!-- Início do Formulário de cadastro -->
+        
+      <%= image_tag 'cad_turmas', class:"d-none d-sm-block" %>
+      <div class="system-area-data">
+        <h2>Turmas Cadastradas</h2>
+        <div class="form-actions">
+        <% if current_user.admin? %>
+              <%= link_to "Adicionar Disciplina", new_discipline_path, class:"btn btn-sm btn-primary mx-1" %>
+              <%= link_to "Adicionar Turma", new_university_class_path, class:"btn btn-sm btn-primary mx-1" %>
+        <% end %>
+        </div>
+        <br>
+        <table>
+          <th>Disciplina</th>
+          <th>Turma</th>
+          <th>Professor</th>
+          <th>Semestre</th>
+
+          <% @universityClasses.each do |uc|%>
+          <tr>
+            <td><%= uc.discipline.title %></td>
+            <td><%= uc.title %></td>
+            <td><%= uc.professor.name %></td>
+            <td><%= uc.academic_year.title %></td>
+            <% if current_user.admin? %>
+              <td><i class="far fa-edit" ><%= link_to "Edit", edit_university_class_path(uc)%></i></td>
+            <% end %>
+          </tr>
+          <% end %>
+        </table>
+        <br>
+        <%= link_to "Voltar", university_classes_path%>
+      </div>
+    </div>
+  </div>
+</div>

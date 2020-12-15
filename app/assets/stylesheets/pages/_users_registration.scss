@@ -4,6 +4,7 @@
 @media(min-width: 415px) 
 {
   .container {
+    padding: 10px;
     h2 {
       text-align: center;
       font-size: 16px;
@@ -13,7 +14,9 @@
     }
 
     .system-area .system-area-data {
-      height: 80vh;
+      // height: 80vh;
+      // width: 100vw;
+      min-height: 80vh;
     }
   
     .system-area {
@@ -21,15 +24,16 @@
       align-items: top;
       justify-content: space-between;
       overflow: hidden;
-      width: 100%;
-      height: 100%;
+      // width: 100%;
+      // height: 100%;
       background: white;
       box-shadow: 0 0 15px rgba(0,0,0,0.2);
       img {
-        align-self: center;
+        align-self: top;
+        margin-top: 50px;
         margin-left: 3rem;
-        height: 20rem;
-        width: 20rem;
+        height: 300px;
+        width: 300px;
         object-fit: cover;
       }
       h2 {
@@ -59,6 +63,8 @@
         width: 100%;
         display: flex;
         justify-content: center;
+        margin: 5px;
+        
       }
     }
   } // fim do container

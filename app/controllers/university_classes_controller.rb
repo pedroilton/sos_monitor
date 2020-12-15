@@ -13,4 +13,43 @@ class UniversityClassesController < ApplicationController
     end
     authorize @university_class
   end
+
+  def new
+    @disciplines = Discipline.all
+    @university_class = UniversityClass.new
+    authorize @university_class
+  end
+
+  def create
+    @university_class = UniversityClass.new(university_class_params)
+    authorize @university_class
+    if @university_class.save
+      redirect_to new_university_class_path
+    else
+      render :new
+    end
+  end
+
+  def edit
+    authorize @university_class
+  end
+
+  def update
+    if @university_class.update(university_class_params)
+      redirect_to university_class_path, notice: 'Turma atualizada com sucesso.'
+    else
+      render :edit
+    end
+    authorize @university_class
+  end
+
+  private
+
+  def set_university_class
+    @university_class = UniversityClass.find(params[:id])
+  end
+
+  def university_class_params
+    params.require(:university_class).permit(:title, :code, :active)
+  end
 end

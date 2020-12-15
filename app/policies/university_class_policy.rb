@@ -11,6 +11,30 @@ class UniversityClassPolicy < ApplicationPolicy
   end
 
   def show?
+    admin_or_profesor?
+  end
+
+  def index
+    admin_or_profesor?
+  end
+
+  def new?
+    admin_or_profesor?
+  end
+
+  def create?
+    admin_or_profesor?
+  end
+
+  def edit?
+    admin_or_profesor?
+  end
+
+  def update?
+    admin_or_profesor?
+  end
+
+  def admin_or_profesor?
     user.admin? || user == record.professor
   end
 end

@@ -15,10 +15,11 @@ Rails.application.routes.draw do
     resources :monitorings_students, only: :create
   end
   resources :monitorings_students, only: %i[destroy update]
-  resources :university_classes, only: %i[index show] do
+  resources :university_classes, except: %i[destroy] do
     resources :class_monitors, only: :create
   end
   resources :class_monitors, only: :destroy
+  resources :disciplines, except: %i[show destroy]
 
   # Monitorias do monitor
   get 'monitor_schedule/:user_id', to: 'monitorings#list', as: 'monitor_schedule'
