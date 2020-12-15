@@ -36,6 +36,6 @@ Rails.application.routes.draw do
   # Monitorias do dia selecionado pelo monitor
   get 'day_monitorings/:id', to: 'monitorings#day_monitorings', as: 'day_monitorings'
 
-  resources :university_classes
+  resources :university_classes, except: %i[destroy]
   resources :disciplines, except: %i[show destroy]
 end
