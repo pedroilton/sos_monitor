@@ -25,7 +25,7 @@
             <%# ICONE DE DELETAR %>
             <p id="delete-icon">
               <%= link_to monitoring, method: :delete,
-                                      data: { confirm: 'Tem certeza que deseja cancelar o agendamento?' },
+                                      data: { confirm: 'Tem certeza que deseja cancelar o agendamento? (O cancelamento ocorrerá para todos os participantes)' },
                                       remote: true do %>
                 <i class="far fa-trash-alt"></i></i>
               <% end %>

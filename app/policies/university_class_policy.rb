@@ -1,8 +1,17 @@
 class UniversityClassPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.all
+      return scope.all if user.admin?
+
+      scope.select do |university_class|
+        university_class.professor == user && university_class.academic_year.start_date <= Date.today &&
+          university_class.academic_year.end_date >= Date.today
+      end
     end
+  end
+
+  def show?
+    admin_or_profesor?
   end
 
   def index
@@ -26,6 +35,6 @@ class UniversityClassPolicy < ApplicationPolicy
   end
 
   def admin_or_profesor?
-    user.admin? || user.professor?
+    user.admin? || user == record.professor
   end
 end

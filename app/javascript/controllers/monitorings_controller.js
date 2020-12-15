@@ -3,7 +3,7 @@ import { fetchWithToken } from "../utils/fetch_with_token";
 
 export default class extends Controller {
 
-  static targets = [ 'calendar', 'schedule', 'question' ];
+  static targets = [ 'calendar', 'schedule', 'question', 'monitorings' ];
   connect(){
     $('.custom-select').on("select2:select", this.filterDiscipline)
   }
@@ -184,20 +184,30 @@ export default class extends Controller {
   }
 
   monitorDate(event) {
-    fetchWithToken(`/day_monitorings/${event.target.value}`, { headers: { accept: "application/json" } })
+    const user_id = document.getElementById("monitor-user").dataset.userId;
+    // console.log(`/day_monitorings/${event.target.value}?user_id=${user_id}`);
+    // console.log(Date.now());
+    fetch(`/day_monitorings/${event.target.value}?user_id=${user_id}`, { headers: { accept: "application/json" } })
     .then(response => response.json())
     .then((data) => {
       // console.log(data);
       let index = 0;
+      // let monitoringsHTML = `<input type="hidden" name="user_id" value="${user_id}">`
       let monitoringsHTML = ''
       data.monitorings.forEach((monitoring) => {
         let date = new Date(Date.parse(monitoring.date_time));
         date = new Date(date.getTime() + (date.getTimezoneOffset() * 60000));
-        monitoringsHTML += `<h5><a href="/monitorings/${monitoring.id}">${data.disciplines[index].title}</a></h5>`
+        monitoringsHTML += '<h5>'
+        monitoringsHTML += `<a href="/monitorings/${monitoring.id}">${data.disciplines[index].title}`
+        monitoringsHTML += '</a></h5>'
         monitoringsHTML += `<p>${date}</p>`
         monitoringsHTML += `<p>${monitoring.place}</p>`
         if(data.users[index].length === 0) {
-          monitoringsHTML += `<p>Horário disponível</p>`
+          if(date > Date.now()) {
+            monitoringsHTML += `<p>Horário disponível</p>`
+          } else {
+            monitoringsHTML += `<p>Monitoria não agendada</p>`
+          }
         } else {
           if(data.users[index].length > 1) {
             monitoringsHTML += `<p>${data.users[index][0].name} + ${data.users[index].length - 1}</p>`

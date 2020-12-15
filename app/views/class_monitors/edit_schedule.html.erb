@@ -1,0 +1,5 @@
+<h1>Horários de <%= @class_monitor.student.name %></h1>
+<% @week_monitorings.sort_by{ |monitoring| @day_order.index(monitoring.date_time.strftime("%a").downcase)}.each do |monitoring| %>
+  <p><%= @portuguese_days[@day_order.index(monitoring.date_time.strftime("%a").downcase)] %>: 
+    <%= monitoring.date_time.strftime("%k:%M") %></p>
+<% end %>

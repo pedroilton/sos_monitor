@@ -5,7 +5,6 @@
     <div class="system-area">
     <!-- Início do Formulário de cadastro -->
         
-      <%= image_tag 'cad_turmas', class:"d-none d-sm-block" %>
       <div class="system-area-data">
         <h2>Turmas Cadastradas</h2>
         <div class="form-actions">
@@ -21,9 +20,9 @@
           <th>Professor</th>
           <th>Semestre</th>
 
-          <% @universityClasses.each do |uc|%>
+          <% @university_classes.each do |uc|%>
           <tr>
-            <td><%= uc.discipline.title %></td>
+            <td><%= link_to uc.discipline.title, uc %></td>
             <td><%= uc.title %></td>
             <td><%= uc.professor.name %></td>
             <td><%= uc.academic_year.title %></td>
