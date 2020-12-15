@@ -1,0 +1,29 @@
+#AddDiscipline {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: left;
+  justify-content: center;
+  width: 100%;
+  
+  #code {
+    margin-top: 10px;
+    padding-left: 10px;
+    width: 180px;
+  }
+  #discipline-title {
+    margin-top: 10px;
+    padding-left: 10px;
+    width: 400px;
+  }
+  .check-box {
+    position: relative;
+    top: 10px;
+    padding:10px 10px;
+  }
+}
+
+.results {
+  display: flex;
+  justify-content: center;
+}
