@@ -44,10 +44,11 @@
   <% end %>
   <% unless @monitoring.excuse || @monitoring.date_time < Time.now %>
     <%= simple_form_for([@monitoring, @monitorings_student], remote: true) do |f| %>
-      <%= f.input :student, collection: @students %>
+      <%= f.input :student, collection: @students.map{|student| [student.name, student.id]}, input_html:{class:"select2"}%>
       <%= f.submit "Submit", class: "btn btn-primary" %>
     <% end %>
   <% end %>
+
   <% if @monitoring.date_time < Time.now %>
     <% if @current_monitorings_student.rating.nil? %>
       <%= simple_form_for(@current_monitorings_student, remote: true) do |f| %>
