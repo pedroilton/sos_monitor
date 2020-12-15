@@ -1,0 +1,61 @@
+<%= render '/shared/banner' %>
+
+
+<div>
+
+  <div class="container">
+    <div class="system-area">
+    <!-- Início do Formulário de cadastro -->
+        
+      <%= image_tag 'disciplinas', class:"d-none d-sm-block" %>
+      <div class="system-area-data">
+        <h2>Disciplinas Cadastradas</h2>
+<%= simple_form_for @discipline do |f| %>
+      <div id="AddDiscipline" class="form-inputs form-actions">
+        <div id="code">
+          <%= f.input :code,
+                        label: 'Código da Disciplina',
+                        placeholder: 'Código da disciplina',
+                        required: true,
+                        autofocus: true %>
+        </div>
+        <div id="discipline-title">
+          <%= f.input :title,
+                        label: 'Nome da Disciplina',
+                        placeholder: 'Nome da disciplina',
+                        required: true,
+                        autofocus: true %>
+        </div>
+        <div class="check-box">
+          <%= f.input :active, as: :boolean,
+                      label: 'A disciplina está ativa?' %>
+        </div>
+        <div class="form-actions">
+          <%= f.button :submit, "Adicionar", class:"btn btn-sm btn-primary mb-2" %>
+        </div>
+      </div>
+    <% end %>
+          <table>
+            <th>Codigo</th>
+            <th>Disciplina</th>
+            <th>Ativa</th>
+            <% @disciplines.each do |discipline|%>
+            <tr>
+              <td><%= discipline.code %></td>
+              <td><%= discipline.title %></td> 
+              <%  if discipline.active? %>
+                <td>Ativa</td>
+              <% else %>
+                <td>Inativa</td>
+              <% end %>
+              <td><i class="far fa-edit"></i></td>
+              <td><i class="fas fa-trash-alt"></i></td>
+            </tr>
+            <% end %>
+          </table>
+          <br>
+          <%= link_to "Voltar", university_classes_path%>
+      </div>
+    </div>
+  </div>
+</div>

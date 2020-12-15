@@ -32,4 +32,7 @@ Rails.application.routes.draw do
 
   # Cancelamento de monitoria pelo monitor
   patch 'monitoring_cancel/:id', to: 'monitorings#cancel', as: 'monitoring_cancel'
+
+  resources :university_classes
+  resources :disciplines, except: %i[show destroy]
 end
