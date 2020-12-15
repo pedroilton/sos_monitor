@@ -1,7 +1,5 @@
-<%= render '/shared/banner' %>
-
-
-<div>
+<!-- Index de disciplines -->
+<div class="background">
 
   <div class="container">
     <div class="system-area">
@@ -17,16 +15,11 @@
         <table>
           <th>Codigo</th>
           <th>Disciplina</th>
-          <th>Ativa</th>
           <% @disciplines.each do |discipline|%>
           <tr>
             <td><%= discipline.code %></td>
             <td><%= discipline.title %></td> 
-            <%  if discipline.active? %>
-              <td>Ativa</td>
-            <% else %>
-              <td>Inativa</td>
-            <% end %>
+            
             <% if current_user.admin? %>
               <td><i class="far fa-edit" ><%= link_to "Edit", edit_discipline_path(discipline)%></i></td>
             <% end %>

@@ -1,5 +1,5 @@
 <!-- Formulário de university_classes/new -->
-<div>
+<div class="background">
     <div class="container mt-3">
 
       <div class="system-area">
@@ -9,22 +9,20 @@
               <h2>Cadastro de Turmas</h2>
             <%= simple_form_for([@universityClass]) do |f| %>
               <!-- form-inputs -->
-              <div class="form-inputs">
+              <div class="form-inputs ml-2">
               <div>
                 <%= f.association :discipline,
                               label: 'Disciplina',
                               placeholder: 'Disciplina',
                               required: true,
                               autofocus: true %>
-              </div>
-              <div>
+
                 <%= f.input :title,
                               label: 'Turma',
                               placeholder: 'Turma',
                               required: true,
                               autofocus: true %>
-              </div>
-              <div>
+
                   <%= f.association :professor,
                               label: 'Professor',
                               placeholder: 'Professor',
@@ -44,10 +42,9 @@
             <!-- form-inputs -->
             <!-- form-actions -->
             <div class="form-actions">
-              <%= f.button :submit, "Adicionar", class:"btn btn-primary mb-2" %>
-            </div>
-            <div class="form-actions">
-              <%= link_to "Vincular Aluno", university_classes_path, class:"btn btn-outline-primary" %>
+              <%= f.button :submit, "Adicionar", class:"btn btn-sm btn-primary mx-2" %>
+
+              <%= link_to "Vincular Alunos", university_classes_path, class:"btn btn-sm btn-outline-primary mx-2" %>
             </div>
             <!-- f -->
           </div>
