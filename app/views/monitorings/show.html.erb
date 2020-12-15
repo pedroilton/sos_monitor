@@ -15,7 +15,7 @@
     </p>
   <% end %>
 <% else %>
-  <p><%= link_to 'Voltar para minhas monitorias', monitor_schedule_path(@monitoring.class_monitor.student) %></p>
+  <p><%= link_to 'Voltar para monitorias', monitor_schedule_path(@monitoring.class_monitor.student) %></p>
 <% end %>
 
 <h1>Monitoria de <%= @monitoring.class_monitor.university_class.discipline.title %></h1>

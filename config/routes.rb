@@ -41,5 +41,5 @@ Rails.application.routes.draw do
   get 'day_monitorings/:id', to: 'monitorings#day_monitorings', as: 'day_monitorings'
 
   # Edicao dos horarios do monitor
-  get 'monitor_edit_schedule/:class_monitor_id', to: 'monitorings#edit_schedule', as: 'monitor_edit_schedule'
+  get 'monitor_edit_schedule/:id', to: 'class_monitors#edit_schedule', as: 'monitor_edit_schedule'
 end

@@ -2,7 +2,7 @@
   <p><%= link_to 'Módulo aluno', monitorings_path %></p>
 <% elsif current_user.professor? %>
   <p><%= link_to 'Voltar a suas turmas', university_classes_path %></p>
-  <p></p>
+  <p><%= link_to 'Voltar a turma', @current_monitorings.first.class_monitor.university_class %></p>
 <% end %>
 
 <div data-controller="monitorings">

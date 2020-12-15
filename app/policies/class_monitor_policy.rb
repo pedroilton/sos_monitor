@@ -12,4 +12,8 @@ class ClassMonitorPolicy < ApplicationPolicy
   def destroy?
     create?
   end
+
+  def edit_schedule?
+    create?
+  end
 end
