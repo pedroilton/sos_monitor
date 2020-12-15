@@ -27,6 +27,7 @@ import "bootstrap";
 
 // Internal imports, e.g:
 import { initSelect2 } from '../components/init_select2';
+import { calendar } from '../components/init_monitor_calendar';
 
 document.addEventListener('turbolinks:load', () => {
   // Call your functions here, e.g:

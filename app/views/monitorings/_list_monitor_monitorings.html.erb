@@ -1,0 +1,19 @@
+<div data-monitorings-target="monitorings">
+    <% @current_monitorings.each do |monitoring| %>
+      <h5><%= link_to monitoring.class_monitor.university_class.discipline.title, monitoring %></h5>
+      <p><%= monitoring.date_time %></p>
+      <p><%= monitoring.place %></p>
+      <% if monitoring.excuse %>
+        <p>Cancelada</p>
+      <% elsif monitoring.monitorings_students.empty? %>
+        <p><%= 'Horário disponível' %></p>
+      <% else %>
+        <% if monitoring.students.count > 1 %>
+          <p><%= "#{monitoring.students.first.name} + #{monitoring.students.count - 1}" %></p>
+        <% else %>
+          <p><%= monitoring.students.first.name %></p>
+        <% end %>
+      <% end %>
+      <br>
+    <% end %>
+  </div>
