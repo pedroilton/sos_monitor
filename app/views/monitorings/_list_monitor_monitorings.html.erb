@@ -1,5 +1,8 @@
 <div data-monitorings-target="monitorings">
-    <% @current_monitorings.each do |monitoring| %>
+  <% if  @today_monitorings.empty? %>
+    <p>Não há monitorias nesse dia</p>
+  <% else %>
+    <% @today_monitorings.each do |monitoring| %>
       <h5><%= link_to monitoring.class_monitor.university_class.discipline.title, monitoring %></h5>
       <p><%= monitoring.date_time %></p>
       <p><%= monitoring.place %></p>
@@ -16,4 +19,5 @@
       <% end %>
       <br>
     <% end %>
-  </div>
+  <% end %>
+</div>

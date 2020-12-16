@@ -64,14 +64,14 @@
     <% @monitoring.students.each do |student| %>
       <p><%= student.name %></p>
     <% end %>
-    <% unless @monitoring.excuse || @monitoring.date_time <= Time.now %>
-      <%= simple_form_for @monitoring, url: monitoring_cancel_path(@monitoring), method: :patch, remote: true do |f| %>
-        <%= f.input :excuse %>
-        <%= f.submit "Cancelar monitoria", class: "btn btn-primary" %>
-      <% end %>
-    <% end %>
   <% else %>
     <p>Monitoria não agendada</p>
+  <% end %>
+  <% unless @monitoring.excuse || @monitoring.date_time <= Time.now %>
+    <%= simple_form_for @monitoring, url: monitoring_cancel_path(@monitoring), method: :patch, remote: true do |f| %>
+      <%= f.input :excuse %>
+      <%= f.submit "Cancelar monitoria", class: "btn btn-primary" %>
+    <% end %>
   <% end %>
 <% end %>
 <% if @monitoring.date_time < Time.now && @monitoring.students.any? %>

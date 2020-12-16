@@ -1,4 +1,6 @@
-<%= render '/shared/banner' %>
+<div class="page-title">
+  <h3>SOS Monitor</h3>
+</div>
 
 <!-- Formulário de users/new -->
 <div>
@@ -62,6 +64,7 @@
                         label: 'Aluno?' %>
             <%= f.input :professor?, as: :boolean,
                         label: 'Professor?' %>
+            
             <%= f.input :admin?, as: :boolean,
                         label: 'Administrador do Sistema?',
                         hint: "Marcar somente se o usuário tiver privilégios de administrador" %>

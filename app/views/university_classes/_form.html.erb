@@ -1,5 +1,5 @@
 <!-- Formulário de university_classes/new -->
-<div>
+<div class="background">
     <div class="container mt-3">
 
       <div class="system-area">
@@ -7,47 +7,37 @@
         <%= image_tag 'cad_turmas.jpg', class:"d-none d-sm-block" %>
         <div class="system-area-data">
               <h2>Cadastro de Turmas</h2>
-            <%= simple_form_for([@universityClass]) do |f| %>
+            <%= simple_form_for(@university_class) do |f| %>
               <!-- form-inputs -->
-              <div class="form-inputs">
+              <div class="form-inputs ml-2">
               <div>
                 <%= f.association :discipline,
                               label: 'Disciplina',
                               placeholder: 'Disciplina',
                               required: true,
                               autofocus: true %>
-              </div>
-              <div>
+
                 <%= f.input :title,
                               label: 'Turma',
                               placeholder: 'Turma',
                               required: true,
                               autofocus: true %>
-              </div>
-              <div>
-                  <%= f.association :professor,
+
+                  <%= f.association :professor, collection: @professors, 
                               label: 'Professor',
                               placeholder: 'Professor',
                               required: true,
                               autofocus: true %>
+              
               </div>
-              <div class="d-none">
-                <%= f.association :academic_year,
-                              label: 'Semestre',
-                              placeholder: 'Semestre',
-                              required: true,
-                              autofocus: true %>
-              </div>
-             
             </div>
 
             <!-- form-inputs -->
             <!-- form-actions -->
-            <div class="form-actions">
-              <%= f.button :submit, "Adicionar", class:"btn btn-primary mb-2" %>
-            </div>
-            <div class="form-actions">
-              <%= link_to "Vincular Aluno", university_classes_path, class:"btn btn-outline-primary" %>
+            <div class="form-actions d-flex justify-content-center">
+              <%= link_to "Vincular Alunos", university_classes_path, class:"btn btn-sm btn-outline-primary mx-2" %>
+              <%= f.submit "Adicionar", class:"btn btn-sm btn-primary mx-2" %>
+
             </div>
             <!-- f -->
           </div>
