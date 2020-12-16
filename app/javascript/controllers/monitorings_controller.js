@@ -77,17 +77,22 @@ export default class extends Controller {
         // console.log(dayMonitors);
         let monitoringsHTML = '<br><p class="text-form-optins">Escolha o monitor e o horário:</p><div class="radio" data-action="change->monitorings#filterSchedule">'
         dayMonitors.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)).forEach((dayMonitor) => {
-          monitoringsHTML += `<p>${dayMonitor.name}</p>`
+          monitoringsHTML += `<p class="container">${dayMonitor.name}</p>`
+          monitoringsHTML += `<div class="d-flex">`
           dayMonitorings.forEach((dayMonitoring) => {
             if(dayMonitoring.class_monitor_id === dayMonitor.monitor_id) {
               let date = new Date(Date.parse(dayMonitoring.date_time));
               date = new Date(date.getTime() + (date.getTimezoneOffset() * 60000));
-              monitoringsHTML += `<input type="radio" id="${dayMonitoring.id}" class="schedule-option" name="schedule" value="${dayMonitoring.id}">`
-              monitoringsHTML += `<label for="${dayMonitoring.id}">
-                ${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}
-                </label><br>`
+              monitoringsHTML += `<input type="radio" id="${dayMonitoring.id}" class="schedule-option card-input-element" name="schedule" value="${dayMonitoring.id}">`
+              // Inserindo card no lugar dos Radio Buttoms:
+              monitoringsHTML += `<div class="panel panel-default card-input">`
+              //
+              monitoringsHTML += `<div class="panel-body"><label for="${dayMonitoring.id}">
+              ${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}
+              </div></div></label>`
             }
           });
+          monitoringsHTML += '</div><br>'
         });
         monitoringsHTML += '</div>'
         monitoringsHTML += '<div data-monitorings-target="question">'

@@ -1,0 +1,32 @@
+label {
+  // width: 100%;
+  margin: 0;
+}
+
+.card-input-element {
+  display: none;
+}
+
+.card-input {
+  margin: 10px;
+  padding: 00px;
+  width: 64px;
+  height: 32px;
+  background-color: white;
+  // box-shadow: 1px 1px 5px grey;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid $blue;
+}
+
+.card-input:hover {
+  cursor: pointer;
+}
+
+.card-input-element:checked + .card-input {
+  border: 1px solid $blue;
+    background-image: linear-gradient(to bottom right, #167ffb8c, #f4f4f4);
+}
+
