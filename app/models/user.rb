@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :university_classes, foreign_key: 'professor_id'
   has_many :class_monitors, foreign_key: 'student_id'
   has_many :monitorings_students, foreign_key: 'student_id'
+  has_one_attached :photo
 
   has_many :monitorings, through: :monitorings_students
 
