@@ -3,6 +3,7 @@ class DisciplinesController < ApplicationController
 
   # Disciplinas atuais do aluno
   def student_disciplines
+    @academic_year = AcademicYear.where(['start_date <= ? and end_date >= ?', Date.today, Date.today]).first
     @disciplines = policy_scope(Discipline).select do |discipline|
       current_user.classes_students.map do |class_student|
         class_student.university_class.discipline
@@ -10,11 +11,12 @@ class DisciplinesController < ApplicationController
     end
     @disciplines.select! do |discipline|
       discipline.university_classes.select do |university_class|
-        university_class.academic_year ==
-          AcademicYear.where(['start_date <= ? and end_date >= ?', Date.today, Date.today]).first
+        university_class.academic_year == @academic_year
       end
     end
     @disciplines.sort_by!(&:title)
+    @available_dates = (Date.today..@academic_year.end_date).to_a..map { |date| date.strftime('%d/%m/%Y') }.uniq.join('-')
+    @available_dates = @monitorings.map { |monitoring| monitoring.date_time.strftime('%d/%m/%Y') }.uniq.join('-')
   end
 
   def index

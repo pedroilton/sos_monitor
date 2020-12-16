@@ -21,6 +21,7 @@
 
     <div data-monitorings-target="schedule" class="form-calendar form-schedule-view" id="schedule">
       <div id="fixed">
+        <div id="dates" data-dates="<%= @available_dates %>"></div>
         <input type="hidden" name="_method" value="patch">
         <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
         <div style="visibility: hidden" class="form-group text optional monitoring_question" id="form-duvidas">
