@@ -20,7 +20,7 @@
 <div data-controller="monitorings">
 
   <%= simple_form_for :search, method: "get" do |f| %>
-    <%= f.input :date, as: :string, required: false, input_html: {class: 'datepicker-today', data: { action: 'change->monitorings#monitorDate' } } %>
+    <%= f.input :date, as: :string, placeholder: Date.today.strftime("%d/%m/%Y"), required: false, input_html: {class: 'datepicker', data: { action: 'change->monitorings#monitorDate' } } %>
   <% end %>
 
   <div id="monitor-user" data-user-id="<%= @user.id %>"></div>
