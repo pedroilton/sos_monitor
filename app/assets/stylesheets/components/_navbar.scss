@@ -2,14 +2,10 @@ div {
   line-height: 16px;
 }
 
-small {
+.toggler__label > span, .indentify > small {
+  color:rgba(245, 245, 245, 0.7);
   font-style: italic;
-  color: white;
   font-size: 66%;
-}
-
-span {
-  color: rgba(245, 245, 245, 0.7);
 }
 
 .indentify p {
