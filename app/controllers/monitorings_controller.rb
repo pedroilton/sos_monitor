@@ -23,13 +23,8 @@ class MonitoringsController < ApplicationController
   # Lista de monitorias do monitor
   def list
     @monitorings = monitor_monitorings
-
-    @monitorings_days = @monitorings.map { |monitoring| monitoring.date_time.strftime("%d/%m/%Y") }.uniq
-
-    @current_monitorings_day = @monitorings_days.select { |date| Date.strptime(date, '%d/%m/%Y') >= Date.today }.first
-
-    @current_monitorings = @monitorings.select do |monitoring|
-      monitoring.date_time.strftime("%d/%m/%Y") == @current_monitorings_day
+    @today_monitorings = @monitorings.select do |monitoring|
+      monitoring.date_time.strftime('%d/%m/%Y') == Date.today.strftime('%d/%m/%Y')
     end
 
     @user = User.find(params[:user_id]) || current_user
@@ -51,7 +46,9 @@ class MonitoringsController < ApplicationController
 
   # Usado pelo ajax para filtrar as monitorias por horario
   def monitoring_days
-    @monitorings = available_monitorings(Discipline.find(params[:discipline_id]))
+    @monitorings = available_monitorings(Discipline.find(params[:discipline_id])).select do |monitoring|
+      monitoring.date_time.strftime("%d/%m/%Y") == params[:date]
+    end
     monitors = @monitorings.map(&:class_monitor)
     users = @monitorings.map { |monitoring| monitoring.class_monitor.student }
     respond_to { |format| format.json { render json: { monitorings: @monitorings, monitors: monitors, users: users } } }

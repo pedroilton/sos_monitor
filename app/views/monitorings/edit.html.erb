@@ -6,15 +6,12 @@
 
 <h1>Monitoria de <%= @monitoring.class_monitor.university_class.discipline.title %></h1>
 <div data-controller="monitorings">
+
+  <%= simple_form_for :search, method: "get" do |f| %>
+    <%= f.input :date, as: :string, placeholder: @monitoring.date_time.strftime("%d/%m/%Y"), required: false, input_html: {class: 'datepicker', id: 'date', data: { action: 'change->monitorings#editDate' } } %>
+  <% end %>
+
   <div id="disciplines" data-discipline-id="<%= @monitoring.class_monitor.university_class.discipline.id %>"></div>
-  <select class="custom-select" data-action="change->monitorings#editDate">
-    <option selected="<%= @monitoring.date_time.strftime("%d/%m/%Y") %>">
-      <%= @monitoring.date_time.strftime("%d/%m/%Y") %>
-    </option>
-    <% @other_dates.each do |date| %>
-      <option value="<%= date %>"><%= date %></option>
-    <% end %>
-  </select>
 
   <div data-monitorings-target="schedule">
     <div class="radio" data-action="change->monitorings#editSchedule">
