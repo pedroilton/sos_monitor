@@ -10,7 +10,9 @@
     <%# NOME DO USUÁRIO %>
     <p class="m-2"><%= current_user.name.split[0] %> <%= current_user.name.split[-1] %></p>
     <%# TIPO DE USUÁRIO %>
-    <% if current_user.professor? %>
+    <% if current_user.admin? %>
+      <span>* ADMIN *</span>
+    <% elsif current_user.professor? %>
       <small>PROFESSOR</small>
     <% else %>
       <% if current_user.monitor? %>
