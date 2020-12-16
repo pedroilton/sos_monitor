@@ -60,6 +60,9 @@
                               input_html: { autocomplete: "new-password" } %>
             </div>
             <div>
+                 <%= f.input :photo, as: :file %>
+            </div>
+            <div>
             <%= f.input :student?, as: :boolean,
                         label: 'Aluno?' %>
             <%= f.input :professor?, as: :boolean,

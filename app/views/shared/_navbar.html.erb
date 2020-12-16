@@ -42,7 +42,13 @@
   <%# AVATAR COM DROPDOWN MENU %>
   <div class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <i class="fas fa-caret-down"></i>
-    <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+    <% if current_user.photo.attached? %>
+      <%= image_tag current_user.photo, class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+    <% else %>
+      <%# <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %> %>
+      <i class="fa fa-user-circle avatar-icon" aria-hidden="true"></i>
+    <% end %>
+
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
       <%= link_to "Perfil", "#", class: "dropdown-item" %>
       <%= link_to "Alterar Senha", edit_user_registration_path, class: "dropdown-item" %>
