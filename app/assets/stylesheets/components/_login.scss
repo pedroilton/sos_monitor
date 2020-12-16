@@ -1,11 +1,22 @@
 .title {
   margin: 0;
   height: 25%;
+  h1 {
+    padding-top: 32px;
+    // padding-bottom: 8px;
+    font-size: 55px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+  }
+  p {
+    font-size: 20px;
+    line-height: 1.4;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+  }
 }
 
-.title > h1 {
-  padding-top: 32px;
-  padding-bottom: 8px;
+#a-forget {
+  font-size: 14px;
+  color: blue;
 }
 
 .row  {
@@ -25,4 +36,10 @@
   position: fixed;
   background-size: cover;
   // background-position-x: -324px;
+}
+
+#box-login {
+  background-color: #f5f5f5ab;
+  border-radius: 5px;
+  top: 120px;
 }

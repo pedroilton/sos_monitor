@@ -6,10 +6,9 @@
   </div>
   
   <div class="row">
-    <div class="container col-8">
+    <div id="box-login" class="container col-8">
       <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
         <div class="form-inputs">
-          <h4 class="text-center">Acesso</h4>
           <%= f.input :registration,
                       label: 'Matrícula',
                       placeholder: 'Matrícula',
@@ -23,7 +22,7 @@
           <%= f.input :remember_me, label: 'Lembrar meu login', as: :boolean if devise_mapping.rememberable? %>
         </div>
         <div class="form-actions">
-          <%= f.button :submit, "Acessar", class:"btn btn-primary" %>
+          <%= f.button :submit, "Acessar", class:"btn btn-primary my-2" %>
         </div>
       <% end %>
       <%= render "devise/shared/links" %>
