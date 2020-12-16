@@ -1,25 +1,32 @@
-<p><%= link_to 'Voltar', monitorings_path %></p>
+<h3 class="monitorings-title text-center m-3">Marque sua monitoria</h3>
 
-<h1>Agendamento de monitoria</h1>
-<div data-controller="monitorings">
-  <select class="custom-select" data-action="change->monitorings#filterDiscipline" id="disciplines">
-    <!--<option selected>Disciplina</option>-->
-    <%= @disciplines.each do |discipline| %>
-      <option value="<%= discipline.id %>" data-action="change->monitorings#filterDiscipline"><%= discipline.title %></option>
-    <% end %>
-  </select>
-
-  <div data-monitorings-target="calendar" class="form-calendar">
-
-    <div id="fixed">
-      <input type="hidden" name="_method" value="patch">
-      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-      <div class="form-group text optional monitoring_question">
-        <label class="text optional" for="monitoring_question">Dúvida</label>
-        <textarea class="form-control text optional" name="monitoring[question]" id="monitoring_question"></textarea>
+<div class="container form-schedule-view">
+  <div data-controller="monitorings">
+    <p>Escolha a disciplina:</p>
+    <select class="custom-select select2" data-action="change->monitorings#filterDiscipline" id="disciplines">
+      <!--<option selected>Disciplina</option>-->
+      <option value=""></option>
+      <!--  se der ruim, excluir:      -->
+      <optgroup label="Disciplina">
+        <%= @disciplines.each do |discipline| %>
+          <option value="<%= discipline.id %>" data-action="change->monitorings#filterDiscipline">
+            <%= discipline.title %>
+          </option>
+        <% end %>
+      </optgroup>
+    </select>
+    <div data-monitorings-target="calendar" class="form-calendar form-schedule-view">
+      <div id="fixed">
+        <input type="hidden" name="_method" value="patch">
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+        <div style="visibility: hidden" class="form-group text optional monitoring_question" id="form-duvidas">
+          <label class="text optional" for="monitoring_question"><br>Descreva sua dúvida:</label>
+          <textarea class="form-control text optional" name="monitoring[question]" id="monitoring_question"></textarea>
+        </div>
+        <input style="visibility: hidden" type="submit" name="commit" value="Agendar" class="btn btn-primary" data-disable-with="Submit" id="submit" disabled>
+        <br>
       </div>
-      <input type="submit" name="commit" value="Submit" class="btn btn-primary" data-disable-with="Submit" id="submit" disabled>
     </div>
-
   </div>
+  <p class="btn-back"><%= link_to 'Cancelar', monitorings_path %></p>
 </div>
