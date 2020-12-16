@@ -12,9 +12,7 @@
 // @import "monitor_calendar";
 @import "buttoms";
 @import "form_monitoring";
-@import "date_card";
-
-
+@import "cards";
 
 label {
   font-size: 16px;
@@ -45,20 +43,6 @@ label {
   height: 75vh;
 }
 
-.monitoring-box {
-  // border: 1px solid red;
-}
-
-.monitoring-info {
-  // border: 3px solid green;
-}
-
-.monitoring-icons {
-  // border: 3px solid purple;
-  display: inline-grid;
-  place-items: center;
-}
-
 .separador {
   margin: 4px 64px;
 }
@@ -66,4 +50,5 @@ label {
 .monitorings-title {
   text-shadow: 1px -2px 3px gray;
   padding-top: 16px;
+  margin-bottom: 32px;
 }
