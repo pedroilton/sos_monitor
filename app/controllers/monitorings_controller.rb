@@ -72,6 +72,8 @@ class MonitoringsController < ApplicationController
     @monitorings << @monitoring
     @monitorings.sort_by! { |monitoring| [monitoring.date_time, monitoring.class_monitor.student.name] }
 
+    @available_dates = @monitorings.map { |monitoring| monitoring.date_time.strftime('%d/%m/%Y') }.uniq.join('-')
+
     @other_dates = @monitorings.map { |monitoring| monitoring.date_time.strftime("%d/%m/%Y") }.uniq
     @other_dates.reject! { |date| date == @monitoring.date_time.strftime("%d/%m/%Y") }
 

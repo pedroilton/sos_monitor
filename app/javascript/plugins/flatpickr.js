@@ -16,7 +16,7 @@ const calendar = () => {
     },
     enable: [function(date) {
       // return true to disable
-      return (date.getDay() === 0 || date.getDay() === 6);
+      return document.getElementById("dates").dataset.dates.split('-').includes(`${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`);
   }] 
   });
 }
