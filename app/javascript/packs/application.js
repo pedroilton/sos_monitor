@@ -34,6 +34,13 @@ import "../plugins/flatpickr"
 document.addEventListener('turbolinks:load', () => {
   // Call your functions here, e.g:
   initSelect2();
+  flatpickr(".datepicker-today", {
+    defaultDate: "today",
+    dateFormat: "d/m/Y"
+  });
+  flatpickr(".datepicker", {
+    dateFormat: "d/m/Y"
+  });
 });
 
 import "controllers"

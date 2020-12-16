@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   get 'monitor_schedule/:user_id', to: 'monitorings#list', as: 'monitor_schedule'
   # Monitorias do dia selecionado pelo monitor
   get 'day_monitorings/:id', to: 'monitorings#day_monitorings', as: 'day_monitorings'
-  get 'monitor_day/:id', to: 'class_monitors#monitor_day', as: 'monitor_day'
+  get 'monitor_day/:id', to: 'class_monitors#monitor_day', as: 'monitor_day', defaults: { format: 'json' }
 
   # Monitorias concluidas do aluno
   get 'monitorings_old', to: 'monitorings#old_index', as: 'monitorings_old'

@@ -19,7 +19,7 @@ class ClassMonitorsController < ApplicationController
   def monitor_day
     @class_monitor = User.find(params[:id]).class_monitors.last
     @monitorings = @class_monitor.monitorings.select do |monitoring|
-      monitoring.date_time.strftime("%Y-%m-%d") == params[:date]
+      monitoring.date_time.strftime("%d/%m/%Y") == params[:date]
     end
     disciplines = @monitorings.map { |monitoring| monitoring.class_monitor.university_class.discipline }
     users = @monitorings.map(&:students)
