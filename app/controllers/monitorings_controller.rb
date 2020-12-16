@@ -26,6 +26,7 @@ class MonitoringsController < ApplicationController
     @today_monitorings = @monitorings.select do |monitoring|
       monitoring.date_time.strftime('%d/%m/%Y') == Date.today.strftime('%d/%m/%Y')
     end
+    @available_dates = @monitorings.map { |monitoring| monitoring.date_time.strftime('%d/%m/%Y') }.uniq.join('-')
 
     @user = User.find(params[:user_id]) || current_user
   end

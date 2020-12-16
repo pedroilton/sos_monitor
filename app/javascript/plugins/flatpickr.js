@@ -13,7 +13,11 @@ const calendar = () => {
         shorthand: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Аgo', 'Set', 'Оut', 'Nov', 'Dez'],
         longhand: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
       },
-    }, 
+    },
+    enable: [function(date) {
+      // return true to disable
+      return (date.getDay() === 0 || date.getDay() === 6);
+  }] 
   });
 }
 

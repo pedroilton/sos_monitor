@@ -8,7 +8,8 @@
 <div data-controller="monitorings">
   <h3 class="monitorings-title text-center m-3">Sua Agenda</h3>
   <div id="disciplines" data-discipline-id="<%= @monitorings.first.class_monitor.university_class.discipline.id %>">
-</div>
+  </div>
+  <div id="dates" data-dates="<%= @available_dates %>"></div>
 
 <% if current_user.student? %>
   <p><%= link_to 'Módulo aluno', monitorings_path %></p>
