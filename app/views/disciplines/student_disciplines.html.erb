@@ -1,4 +1,11 @@
-<h3 class="monitorings-title text-center m-3">Marque sua monitoria</h3>
+<div class="monitoring-title-box d-flex">
+  <div>
+    <%= link_to monitorings_path do %>
+      <i class="fas fa-chevron-left"></i>
+    <% end %>
+  </div>
+  <h3 class="monitorings-title text-center m-3">Marque sua monitoria</h3>
+</div>
 <div class="container form-schedule-view">
   <div data-controller="monitorings">
     <p>Escolha a disciplina:</p>
@@ -33,5 +40,4 @@
       </div>
     </div>
   </div>
-  <p class="btn-back"><%= link_to 'Cancelar', monitorings_path %></p>
 </div>
