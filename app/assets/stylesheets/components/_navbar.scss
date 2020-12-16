@@ -1,8 +1,8 @@
-div {
+.indentify {
   line-height: 16px;
 }
 
-.toggler__label > span, .indentify > small {
+.toggler__label > span, .indentify > small, .indentify > span {
   color:rgba(245, 245, 245, 0.7);
   font-style: italic;
   font-size: 66%;
@@ -51,4 +51,5 @@ div {
 #navbar-ufmt {
   position: sticky !important;
   top: 0;
+  z-index: 900;
 }
