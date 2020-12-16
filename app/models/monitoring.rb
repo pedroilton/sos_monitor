@@ -1,4 +1,6 @@
 class Monitoring < ApplicationRecord
+  attribute :place, :string, default: 'Sala de estudos'
+
   belongs_to :class_monitor
 
   has_many :monitorings_students, dependent: :destroy

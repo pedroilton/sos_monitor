@@ -43,4 +43,7 @@ Rails.application.routes.draw do
 
   # menu do professor/administrador
   get 'menu', to: 'pages#menu'
+
+  # Exclusao de horario do monitor
+  delete 'destroy_schedule/:id', to: 'class_monitors#destroy_schedule', as: 'destroy_schedule'
 end
