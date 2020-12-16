@@ -4,35 +4,36 @@
   
   <% if @monitorings.count > 0 %>
     <% @monitorings.each do |monitoring| %>
-      <div class="monitoring-box d-flex justify-content-between">
-        <div class="monitoring-info flex-grow-1">
-          <h5><%= link_to monitoring.class_monitor.university_class.discipline.title, monitoring %></h5>
-          <p>Data e Horário: <%= monitoring.date_time %></p>
-          <p>Local: <%= monitoring.place %></p>
-          <p>Monitor: <%= monitoring.class_monitor.student.name %></p>
-          <% if monitoring.excuse %>
-            <p>Status: <strong class="color: red">Cancelada</strong></p>
-          <% end %>
+      <div class="monitoring-card">
+        <div class="monitoring-box d-flex justify-content-between">
+          <div class="monitoring-info flex-grow-1">
+            <h5><%= link_to monitoring.class_monitor.university_class.discipline.title, monitoring %></h5>
+            <p><%= monitoring.date_time.strftime("%d/%m/%Y às %H:%M") %> - <%= monitoring.place %></p>
+            <p>Monitor: <%= monitoring.class_monitor.student.name %></p>
+            <% if monitoring.excuse %>
+              <p>Status: <strong class="color: red">Cancelada</strong></p>
+            <% end %>
+          </div>
+          <div class="monitoring-icons">
+            <% if !monitoring.excuse %>
+              <%# ICONE DE EDITAR %>
+              <p id="edit-icon">
+                <%= link_to edit_monitoring_path(monitoring) do %>
+                  <i class="far fa-edit"></i>
+                <% end %> 
+              </p>
+              <%# ICONE DE DELETAR %>
+              <p id="delete-icon">
+                <%= link_to monitoring, method: :delete,
+                                        data: { confirm: 'Tem certeza que deseja cancelar o agendamento? (O cancelamento ocorrerá para todos os participantes)' },
+                                        remote: true do %>
+                  <i class="far fa-trash-alt"></i></i>
+                <% end %>
+              </p>
+            <% end %>
+          </div>
+          <br>
         </div>
-        <div class="monitoring-icons">
-          <% if !monitoring.excuse %>
-            <%# ICONE DE EDITAR %>
-            <p id="edit-icon">
-              <%= link_to edit_monitoring_path(monitoring) do %>
-                <i class="far fa-edit"></i>
-              <% end %> 
-            </p>
-            <%# ICONE DE DELETAR %>
-            <p id="delete-icon">
-              <%= link_to monitoring, method: :delete,
-                                      data: { confirm: 'Tem certeza que deseja cancelar o agendamento? (O cancelamento ocorrerá para todos os participantes)' },
-                                      remote: true do %>
-                <i class="far fa-trash-alt"></i></i>
-              <% end %>
-            </p>
-          <% end %>
-        </div>
-        <br>
       </div>
       <br>
       <hr class="separador">
