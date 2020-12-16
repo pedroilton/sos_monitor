@@ -1,5 +1,6 @@
 import { Controller } from "stimulus";
 import { fetchWithToken } from "../utils/fetch_with_token";
+import { calendar } from "../plugins/flatpickr"
 
 export default class extends Controller {
 
@@ -9,13 +10,23 @@ export default class extends Controller {
   }
 
   filterDate(event) {
-    if(document.getElementById("disciplines").value && document.getElementById("date").value) {
-      const discipline_id = document.getElementById("disciplines").value;
+    const discipline_id = document.getElementById("disciplines").value;
+    if(document.getElementById("disciplines").value) {
       fetch(`/monitoring_days/${discipline_id}?date=${document.getElementById("date").value}`,
         { headers: { accept: "application/json" } })
       .then(response => response.json())
       .then((data) => {
+        // console.log(data);
         document.getElementById("dates").dataset.dates = data.dates;
+        calendar();
+      });
+    }
+    if(document.getElementById("disciplines").value && document.getElementById("date").value) {
+      // const discipline_id = document.getElementById("disciplines").value;
+      fetch(`/monitoring_days/${discipline_id}?date=${document.getElementById("date").value}`,
+        { headers: { accept: "application/json" } })
+      .then(response => response.json())
+      .then((data) => {
         let monitoringsHTML = '<div class="radio" data-action="change->monitorings#filterSchedule">';
         if(data.monitorings.length > 0) {
           const dayMonitorings = [];
@@ -83,7 +94,7 @@ export default class extends Controller {
   }
 
   filterSchedule(event) {
-    console.log('opa');
+    // console.log('opa');
     // Captura dos elementos a serem vistos e alteração do style
     document.getElementById("submit").disabled = false;
     document.getElementById("submit").style.visibility = 'visible';
