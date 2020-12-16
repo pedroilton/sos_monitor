@@ -15,8 +15,7 @@ class DisciplinesController < ApplicationController
       end
     end
     @disciplines.sort_by!(&:title)
-    @available_dates = (Date.today..@academic_year.end_date).to_a..map { |date| date.strftime('%d/%m/%Y') }.uniq.join('-')
-    @available_dates = @monitorings.map { |monitoring| monitoring.date_time.strftime('%d/%m/%Y') }.uniq.join('-')
+    @available_dates = (Date.today..@academic_year.end_date).to_a.map { |date| date.strftime('%d/%m/%Y') }.join('-')
   end
 
   def index

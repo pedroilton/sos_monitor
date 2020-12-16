@@ -15,8 +15,8 @@ export default class extends Controller {
         { headers: { accept: "application/json" } })
       .then(response => response.json())
       .then((data) => {
-        let monitoringsHTML = '<br><p class="text-form-optins">Escolha o monitor e o horário:</p><div class="radio" data-action="change->monitorings#filterSchedule">'
-                              
+        `<div id="dates" data-dates="${data.dates}"></div>`
+        let monitoringsHTML = '<br><p class="text-form-optins">Escolha o monitor e o horário:</p><div class="radio" data-action="change->monitorings#filterSchedule">';
         if(data.monitorings.length > 0) {
           const dayMonitorings = [];
           const dayMonitors = [];
