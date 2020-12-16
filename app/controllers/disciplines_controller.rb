@@ -18,10 +18,8 @@ class DisciplinesController < ApplicationController
   end
 
   def index
-    # @disciplines = policy_scope(Discipline).order(title: :desc)
-    @disciplines = policy_scope(Discipline)
-    @discipline = Discipline.new
-    @disciplines = Discipline.all.sort
+    @disciplines = policy_scope(Discipline).select { |discipline| discipline.active? }
+    @disciplines.sort_by!(&:title)
   end
 
   def new
