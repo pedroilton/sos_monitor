@@ -13,7 +13,7 @@ class ClassMonitorPolicy < ApplicationPolicy
     create?
   end
 
-  def edit_schedule?
+  def edit?
     create?
   end
 

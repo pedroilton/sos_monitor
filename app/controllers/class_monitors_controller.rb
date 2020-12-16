@@ -30,7 +30,7 @@ class ClassMonitorsController < ApplicationController
   end
 
   # Pagina da edicao de horarios do monitor
-  def edit_schedule
+  def edit
     @class_monitor = ClassMonitor.find(params[:id])
     @week_monitorings = @class_monitor.monitorings.select do |monitoring|
       monitoring.date_time >= Date.today && monitoring.date_time <= Date.today + 7
