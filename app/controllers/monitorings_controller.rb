@@ -26,6 +26,7 @@ class MonitoringsController < ApplicationController
     @today_monitorings = @monitorings.select do |monitoring|
       monitoring.date_time.strftime('%d/%m/%Y') == Date.today.strftime('%d/%m/%Y')
     end
+    @available_dates = @monitorings.map { |monitoring| monitoring.date_time.strftime('%d/%m/%Y') }.uniq.join('-')
 
     @user = User.find(params[:user_id]) || current_user
   end
@@ -46,12 +47,21 @@ class MonitoringsController < ApplicationController
 
   # Usado pelo ajax para filtrar as monitorias por horario
   def monitoring_days
-    @monitorings = available_monitorings(Discipline.find(params[:discipline_id])).select do |monitoring|
+    @monitorings = available_monitorings(Discipline.find(params[:discipline_id]))
+    @available_dates = @monitorings.map { |monitoring| monitoring.date_time.strftime('%d/%m/%Y') }.uniq.join('-')
+    @monitorings = @monitorings.select do |monitoring|
       monitoring.date_time.strftime("%d/%m/%Y") == params[:date]
     end
     monitors = @monitorings.map(&:class_monitor)
     users = @monitorings.map { |monitoring| monitoring.class_monitor.student }
-    respond_to { |format| format.json { render json: { monitorings: @monitorings, monitors: monitors, users: users } } }
+    respond_to do |format|
+      format.json do
+        render json: { monitorings: @monitorings,
+                       monitors: monitors,
+                       users: users,
+                       dates: @available_dates }
+      end
+    end
   end
 
   # Usado pelo ajax para listar as monitorias do dia do monitor
@@ -70,6 +80,8 @@ class MonitoringsController < ApplicationController
     @monitorings = available_monitorings(@monitoring.class_monitor.university_class.discipline)
     @monitorings << @monitoring
     @monitorings.sort_by! { |monitoring| [monitoring.date_time, monitoring.class_monitor.student.name] }
+
+    @available_dates = @monitorings.map { |monitoring| monitoring.date_time.strftime('%d/%m/%Y') }.uniq.join('-')
 
     @other_dates = @monitorings.map { |monitoring| monitoring.date_time.strftime("%d/%m/%Y") }.uniq
     @other_dates.reject! { |date| date == @monitoring.date_time.strftime("%d/%m/%Y") }
