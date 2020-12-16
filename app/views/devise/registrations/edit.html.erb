@@ -1,12 +1,11 @@
 <div>
     <div class="container mt-3">
 
-      <div class="system-area">
+      <div class="">
     <!-- Início do Formulário de cadastro -->
         <%= image_tag 'biblioteca2.jpg', class:"d-none d-sm-block" %>
         <div class="system-area-data">
-              <h2>Alterar Cadastro de Usuários</h2>
-              <h2>Edit <%= resource_name.to_s.humanize %></h2>
+              <h2>Alterar Perfil do Usuário</h2>
             <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
               <%= f.error_notification %>
               <!-- form-inputs -->
@@ -25,8 +24,8 @@
 
               <div>
                 <%= f.input :password,
-                            label: 'Senha',
-                            placeholder: 'Senha',
+                            label: 'Nova Senha',
+                            placeholder: 'Nova Senha',
                             hint: "Deixe em branco se você não quiser alterar",
                             required: false,
                             input_html: { autocomplete: "new-password" } %>
@@ -35,17 +34,11 @@
                 <%= f.input :password_confirmation,
                             label: 'Confirme a senha',
                             placeholder: 'Senha',
+                            hint: "Deixe em branco se você não quiser estiver alterando a senha",
                             required: false,
                             input_html: { autocomplete: "new-password" } %>
               </div>
-              <div>
-                  <%= f.input :current_password,
-                            label: 'Senha atual',
-                            placeholder: 'Senha',
-                            hint: "Digite sua senha atual para confirmar as alterações",
-                            required: true,
-                            input_html: { autocomplete: "current-password" } %>
-              </div>
+
               <div>
                   <%= f.input :email,
                               label: 'Email',
@@ -54,21 +47,18 @@
                               autofocus: true,
                               input_html: { autocomplete: "email" }%>
               </div>
+
               <div>
-                  <%= f.input :password,
-                              label: 'Senha',
-                              placeholder: 'Senha',
-                              required: true,
-                              hint: ("mínimo #{@minimum_password_length} caracteres " if @minimum_password_length),
-                              input_html: { autocomplete: "new-password" } %>
+                  <%= f.input :current_password,
+                            label: 'Senha atual',
+                            placeholder: 'Senha',
+                            hint: "Digite sua senha atual para confirmar as alterações",
+                            required: true,
+                            input_html: { autocomplete: "current-password" } %>
               </div>
-              <div>
-                  <%= f.input :password_confirmation,
-                              label: 'Confirme a Senha',
-                              placeholder: 'Senha',
-                              required: true,
-                              input_html: { autocomplete: "new-password" } %>
             </div>
+            <div>
+                  <%= f.input :photo, as: :file, label: 'Foto' %>
             </div>
              <div>
             <%= f.input :student?, as: :boolean,
@@ -93,9 +83,9 @@
           <div>
           <p>Cancelar meu cadastro</p>
 
-          <%= link_to "Cancelar", registration_path(resource_name), data: { confirm: "Quer mesmo cancelar sua conta?" }, method: :delete, class:"btn btn-sm btn-outline-danger" %>
+          <%= link_to "Excluir Cadastro", registration_path(resource_name), data: { confirm: "Quer mesmo cancelar sua conta?" }, method: :delete, class:"btn btn-sm btn-outline-danger" %>
 
-          <%= link_to "Back", :back %>
+          <%= link_to "Voltar", :back %>
           </div>
   
 

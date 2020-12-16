@@ -33,11 +33,11 @@
 
     .system-area img {
       display: none;
-      // margin-top: 2rem;
-      // margin-left: 4rem;
-      // height: 20rem;
-      // width: 20rem;
-      // object-fit: cover;
+      margin-top: 2rem;
+      margin-left: 4rem;
+      height: 20rem;
+      width: 20rem;
+      object-fit: cover;
       h2 {
         margin: 1rem auto;
         font-size: 12px;
@@ -55,12 +55,12 @@
 
     .system-area-data {
       width: 100%;
-      // .form-inputs {
-      //   display: grid;
-      //   grid-template-columns: 1fr 1fr;
-      //   padding: 10px;
-      //   justify-content: space-between;
-      // }
+      .form-inputs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 10px;
+        justify-content: space-between;
+      }
       .form-actions {
         width: 100%;
         display: flex;
