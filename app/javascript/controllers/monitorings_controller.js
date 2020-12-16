@@ -15,8 +15,8 @@ export default class extends Controller {
         { headers: { accept: "application/json" } })
       .then(response => response.json())
       .then((data) => {
-        `<div id="dates" data-dates="${data.dates}"></div>`
-        let monitoringsHTML = '<br><p class="text-form-optins">Escolha o monitor e o horário:</p><div class="radio" data-action="change->monitorings#filterSchedule">';
+        document.getElementById("dates").dataset.dates = data.dates;
+        let monitoringsHTML = '<div class="radio" data-action="change->monitorings#filterSchedule">';
         if(data.monitorings.length > 0) {
           const dayMonitorings = [];
           const dayMonitors = [];
@@ -47,6 +47,7 @@ export default class extends Controller {
           // console.log(dayMonitorings);
           // console.log(dayMonitors);
           if(dayMonitors.length > 0) {
+            monitoringsHTML += '<br><p class="text-form-optins">Escolha o monitor e o horário:</p>'
             dayMonitors.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)).forEach((dayMonitor) => {
               monitoringsHTML += `<p class="container">${dayMonitor.name}</p>`
               monitoringsHTML += `<div class="d-flex">`
