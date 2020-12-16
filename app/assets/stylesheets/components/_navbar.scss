@@ -4,16 +4,16 @@ div {
 
 small {
   font-style: italic;
-  color: rgb(100, 100, 100);
+  color: white;
   font-size: 66%;
 }
 
 span {
-  color: gray;
+  color: rgba(245, 245, 245, 0.7);
 }
 
 .indentify p {
-  color: black;
+  color: white;
 }
 
 .navbar p {
@@ -31,7 +31,7 @@ span {
 
 .navbar-lewagon {
   justify-content: space-between;
-  background: white;
+  background: #050569;
 }
 
 .navbar-lewagon .navbar-collapse {
@@ -39,7 +39,8 @@ span {
 }
 
 .navbar-lewagon .navbar-brand img {
-  width: 40px;
+  width: 55px;
+  margin: -5 0px;
 }
 
 .navbar-toggler {

@@ -1,0 +1,10 @@
+.background {
+  // display: flex;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.5),
+                                    rgba(255, 255, 255, 0.5)),
+                                      image-url('biblioteca3');
+  background-size: cover;
+  background-position: center;
+  align-items: center;
+  width: 100%
+}

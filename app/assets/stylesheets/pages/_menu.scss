@@ -1,0 +1,73 @@
+.page-title {
+  margin: 0 auto;
+  text-align: center;
+  background-color: rgb(1, 1, 105);
+  color: white
+}
+
+.card-option {
+  overflow: hidden;
+  height: 110px;
+  background: white;
+  // box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+ margin: 2px 0;
+}
+
+
+.card-option .card-option-description {
+  padding: 16px;
+}
+
+.card-option .card-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  height: 100px;
+  width: 120px;
+  border-radius: 8px;
+  color: white;
+  .option1 {
+    background-color: #3640f8;
+    // background-color: $blue;
+  }
+  .option2 {
+    background-color: #ff4756;
+    // background-color: $red;
+  }
+  .option3 {
+    background-color: rgb(27, 199, 110);
+  }
+  .option4 {
+    background-color: orange;
+  }
+}
+
+.card-option h2 {
+  color: black;
+  font-size: 16px;
+  font-weight: bold;
+  text-shadow: 1 1 15px gray;
+  margin: 0;
+}
+
+.card-option p {
+  color: black;
+  font-size: 12px;
+  line-height: 1.4;
+  opacity: .7;
+  margin-bottom: 0;
+  margin-top: 8px;
+}
+
+.card-option a {
+  color: black;
+  font-size: 12px;
+  line-height: 1.4;
+  opacity: .7;
+  margin-bottom: 0;
+  margin-top: 8px;
+  text-decoration: none;
+}

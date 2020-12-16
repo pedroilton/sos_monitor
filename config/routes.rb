@@ -43,4 +43,7 @@ Rails.application.routes.draw do
 
   # Edicao dos horarios do monitor
   get 'monitor_edit_schedule/:id', to: 'class_monitors#edit_schedule', as: 'monitor_edit_schedule'
+
+  # menu do professor/administrador
+  get 'menu', to: 'pages#menu'
 end

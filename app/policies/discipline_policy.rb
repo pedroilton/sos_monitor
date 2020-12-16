@@ -8,6 +8,7 @@ class DisciplinePolicy < ApplicationPolicy
   def create?
     user.admin? || user.professor?
   end
+
   def new?
     user.admin? || user.professor?
   end
@@ -17,6 +18,6 @@ class DisciplinePolicy < ApplicationPolicy
   end
 
   def update?
-   user.admin? || user.professor?
+    user.admin? || user.professor?
   end
 end
