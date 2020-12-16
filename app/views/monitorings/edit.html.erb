@@ -12,6 +12,7 @@
   <% end %>
 
   <div id="disciplines" data-discipline-id="<%= @monitoring.class_monitor.university_class.discipline.id %>"></div>
+  <div id="dates" data-dates="<%= @available_dates %>"></div>
 
   <div data-monitorings-target="schedule">
     <div class="radio" data-action="change->monitorings#editSchedule">
