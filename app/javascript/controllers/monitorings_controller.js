@@ -1,5 +1,6 @@
 import { Controller } from "stimulus";
 import { fetchWithToken } from "../utils/fetch_with_token";
+import { calendar } from "../plugins/flatpickr"
 
 export default class extends Controller {
 
@@ -9,14 +10,24 @@ export default class extends Controller {
   }
 
   filterDate(event) {
-    if(document.getElementById("disciplines").value && document.getElementById("date").value) {
-      const discipline_id = document.getElementById("disciplines").value;
+    const discipline_id = document.getElementById("disciplines").value;
+    if(document.getElementById("disciplines").value) {
       fetch(`/monitoring_days/${discipline_id}?date=${document.getElementById("date").value}`,
         { headers: { accept: "application/json" } })
       .then(response => response.json())
       .then((data) => {
-        let monitoringsHTML = '<br><p class="text-form-optins">Escolha o monitor e o horário:</p><div class="radio" data-action="change->monitorings#filterSchedule">'
-                              
+        // console.log(data);
+        document.getElementById("dates").dataset.dates = data.dates;
+        calendar();
+      });
+    }
+    if(document.getElementById("disciplines").value && document.getElementById("date").value) {
+      // const discipline_id = document.getElementById("disciplines").value;
+      fetch(`/monitoring_days/${discipline_id}?date=${document.getElementById("date").value}`,
+        { headers: { accept: "application/json" } })
+      .then(response => response.json())
+      .then((data) => {
+        let monitoringsHTML = '<div class="radio" data-action="change->monitorings#filterSchedule">';
         if(data.monitorings.length > 0) {
           const dayMonitorings = [];
           const dayMonitors = [];
@@ -47,6 +58,7 @@ export default class extends Controller {
           // console.log(dayMonitorings);
           // console.log(dayMonitors);
           if(dayMonitors.length > 0) {
+            monitoringsHTML += '<br><p class="text-form-optins">Escolha o monitor e o horário:</p>'
             dayMonitors.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)).forEach((dayMonitor) => {
               monitoringsHTML += `<p class="container">${dayMonitor.name}</p>`
               monitoringsHTML += `<div class="d-flex">`
@@ -82,7 +94,7 @@ export default class extends Controller {
   }
 
   filterSchedule(event) {
-    console.log('opa');
+    // console.log('opa');
     // Captura dos elementos a serem vistos e alteração do style
     document.getElementById("submit").disabled = false;
     document.getElementById("submit").style.visibility = 'visible';
