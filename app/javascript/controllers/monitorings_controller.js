@@ -15,7 +15,8 @@ export default class extends Controller {
         { headers: { accept: "application/json" } })
       .then(response => response.json())
       .then((data) => {
-        let monitoringsHTML = '<div class="radio" data-action="change->monitorings#filterSchedule">'
+        let monitoringsHTML = '<br><p class="text-form-optins">Escolha o monitor e o horário:</p><div class="radio" data-action="change->monitorings#filterSchedule">'
+                              
         if(data.monitorings.length > 0) {
           const dayMonitorings = [];
           const dayMonitors = [];
@@ -47,17 +48,22 @@ export default class extends Controller {
           // console.log(dayMonitors);
           if(dayMonitors.length > 0) {
             dayMonitors.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)).forEach((dayMonitor) => {
-              monitoringsHTML += `<p>${dayMonitor.name}</p>`
+              monitoringsHTML += `<p class="container">${dayMonitor.name}</p>`
+              monitoringsHTML += `<div class="d-flex">`
               dayMonitorings.forEach((dayMonitoring) => {
                 if(dayMonitoring.class_monitor_id === dayMonitor.monitor_id) {
                   let date = new Date(Date.parse(dayMonitoring.date_time));
                   date = new Date(date.getTime() + (date.getTimezoneOffset() * 60000));
-                  monitoringsHTML += `<input type="radio" id="${dayMonitoring.id}" class="schedule-option" name="schedule" value="${dayMonitoring.id}">`;
-                  monitoringsHTML += `<label for="${dayMonitoring.id}">`;
+                  monitoringsHTML += `<input type="radio" id="${dayMonitoring.id}" class="schedule-option card-input-element" name="schedule" value="${dayMonitoring.id}">`;
+                  // Inserindo card no lugar dos Radio Buttoms:
+                  monitoringsHTML += `<div class="panel panel-default card-input">`
+                  //
+                  monitoringsHTML += `<div class="panel-body"><label for="${dayMonitoring.id}">`;
                   monitoringsHTML += `${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
-                  monitoringsHTML += '</label><br>';
+                  monitoringsHTML += '</div></div></label><br>';
                 }
               });
+              monitoringsHTML += '</div><br>'
             });
           } else {
             console.log('1');
