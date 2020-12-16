@@ -9,18 +9,12 @@
 @import "system_area";
 @import "background";
 @import "monitor_list";
-@import "monitor_calendar";
+// @import "monitor_calendar";
 @import "buttoms";
 @import "form_monitoring";
 @import "date_card";
 
-hr {
-  margin-top: 0;
-}
 
-a, i {
-  color: azul-boostrap;
-}
 
 label {
   font-size: 16px;
