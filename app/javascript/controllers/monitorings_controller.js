@@ -58,7 +58,7 @@ export default class extends Controller {
           // console.log(dayMonitorings);
           // console.log(dayMonitors);
           if(dayMonitors.length > 0) {
-            monitoringsHTML += '<br><p class="text-form-optins">Escolha o monitor e o horário:</p>'
+            monitoringsHTML += '<br><p class="text-form-options">Escolha o monitor e o horário:<br><br></p>'
             dayMonitors.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)).forEach((dayMonitor) => {
               monitoringsHTML += `<p class="container">${dayMonitor.name}</p>`
               monitoringsHTML += `<div class="d-flex">`

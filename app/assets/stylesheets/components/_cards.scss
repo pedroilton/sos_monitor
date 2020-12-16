@@ -3,6 +3,8 @@ label {
   margin: 0;
 }
 
+// monitorings/students_disciplines
+
 .card-input-element {
   display: none;
 }
@@ -27,8 +29,18 @@ label {
 
 .card-input-element:checked + .card-input {
   border: 1px solid $blue;
-    background-image: linear-gradient(to bottom right, #167ffb8c, #f4f4f4);
+  background-image: linear-gradient(to bottom right, #167ffb8c, #f4f4f4);
 }
+
+.radio p {
+  margin: 0;
+}
+
+.text-form-options {
+  margin: 0;
+}
+
+// monitorings/index
 
 .monitoring-card {
   // border: 1px solid blue;

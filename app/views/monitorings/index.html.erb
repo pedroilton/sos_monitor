@@ -1,3 +1,80 @@
 <br>
-<%= render 'index_body' %>
+<div class="index-body" id="index-body">
+  
+  <h3 class="monitorings-title text-center">Monitorias</h3>
+  
+  <% if @monitorings.count > 0 %>
+    <% @monitorings.each do |monitoring| %>
+      <div class="monitoring-card">
+        <div class="monitoring-box d-flex justify-content-between">
+          <div class="monitoring-info flex-grow-1">
+            <h5><%= link_to monitoring.class_monitor.university_class.discipline.title, monitoring %></h5>
+            <p><%= monitoring.date_time.strftime("%d/%m/%Y às %H:%M") %> - <%= monitoring.place %></p>
+            <p>Monitor: <%= monitoring.class_monitor.student.name %></p>
+            <% if monitoring.excuse %>
+              <p>Status: <strong class="color: red">Cancelada</strong></p>
+            <% end %>
+          </div>
+          <div class="monitoring-icons">
+            <% if !monitoring.excuse %>
+              <%# ICONE DE EDITAR %>
+              <p id="edit-icon">
+                <%= link_to edit_monitoring_path(monitoring) do %>
+                  <i class="far fa-edit"></i>
+                <% end %> 
+              </p>
+              <%# ICONE DE DELETAR %>
+              <p id="delete-icon">
+                <%= link_to monitoring, method: :delete,
+                                        data: { confirm: 'Tem certeza que deseja cancelar o agendamento? (O cancelamento ocorrerá para todos os participantes)' },
+                                        remote: true do %>
+                  <i class="far fa-trash-alt"></i></i>
+                <% end %>
+              </p>
+            <% end %>
+          </div>
+          <br>
+        </div>
+      </div>
+      <br>
+      <hr class="separador">
 
+    <% end %>
+  <% else %>
+    <p style="color:gray; font-size: 16px" class="text-center">
+      Você não tem monitorias agendadas.
+    </p>
+    <br>
+    <p style="color:gray; font-size: 14px" class="text-center">
+      <em>Clique no ícone do avatar <br> e selecione a opção desejada.</em>
+    </p>
+  <% end %>
+</div>
+
+<div class="footer">
+  <hr>
+  <div class="d-flex justify-content-around">
+    
+    <div class="btn-left">
+      <div class="big-icons">
+        <p id="edit-icon" class="m-0">
+          <%= link_to student_disciplines_path do %>
+            <i class="far fa-calendar-plus fa-2x"></i>
+          <% end %> 
+        </p>
+      </div>
+      <span><%= link_to ' Agendar ', student_disciplines_path %></span>
+    </div> 
+
+    <div class="btn-right">
+      <div class="big-icons">
+        <p id="edit-icon" class="m-0">
+          <%= link_to monitorings_old_path do %>
+            <i class="fas fa-history fa-2x"></i>
+          <% end %> 
+        </p>
+      </div>
+      <span><%= link_to 'Histórico', monitorings_old_path %></span>
+    </div>
+  </div>
+</div>
