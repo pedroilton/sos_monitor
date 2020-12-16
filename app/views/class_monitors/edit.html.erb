@@ -1,7 +1,13 @@
 <h1>Horários de <%= @class_monitor.student.name %></h1>
-<% @week_monitorings.map do |monitoring| @day_order.index(monitoring.date_time.strftime("%a").downcase) }.sort.each do |day|%>
+<% @week_monitorings.map { |monitoring| @day_order.index(monitoring.date_time.strftime("%a").downcase) }.uniq.sort.each do |day|%>
   <p><%= @portuguese_days[day] %>:</p>
-  <% @week_monitorings.select { |monitoring| monitoring.date_time.strftime("%a").downcase == day }.each do |monitoring| %>
+  <% @week_monitorings.select { |monitoring| @day_order.index(monitoring.date_time.strftime("%a").downcase) == day }.each do |monitoring| %>
     <p><%= monitoring.date_time.strftime("%k:%M") %></p>
   <% end %>
+<% end %>
+<%= simple_form_for :schedule, url: class_monitor_path(@class_monitor), method: :patch do |f| %>
+  <%= f.input :week_day, collection: @portuguese_days %>
+  <%= f.input :time, as: :time, :minute_step => 15 %>
+  <%= f.input :duration, as: :integer %>
+  <%= f.submit "Submit", class: "btn btn-primary" %>
 <% end %>
