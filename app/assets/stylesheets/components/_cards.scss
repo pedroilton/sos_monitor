@@ -30,3 +30,27 @@ label {
     background-image: linear-gradient(to bottom right, #167ffb8c, #f4f4f4);
 }
 
+.monitoring-card {
+  // border: 1px solid blue;
+  width: 100%;
+}
+
+.monitoring-box {
+  // border: 1px solid red;
+}
+
+.monitoring-info p {
+  // border: 3px solid green;
+  margin: 0;
+}
+
+.monitoring-info h5 {
+  // border: 3px solid green;
+  margin: 12px 0;
+}
+
+.monitoring-icons {
+  // border: 3px solid purple;
+  display: inline-grid;
+  place-items: center;
+}
