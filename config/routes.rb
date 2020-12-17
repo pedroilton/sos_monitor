@@ -46,4 +46,7 @@ Rails.application.routes.draw do
 
   # Exclusao de horario do monitor
   delete 'destroy_schedule/:id', to: 'class_monitors#destroy_schedule', as: 'destroy_schedule'
+
+  # Edicao de lugar da monitoria
+  patch 'edit_place/:id', to: 'monitorings#edit_place', as: 'edit_place'
 end

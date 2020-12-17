@@ -20,7 +20,14 @@
 
 <h1>Monitoria de <%= @monitoring.class_monitor.university_class.discipline.title %></h1>
 <p><%= @monitoring.date_time.strftime("%d/%m/%Y às %H:%M") %></p>
-<p><%= @monitoring.place %></p>
+<% if @monitoring.students.include? current_user %>
+    <p><%= @monitoring.place %></p>
+  <% else %>
+    <%= simple_form_for @monitoring, url: edit_place_path(@monitoring) do |f| %>
+      <%= f.input :place, input_html: { value: @monitoring.place } %>
+      <%= f.submit "Submit", class: "btn btn-primary" %>
+    <% end %>
+<% end %>
 <% if @monitoring.excuse %>
   <h4>Monitoria cancelada!</h4>
   <p><%= @monitoring.excuse %></p>
