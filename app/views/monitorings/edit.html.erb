@@ -15,18 +15,24 @@
   <div id="dates" data-dates="<%= @available_dates %>"></div>
 
   <div data-monitorings-target="schedule">
+
     <div class="radio" data-action="change->monitorings#editSchedule">
+      <br><p class="text-form-options">Escolha o monitor e o horário:<br><br></p>
       <% @day_monitorings.map { |monitoring| monitoring.class_monitor.student }.uniq.sort_by(&:name).each do |monitor| %>
-        <p><%= monitor.nickname.nil? ? monitor.name : monitor.nickname %></p>
+        <p class="container"><%= monitor.name %></p>
+        <div class="d-flex">
         <% @day_monitorings.select { |monitoring| monitoring.class_monitor.student == monitor }.each do |monitoring| %>
           <% if monitoring == @monitoring %>
-            <input type="radio" id="<%= monitoring.id %>" class="schedule-option" name="schedule" value="<%= monitoring.id %>" checked="checked">
+            <input type="radio" id="<%= monitoring.id %>" class="schedule-option card-input-element" name="schedule" value="<%= monitoring.id %>" checked="checked">
           <% else %>
-            <input type="radio" id="<%= monitoring.id %>" class="schedule-option" name="schedule" value="<%= monitoring.id %>">
+            <input type="radio" id="<%= monitoring.id %>" class="schedule-option card-input-element" name="schedule" value="<%= monitoring.id %>">
           <% end %>
-          <label for="<%= monitoring.id %>"><%= monitoring.date_time.strftime("%k:%M") %></label>
-          <br>
+          <div class="panel panel-default card-input">
+            <div class="panel-body"><label for="<%= monitoring.id %>">
+            <%= monitoring.date_time.strftime("%k:%M") %>
+            </div></div></label><br>
         <% end %>
+        </div><br>
       <% end %>
     </div>
     <div data-monitorings-target="question">
