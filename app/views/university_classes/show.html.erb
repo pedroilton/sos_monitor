@@ -1,37 +1,88 @@
-<p><%= link_to 'Voltar para as turmas', university_classes_path %></p>
-<h1><%= @university_class.discipline.title %> - Turma: <%= @university_class.title %></h1>
-<p>Monitores:</p>
-<% @university_class.class_monitors.sort_by { |monitor| monitor.student.name }.each do |monitor| %>
-  <% if monitor.monitorings.empty? %>
-    <p>
-      <%= monitor.student.name %> - <%= link_to 'Editar horários', edit_class_monitor_path(monitor) %> - 
-      <%= link_to 'Remover monitor', monitor, method: :delete,
-      data: { confirm: "Tem certeza que deseja remover esse monitor da turma? (Todas as monitorias serão apagadas)" } %>
-    </p>
-  <% else %>
-    <p>
-      <%= monitor.student.name %> - 
-      <%= link_to 'Ver monitorias', monitor_schedule_path(monitor.student, date: Date.today) %> - 
-      <%= link_to 'Editar horários', edit_class_monitor_path(monitor) %> - 
-      <%= link_to 'Remover monitor', monitor, method: :delete,
-        data: { confirm: "Tem certeza que deseja remover esse monitor da turma? (Todas as monitorias serão apagadas)" } %>
-    </p>
-  <% end %>
-<% end %>
-<%= simple_form_for([@university_class, @class_monitor], remote: true) do |f| %>
-  <%= f.input :student, collection: @available_users %>
-  <%= f.submit "Submit", class: "btn btn-primary" %>
-<% end %>
+<p><%= link_to 'Voltar para as turmas.', university_classes_path %></p>
+<h3 class="monitorings-title text-center" id="title-show-turma"><%= @university_class.discipline.title %></h3>
+<h4 class="monitorings-title text-center">Turma: <%= @university_class.title %></h3>
 
-<p>Alunos:</p>
-<% @university_class.classes_students.sort_by { |classes_student| classes_student.student.name }.each do |classes_student| %>
-  <p id="student-<%= classes_student.id %>">
-    <%= classes_student.student.name %> - 
-    <%= link_to 'Remover aluno', classes_student, method: :delete,
-      data: { confirm: "Tem certeza que deseja remover esse aluno da turma?" } %>
-  </p>
-<% end %>
-<%= simple_form_for([@university_class, @classes_student], remote: true) do |f| %>
-  <%= f.input :student, collection: @available_users %>
-  <%= f.submit "Submit", class: "btn btn-primary" %>
-<% end %>
+<div class="container">
+  
+  <%# List dos Monitores desta turma %>
+  <p>Monitores:</p>
+  <div class="informations-show" id="monitors-box-width">
+    <ul>
+      <% @university_class.class_monitors.sort_by { |monitor| monitor.student.name }.each do |monitor| %>
+        <% if monitor.monitorings.empty? %>
+          <li>
+            <div class="d-flex show-monitors-icons">
+              <p>
+                <%= monitor.student.name.split[0] %> <%= monitor.student.name.split[-1] %>
+              </p>
+              <p>
+                <%= link_to edit_class_monitor_path(monitor) do %>
+                  <i class="far fa-clock"></i>
+                <% end %> <span style="color: white"> . . </span> 
+                <%= link_to monitor, method: :delete, data: { confirm: "Tem certeza que deseja remover esse monitor da turma? (Todas as monitorias serão apagadas)" } do %>
+                  <i class="far fa-trash-alt"></i>
+                <% end %>
+              </p>
+            </div>
+          </li>
+        <% else %>
+          <li>
+            <div class="d-flex show-monitors-icons">
+              <p>
+                <%= monitor.student.name.split[0] %> <%= monitor.student.name.split[-1] %>
+              </p>
+              <p>
+                <%= link_to monitor_schedule_path(monitor.student, date: Date.today) do %>
+                  <i class="far fa-eye"></i>
+                <% end %> <span style="color: white"> . . </span> 
+                <%= link_to edit_class_monitor_path(monitor) do %>
+                  <i class="far fa-clock"></i>
+                <% end %> <span style="color: white"> . . </span> 
+                <%= link_to monitor, method: :delete, data: { confirm: "Tem certeza que deseja remover esse monitor da turma? (Todas as monitorias serão apagadas)" } do %>
+                  <i class="far fa-trash-alt"></i>
+                <% end %>
+              </p>
+            </div>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+
+  <%# Formulario para Adicionar Monitores %>
+  <div class="add-monitors-class">
+    <%= simple_form_for([@university_class, @class_monitor], remote: true) do |f| %>
+      <%= f.input :student, label: 'Adicionar Monitores:', collection: @available_users %>
+      <%= f.submit "Adicionar", class: "btn btn-primary text-center" %>
+    <% end %>
+  </div>
+
+  <%# Lista de alunos %>
+  <p>Alunos:</p>
+  <div class="informations-show" id="monitors-box-width">
+    <ol>
+      <% @university_class.classes_students.sort_by { |classes_student| classes_student.student.name }.each do |classes_student| %>
+        <li>
+            <div class="d-flex show-monitors-icons">
+              <p id="student-<%= classes_student.id %>">
+                <%= classes_student.student.name %>
+              </p>
+              <p>
+                <%= link_to classes_student, method: :delete, data: { confirm: "Tem certeza que deseja remover esse aluno da turma?" } do %>
+                  <i class="far fa-trash-alt"></i>
+                <% end %>
+              </p>
+            </div>
+          </li>
+      <% end %>
+      
+    </ol>
+  </div>
+
+  <%# Formulario para adicionar alunos a turma %>
+  <%= simple_form_for([@university_class, @classes_student], remote: true) do |f| %>
+    <%= f.input :student, label: 'Adicionar Estudante', collection: @available_users %>
+    <%= f.submit "Adicionar", class: "btn btn-primary text-center" %>
+  <% end %>
+
+</div>
