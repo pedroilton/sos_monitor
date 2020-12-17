@@ -8,7 +8,7 @@
 <div data-controller="monitorings">
 
   <%= simple_form_for :search, method: "get" do |f| %>
-    <%= f.input :date, as: :string, placeholder: @monitoring.date_time.strftime("%d/%m/%Y"), required: false, input_html: {class: 'datepicker', id: 'date', data: { action: 'change->monitorings#editDate' } } %>
+    <%= f.input :date, label: 'Selecione a data:', as: :string, placeholder: @monitoring.date_time.strftime("%d/%m/%Y"), required: false, input_html: {class: 'datepicker', id: 'date', data: { action: 'change->monitorings#editDate' } } %>
   <% end %>
 
   <div id="disciplines" data-discipline-id="<%= @monitoring.class_monitor.university_class.discipline.id %>"></div>

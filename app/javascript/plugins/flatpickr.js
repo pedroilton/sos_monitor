@@ -14,6 +14,7 @@ const calendar = () => {
         longhand: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
       },
     },
+    disableMobile: "true",
     enable: [function(date) {
       // return true to disable
       return document.getElementById("dates").dataset.dates.split('-').includes(`${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`);
