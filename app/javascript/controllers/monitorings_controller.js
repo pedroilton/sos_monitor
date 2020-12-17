@@ -12,17 +12,20 @@ export default class extends Controller {
   filterDate(event) {
     const discipline_id = document.getElementById("disciplines").value;
     if(document.getElementById("disciplines").value) {
+      document.getElementById("modal").classList.add("loading");
       fetch(`/monitoring_days/${discipline_id}?date=${document.getElementById("date").value}`,
         { headers: { accept: "application/json" } })
       .then(response => response.json())
       .then((data) => {
         // console.log(data);
         document.getElementById("dates").dataset.dates = data.dates;
+        document.getElementById("modal").classList.remove("loading");
         calendar();
       });
     }
     if(document.getElementById("disciplines").value && document.getElementById("date").value) {
       // const discipline_id = document.getElementById("disciplines").value;
+      document.getElementById("modal").classList.add("loading");
       fetch(`/monitoring_days/${discipline_id}?date=${document.getElementById("date").value}`,
         { headers: { accept: "application/json" } })
       .then(response => response.json())
@@ -87,6 +90,7 @@ export default class extends Controller {
         monitoringsHTML += '</div>';
         monitoringsHTML += '<div data-monitorings-target="question">';
         monitoringsHTML = monitoringsHTML + document.getElementById("fixed").outerHTML + '</div>';
+        document.getElementById("modal").classList.remove("loading");
         document.getElementById("schedule").innerHTML = monitoringsHTML;
         // this.scheduleTarget.innerHTML = monitoringsHTML;
       });
@@ -117,10 +121,12 @@ export default class extends Controller {
   // Acoes da edicao -----------------------------------------------------------------------------------------
   editDate(event) {
     const discipline_id = document.getElementById("disciplines").dataset.disciplineId;
+    document.getElementById("modal").classList.add("loading");
     fetchWithToken(`/monitoring_days/${discipline_id}?date=${document.getElementById("date").value}`,
       { headers: { accept: "application/json" } })
     .then(response => response.json())
     .then((data) => {
+      document.getElementById("modal").classList.remove("loading");
       const dayMonitorings = [];
       const dayMonitors = [];
       let index = 0;

@@ -1,32 +1,50 @@
-
-
 <%# TITULO %>
-<p>Monitoria de </p>
-<h3><%= @monitoring.class_monitor.university_class.discipline.title %></h3>
-<p><strong>Agendada com sucesso!</strong> <i class="far fa-check-circle"></i></p>
+<div class="title-show-monitoring">
+  <p class="sub-title-show-monitoring">Monitoria de </p>
+  <h3><%= @monitoring.class_monitor.university_class.discipline.title %></h3>
+  
+  <%# SITUACAO %>
+  <% if @monitoring.excuse %>
+    <p class="unsucess-schedule text-center">Monitoria cancelada! <i class="far fa-times-circle"></i></p>
+    <p><%= @monitoring.excuse %></p>
+  <% elsif @monitoring.students.any? %>
+    <p class="sucess-schedule text-center"><strong>Agendada com sucesso!</strong> <i class="far fa-check-circle"></i></p>
+  <% else %>
+    <p>Monitoria não agendada</p>
+  <% end %>
+</div>
 <hr>
 
-<%# HORARIO %>
-<p><%= @monitoring.date_time.strftime("%d/%m/%Y às %H:%M") %></p>
+<p class="sub-title-show-monitoring">Informações:</p>
+<div class="informations-show container">
+  <%# HORARIO %>
+  <p><%= @monitoring.date_time.strftime("%d/%m/%Y às %H:%M") %></p>
 
-<%# LOCAL %>
-<% if @monitoring.students.include? current_user %>
-    <p><%= @monitoring.place %></p>
-  <% else %>
-    <%= simple_form_for @monitoring, url: edit_place_path(@monitoring) do |f| %>
-      <%= f.input :place, input_html: { value: @monitoring.place } %>
-      <%= f.submit "Submit", class: "btn btn-primary" %>
-    <% end %>
-<% end %>
+  <%# LOCAL %>
+  <% if @monitoring.students.include?(current_user) || @monitoring.excuse %>
+      <p><%= @monitoring.place %></p>
+    <% else %>
+      <%= simple_form_for @monitoring, url: edit_place_path(@monitoring) do |f| %>
+        <%= f.input :place, label: 'Local', input_html: { value: @monitoring.place } %>
+        <%= f.submit "Alterar Local", class: "btn btn-outline-primary" %>
+      <% end %>
+  <% end %>
+</div>
 
-<%# SITUACAO %>
+
+
+<%# DUVIDA DO ALUNO ou MOTIVO DE CANCELAMENTO %>
 <% if @monitoring.excuse %>
-  <h4>Monitoria cancelada!</h4>
-  <p><%= @monitoring.excuse %></p>
-<% end %>
-
-<%# DUVIDA DO ALUNO %>
-<p><%= @monitoring.question %></p>
+    <p class="sub-title-show-monitoring">Motivo do cancelamento:</p>
+    <div class="informations-show container">
+      <p><%= @monitoring.excuse %></p>
+    </div>
+  <% elsif @monitoring.students.any? %>
+    <p class="sub-title-show-monitoring">Dúvida do aluno:</p>
+    <div class="informations-show container">
+      <p class="container"><%= @monitoring.question %></p>
+    </div>
+  <% end %>
 <br>
 
 <%# LINKS %>
@@ -68,16 +86,16 @@
   <% end %>
   <% unless @monitoring.excuse || @monitoring.date_time < Time.now %>
     <%= simple_form_for([@monitoring, @monitorings_student], remote: true) do |f| %>
-      <%= f.input :student, collection: @students.map{|student| [student.name, student.id]}, input_html:{class:"select2"}%>
-      <%= f.submit "Submit", class: "btn btn-primary" %>
+      <%= f.input :student, label: 'Incluir colegas:', collection: @students.map{|student| [student.name, student.id]}, input_html:{class:"select2"}%>
+      <%= f.submit "Salvar", class: "btn btn-primary" %>
     <% end %>
   <% end %>
   <% if @monitoring.date_time < Time.now %>
     <% if @current_monitorings_student.rating.nil? %>
       <%= simple_form_for(@current_monitorings_student, remote: true) do |f| %>
-        <%= f.input :rating, collection: (1..5) %>
-        <%= f.input :review %>
-        <%= f.submit "Submit", class: "btn btn-primary" %>
+        <%= f.input :rating, label: 'Avaliação:', collection: (1..5) %>
+        <%= f.input :review, label: 'Comentários:' %>
+        <%= f.submit "Enviar", class: "btn btn-primary" %>
       <% end %>
     <% end %>
   <% end %>
@@ -87,8 +105,6 @@
     <% @monitoring.students.each do |student| %>
       <p><%= student.name %></p>
     <% end %>
-  <% else %>
-    <p>Monitoria não agendada</p>
   <% end %>
   <% unless @monitoring.excuse || @monitoring.date_time <= Time.now %>
     <%= simple_form_for @monitoring, url: monitoring_cancel_path(@monitoring), method: :patch, remote: true do |f| %>

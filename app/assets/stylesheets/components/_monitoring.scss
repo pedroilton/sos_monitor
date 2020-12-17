@@ -1,0 +1,35 @@
+.form-schedule-view {
+  overflow: auto;
+}
+
+.title-show-monitoring {
+  margin-top: 16px;
+}
+
+.sub-title-show-monitoring {
+  margin: 0;
+}
+
+.sucess-schedule {
+  margin: 24px;
+  color: $ufmt;
+}
+
+.unsucess-schedule {
+  margin: 24px;
+  color: red;
+}
+
+.informations-show {
+  background-color: white;
+  // border: 1px solid red;
+  width: 90%;
+  padding: 0;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.informations-show > p {
+  padding: 8px;
+  margin: 0;
+}
