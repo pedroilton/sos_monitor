@@ -17,9 +17,11 @@ Rails.application.routes.draw do
   resources :monitorings_students, only: %i[destroy update]
   resources :university_classes, except: %i[destroy] do
     resources :class_monitors, only: :create
+    resources :classes_students, only: :create
   end
-  resources :class_monitors, only: :destroy
+  resources :class_monitors, only: %i[destroy edit update]
   resources :disciplines, except: %i[show destroy]
+  resources :classes_students, only: :destroy
 
   # Monitorias do monitor
   get 'monitor_schedule/:user_id', to: 'monitorings#list', as: 'monitor_schedule'
@@ -41,9 +43,12 @@ Rails.application.routes.draw do
   # Cancelamento de monitoria pelo monitor
   patch 'monitoring_cancel/:id', to: 'monitorings#cancel', as: 'monitoring_cancel'
 
-  # Edicao dos horarios do monitor
-  get 'monitor_edit_schedule/:id', to: 'class_monitors#edit_schedule', as: 'monitor_edit_schedule'
-
   # menu do professor/administrador
   get 'menu', to: 'pages#menu'
+
+  # Exclusao de horario do monitor
+  delete 'destroy_schedule/:id', to: 'class_monitors#destroy_schedule', as: 'destroy_schedule'
+
+  # Edicao de lugar da monitoria
+  patch 'edit_place/:id', to: 'monitorings#edit_place', as: 'edit_place'
 end

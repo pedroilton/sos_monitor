@@ -3,22 +3,35 @@
 <p>Monitores:</p>
 <% @university_class.class_monitors.sort_by { |monitor| monitor.student.name }.each do |monitor| %>
   <% if monitor.monitorings.empty? %>
-    <p><%= monitor.student.name %> - <%= link_to 'Editar horários', monitor_edit_schedule_path(monitor) %> - 
+    <p>
+      <%= monitor.student.name %> - <%= link_to 'Editar horários', edit_class_monitor_path(monitor) %> - 
       <%= link_to 'Remover monitor', monitor, method: :delete,
-      data: { confirm: "Tem certeza que deseja remover esse monitor da turma? (Todas as monitorias serão apagadas)" } %></p>
+      data: { confirm: "Tem certeza que deseja remover esse monitor da turma? (Todas as monitorias serão apagadas)" } %>
+    </p>
   <% else %>
-    <p><%= monitor.student.name %> - <%= link_to 'Ver monitorias', monitor_schedule_path(monitor.student, date: Date.today) %> - 
-      <%= link_to 'Editar horários', monitor_edit_schedule_path(monitor) %> - 
+    <p>
+      <%= monitor.student.name %> - 
+      <%= link_to 'Ver monitorias', monitor_schedule_path(monitor.student, date: Date.today) %> - 
+      <%= link_to 'Editar horários', edit_class_monitor_path(monitor) %> - 
       <%= link_to 'Remover monitor', monitor, method: :delete,
-        data: { confirm: "Tem certeza que deseja remover esse monitor da turma? (Todas as monitorias serão apagadas)" } %></p>
+        data: { confirm: "Tem certeza que deseja remover esse monitor da turma? (Todas as monitorias serão apagadas)" } %>
+    </p>
   <% end %>
 <% end %>
 <%= simple_form_for([@university_class, @class_monitor], remote: true) do |f| %>
-  <%= f.input :student, collection: @available_monitors %>
+  <%= f.input :student, collection: @available_users %>
   <%= f.submit "Submit", class: "btn btn-primary" %>
 <% end %>
 
 <p>Alunos:</p>
-<% @university_class.students.sort_by(&:name).each do |student| %>
-  <p><%= student.name %></p>
+<% @university_class.classes_students.sort_by { |classes_student| classes_student.student.name }.each do |classes_student| %>
+  <p id="student-<%= classes_student.id %>">
+    <%= classes_student.student.name %> - 
+    <%= link_to 'Remover aluno', classes_student, method: :delete,
+      data: { confirm: "Tem certeza que deseja remover esse aluno da turma?" } %>
+  </p>
+<% end %>
+<%= simple_form_for([@university_class, @classes_student]) do |f| %>
+  <%= f.input :student, collection: @available_users %>
+  <%= f.submit "Submit", class: "btn btn-primary" %>
 <% end %>

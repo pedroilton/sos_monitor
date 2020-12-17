@@ -9,9 +9,11 @@ class UniversityClassesController < ApplicationController
 
   def show
     @class_monitor = ClassMonitor.new
-    @available_monitors = User.all.select(&:student?).reject do |user|
+    @classes_student = ClassesStudent.new
+    @available_users = User.all.select(&:student?).reject do |user|
       @university_class.students.include?(user) || @university_class.class_monitors.map(&:student).include?(user)
     end
+    @available_users.sort_by!(&:name)
     authorize @university_class
   end
 
@@ -28,11 +30,11 @@ class UniversityClassesController < ApplicationController
     authorize @university_class
     @discipline = Discipline.find(params[:university_class][:discipline_id])
     @professor = User.find(params[:university_class][:professor_id])
-    @academicYear == AcademicYear.where(['start_date <= ? and end_date >= ?', Date.today, Date.today]).first
+    @academic_year = AcademicYear.where(['start_date <= ? and end_date >= ?', Date.today, Date.today]).first
 
     @university_class.discipline = @discipline
     @university_class.professor = @professor
-    @university_class.academic_year = @academicYear
+    @university_class.academic_year = @academic_year
     if @university_class.save
       redirect_to new_university_class_path
     else

@@ -63,6 +63,10 @@ class MonitoringPolicy < ApplicationPolicy
   end
 
   def cancel?
-    user.admin? || record.class_monitor.student == user
+    user.admin? || record.class_monitor.student == user || record.class_monitor.university_class.professor == user
+  end
+
+  def edit_place?
+    cancel?
   end
 end

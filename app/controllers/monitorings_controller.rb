@@ -1,5 +1,5 @@
 class MonitoringsController < ApplicationController
-  before_action :set_monitoring, only: %i[show edit schedule destroy cancel]
+  before_action :set_monitoring, only: %i[show edit schedule destroy cancel edit_place]
   after_action :authorize_monitoring, except: %i[index list monitoring_days day_monitorings destroy old_index old_list]
 
   # Lista de monitorias agendadas do aluno
@@ -137,14 +137,23 @@ class MonitoringsController < ApplicationController
 
   # Cacelamento por parte do monitor
   def cancel
+    edit_monitoring
+  end
+
+  # Alteracao do local da monitoria
+  def edit_place
+    edit_monitoring
+  end
+
+  private
+
+  def edit_monitoring
     if @monitoring.update(monitoring_params)
       redirect_to @monitoring
     else
       render :show
     end
   end
-
-  private
 
   def available_monitorings(discipline)
     @monitorings = policy_scope(Monitoring).reject do |monitoring|
