@@ -16,18 +16,9 @@
   margin: 0;
 }
 
-.fa-caret-down {
-  color: gray;
-}
-
-.fa-caret-down:before {
-  content: "\f0d7";
-  position: absolute;
-}
-
 .navbar-lewagon {
   justify-content: space-between;
-  background: #050569;
+  background: $ufmt;
 }
 
 .navbar-lewagon .navbar-collapse {
