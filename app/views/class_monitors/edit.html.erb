@@ -8,7 +8,8 @@
     <p><%= monitoring.date_time.strftime("%k:%M") %> - 
       <%= link_to 'Remover horário', 
         destroy_schedule_path(@class_monitor, schedule: monitoring.date_time.strftime("%k:%M"), day: day), method: :delete,
-        data: { confirm: "Tem certeza que deseja excluir esse horário? (Todos os agendamentos desse horário serão excluídos)" }%>
+        data: { confirm: "Tem certeza que deseja excluir esse horário? (Todos os agendamentos desse horário serão excluídos)" },
+        remote: true %>
     </p>
   <% end %>
 <% end %>
