@@ -1,5 +1,10 @@
- <div data-controller="monitorings">
-  <h3 class="monitorings-title text-center m-3">Sua Agenda</h3>
+<div data-controller="monitorings">
+  <% if @current_user.student? %>
+    <h3 class="monitorings-title text-center m-3">Sua Agenda</h3>
+  <% else %>
+    <h3 class="monitorings-title text-center m-3">Agenda de 
+      <%= @monitorings.first.class_monitor.student.name.split.first %> <%= @monitorings.first.class_monitor.student.name.split.last %></h3>
+  <% end %>
   <div id="disciplines" data-discipline-id="<%= @monitorings.first.class_monitor.university_class.discipline.id %>">
   </div>
   <div id="dates" data-dates="<%= @available_dates %>"></div>
