@@ -1,55 +1,72 @@
 <!-- Index de university_classes -->
-  <div class="container">
-    <div class="">
-    <!-- Início do Formulário de cadastro -->
-        
-      <%# <%= image_tag 'cad_turmas.jpg', class:"d-none d-sm-block" %>
-      <div class="">
-      
-        <!-- PROFESSOR -->
-        <% if current_user.professor? %>
-          <h3 class="monitorings-title text-center mt-3">Minhas Turmas</h3>
-          <table>
-            <th>Disciplina</th>
-            <th>Turma</th>
-            <!-- Mostra apenas as disciplinas do professor -->
-            <% @university_classes.each do |uc|%>
-              <% if uc.professor == current_user %>
-                <tr>
-                  <td id="td-discipline"><%= link_to uc.discipline.title, uc %></td>
+<div class="container my-2">
+  <div>
+  <!-- Início do Formulário de cadastro -->
+    <div>
+    
+      <!-- PROFESSOR -->
+      <% if current_user.professor? %>
+        <h3 class="monitorings-title text-center mt-3">Minhas Turmas</h3>
+          <!-- Mostra apenas as disciplinas do professor -->
+          <% @university_classes.each do |uc|%>
+          <div class="monitoring-card">
+            <div class="monitoring-box d-flex justify-content-between">
+              <div class="monitoring-info flex-grow-1">
+                <% if uc.professor == current_user %>
+                    <h5><%= link_to uc.discipline.title, uc %></h5>
+                      <!-- Se a turma tiver Monitor exibe ícone para indicar -->
+                      <% if uc.class_monitors.any? %>
+                      <div class="d-flex justify-content-between mb-3" >
+                        <div>
+                          <p id="td-university-class"><strong><%= "Turma: #{uc.title}  " %></strong><i id="monitor-indicator" class="fas fa-book-reader" ></i>
+                        </div>
+                        <div>
+                          <%= link_to '<i class="far fa-edit" ></i>'.html_safe, edit_university_class_path(uc)%> </p>
+                        </div>
+                      </div>
+                    <% else %>
+                      <div class="d-flex justify-content-between" >
+                        <div>
+                          <p id="td-university-class"><strong><%= "Turma: #{uc.title}" %></strong>
+                        </div>
+                        <div>
+                          <%= link_to '<i class="far fa-edit" ></i>'.html_safe, edit_university_class_path(uc)%></p>
+                        </div>
+                      </div>
+                    <% end %> 
+                <% end %>
+            <hr class="separador">
+          <% end %>
+        <!-- ADMINISTRADOR -->
+      <% else current_user.admin? %>
+          <h3 class="monitorings-title text-center mt-3">Turmas Cadastradas</h3>
+        <table>
+          <th>Disciplina</th>
+          <th>Turma</th>
+          <th>Professor</th>
+          <!-- Mostra todas as disciplinas e o professor (primeiro e último nome) -->
+          <% @university_classes.each do |uc|%>
+            <tr>
+              <td id="td-discipline"><%= link_to uc.discipline.title, uc %></td>
+              <% if uc.class_monitors.any? %>
+                  <td id="td-university-class"><%= "#{uc.title} " %><i id="monitor-indicator" class="fas fa-book-reader" ></i></td>
+                <% else %>
                   <td id="td-university-class"><%= uc.title %></td>
-                  <td><%= link_to '<i class="far fa-edit" ></i>'.html_safe, edit_university_class_path(uc)%></td>
-                </tr>
-              <% end %>
-            <% end %>
-          </table>
-          <!-- ADMINISTRADOR -->
-        <% else current_user.admin? %>
-           <h3 class="monitorings-title text-center mt-3">Turmas Cadastradas</h3>
-          <table>
-            <th>Disciplina</th>
-            <th>Turma</th>
-            <th>Professor</th>
-            <!-- Mostra todas as disciplinas e o professor (primeiro e último nome) -->
-            <% @university_classes.each do |uc|%>
-              <tr>
-                <td id="td-discipline"><%= link_to uc.discipline.title, uc %></td>
-                <td id="td-university-class"><%= uc.title %></td>
-                <td id="td-professor"><%= "#{uc.professor.name.split(" ").first} #{uc.professor.name.split(" ").last} "%></td>
-                  <td><%= link_to '<i class="far fa-edit" ></i>'.html_safe, edit_university_class_path(uc)%></td>
-              </tr>
-            <% end %>
-          </table>
-        <% end %>
-        <br>
-        <%= link_to "Menu", menu_path%>
-      </div>
+                <% end %>
+              <td id="td-professor"><%= "#{uc.professor.name.split(" ").first} #{uc.professor.name.split(" ").last} "%></td>
+                <td><%= link_to '<i class="far fa-edit" ></i>'.html_safe, edit_university_class_path(uc)%></td>
+            </tr>
+          <% end %>
+        </table>
+      <% end %>
     </div>
   </div>
-  <div class="footer">
+</div>
+
+
+<div class="footer">
   <hr>
   <div class="d-flex justify-content-around">
-    
     <div class="btn-left">
       <div class="big-icons">
         <p id="edit-icon" class="m-0">
@@ -60,7 +77,6 @@
       </div>
       <span><%= link_to 'Nova Disciplina', new_discipline_path %></span>
     </div> 
-
     <div class="btn-right">
       <div class="big-icons">
         <p id="edit-icon" class="m-0">
@@ -69,8 +85,6 @@
           <% end %> 
         </p>
       </div>
-      <span><%= link_to 'Nova Turma', new_university_class_path %></span>
-    </div>
+    <span><%= link_to 'Nova Turma', new_university_class_path %></span>
   </div>
 </div>
-

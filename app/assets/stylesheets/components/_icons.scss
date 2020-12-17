@@ -18,8 +18,11 @@
   color: $ufmt;
 }
 
-.fa-chevron-left:before {
-  color: $ufmt;
+#chevron-menu  {
+  color: $blue;
+  &:before {
+    color: $blue;
+  }
 }
 
 // Icone da setinha do avatar
@@ -32,3 +35,6 @@
   position: absolute;
 }
 
+#monitor-indicator {
+  color: orange;
+}

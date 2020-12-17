@@ -19,7 +19,7 @@
                       placeholder: 'Senha',
                       required: false,
                       input_html: { autocomplete: "current-password" } %><br>
-          <%= f.input :remember_me, label: 'Lembrar meu login', as: :boolean, class:"label-check-remember" if devise_mapping.rememberable? %>
+          <%= f.input :remember_me, label: 'Lembrar meu login', as: :boolean, class:"form-check-label" if devise_mapping.rememberable? %>
         </div>
         <div class="form-actions">
           <%= f.button :submit, "Acessar", class:"btn btn-primary my-2" %>
