@@ -56,7 +56,6 @@
 
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
       <%= link_to "Alterar Perfil", edit_user_registration_path, class: "dropdown-item" %>
-      <%= link_to "Alterar Senha", edit_user_registration_path, class: "dropdown-item" %>
       <% if current_user.monitor? %>
         <%= link_to "Módulo Monitor", monitor_schedule_path(current_user), class: "dropdown-item" %>
       <% end %>
