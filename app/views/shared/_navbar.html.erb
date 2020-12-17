@@ -24,6 +24,10 @@
               <label class='toggler__label'>
                 <% if current_page?(monitor_schedule_path(current_user)) %>
                   <input type="checkbox" hidden checked data-action="change->toggle#toggleActive">
+                <% elsif @monitoring %>
+                  <% if current_page?(@monitoring) %>
+                    <input type="checkbox" hidden checked data-action="change->toggle#toggleActive">
+                  <% end %>
                 <% else %>
                   <input type="checkbox" hidden data-action="change->toggle#toggleActive">
                 <% end %>
