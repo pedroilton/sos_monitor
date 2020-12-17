@@ -1,4 +1,3 @@
-<!-- Form new/edit de university_classes -->
 <div class="container my-2">
   <div>
       
@@ -12,8 +11,8 @@
       <!-- Início do Formulário de cadastro -->
         <%= simple_form_for(@university_class) do |f| %>
           <!-- form-inputs -->
-          <div>
-            <div class="form-inputs">
+          <div class="">
+            <div>
               <%= f.association :discipline,
                                 label: 'Disciplina',
                                 placeholder: 'Disciplina',
@@ -34,6 +33,11 @@
                 
             </div>
           </div>
+	      <div class="form-actions d-flex justify-content-center">
+              <%= link_to "Vincular Alunos", university_classes_path, class:"btn btn-sm btn-outline-primary mx-2" %>
+              <%= f.submit "Adicionar", class:"btn btn-sm btn-primary mx-2" %>
+
+            </div>
         <% end %>
       <% end %>
     </div>
