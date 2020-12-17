@@ -1,45 +1,48 @@
 <%# TITULO %>
-<div class="monitoring-title-box d-flex">
-  <div>
+<div class="standard-title-box d-flex" >
+  <div class="title-box-left-icon">
     <%= link_to monitorings_path do %>
-      <i class="fas fa-chevron-left"></i>
+      <i class="fas fa-chevron-left fa-2x"></i>
     <% end %>
   </div>
-  <p class="sub-title-show-monitoring">Monitoria de </p>
-  <h3><%= @monitoring.class_monitor.university_class.discipline.title %></h3>
-
-  <%# SITUACAO %>
-  <% if @monitoring.excuse %>
-    <p class="unsucess-schedule text-center">Monitoria cancelada! <i class="far fa-times-circle"></i></p>
-    <p><%= @monitoring.excuse %></p>
-  <% elsif @monitoring.students.any? %>
-    <p class="sucess-schedule text-center"><strong>Agendada com sucesso!</strong> <i class="far fa-check-circle"></i></p>
-  <% else %>
-    <p>Monitoria não agendada</p>
-  <% end %>
+  <div class="title-box-center-text">
+    <p class="sub-title-show-monitoring">Monitoria de </p>
+    <h3><%= @monitoring.class_monitor.university_class.discipline.title %></h3>
+  </div>
+  <div class="title-box-right-empty">
+  </div>
 </div>
+
+<%# SITUACAO %>
+<% if @monitoring.excuse %>
+  <p class="unsucess-schedule text-center">Monitoria cancelada! <i class="far fa-times-circle"></i></p>
+<% elsif @monitoring.students.any? %>
+  <p class="sucess-schedule text-center"><strong>Agendada com sucesso!</strong> <i class="far fa-check-circle"></i></p>
+<% else %>
+  <p>Monitoria não agendada</p>
+<% end %>
+
 <hr>
 
-<p class="sub-title-show-monitoring">Informações:</p>
-<div class="informations-show container">
-  <%# HORARIO %>
-  <p><%= @monitoring.date_time.strftime("%d/%m/%Y às %H:%M") %></p>
+<div class="container">
+  <p class="sub-title-show-monitoring">Informações:</p>
+  <div class="informations-show container">
+    <%# HORARIO %>
+    <p class="text-monitoring-confirmation-date"><%= @monitoring.date_time.strftime("%d/%m/%Y às %H:%M") %></p>
 
-  <%# LOCAL %>
-  <% if @monitoring.students.include?(current_user) || @monitoring.excuse %>
-      <p><%= @monitoring.place %></p>
-    <% else %>
-      <%= simple_form_for @monitoring, url: edit_place_path(@monitoring) do |f| %>
-        <%= f.input :place, label: 'Local', input_html: { value: @monitoring.place } %>
-        <%= f.submit "Alterar Local", class: "btn btn-outline-primary" %>
-      <% end %>
-  <% end %>
-</div>
+    <%# LOCAL %>
+    <% if @monitoring.students.include?(current_user) || @monitoring.excuse %>
+        <p>Local marcado: <strong><%= @monitoring.place %></strong></p>
+      <% else %>
+        <%= simple_form_for @monitoring, url: edit_place_path(@monitoring) do |f| %>
+          <%= f.input :place, label: 'Local', input_html: { value: @monitoring.place } %>
+          <%= f.submit "Alterar Local", class: "btn btn-outline-primary" %>
+        <% end %>
+    <% end %>
+  </div>
 
-
-
-<%# DUVIDA DO ALUNO ou MOTIVO DE CANCELAMENTO %>
-<% if @monitoring.excuse %>
+  <%# DUVIDA DO ALUNO ou MOTIVO DE CANCELAMENTO %>
+  <% if @monitoring.excuse %>
     <p class="sub-title-show-monitoring">Motivo do cancelamento:</p>
     <div class="informations-show container">
       <p><%= @monitoring.excuse %></p>
@@ -50,84 +53,143 @@
       <p class="container"><%= @monitoring.question %></p>
     </div>
   <% end %>
-<br>
 
-<%# LINKS %>
-<% if @monitoring.students.include? current_user %>
-  <% if @monitoring.date_time >= Time.now %>
-    <p><%= link_to 'Voltar para monitorias agendadas', monitorings_path %></p>
-  <% else %>
-    <p><%= link_to 'Voltar para monitorias concluídas', monitorings_old_path %></p>
+  <%# INFO DO MONITOR %>
+  <% if @monitoring.students.include? current_user %>
+    <p class="sub-title-show-monitoring">Monitor:</p>
+    <div class="informations-show container">
+      <div class="notification">
+        <%# FOTO DO MONITOR %>
+        <% if @monitoring.class_monitor.student.photo.attached? %>
+          <%= image_tag @monitoring.class_monitor.student.photo, class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+        <% else %>
+          <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+        <% end %>
+        <div class="notification-content">
+          <%# NOME %>
+          <p><%= @monitoring.class_monitor.student.name.split[0] %> <%= @monitoring.class_monitor.student.name.split[-1] %></p>
+          <%# TELEFONE %>
+          <% if @monitoring.class_monitor.student.phone_number? %>
+            <p><span><i class="fas fa-mobile-alt"></i></span> <%= @monitoring.class_monitor.student.phone_number %></p>
+          <% else %>
+            <p><span><i class="fas fa-mobile-alt"></i></span> <em style="color:gray">Usuário sem telefone cadastrado.</em></p>
+          <% end %>
+        </div>
+      </div>
+    </div>
   <% end %>
-  <% unless @monitoring.excuse || @monitoring.date_time < Time.now %>
-    <p><%= link_to 'Editar', edit_monitoring_path(@monitoring) %></p>
-    <% if @monitoring.students.count > 1 %>
-      <p><%= link_to 'Sair da monitoria', monitoring_leave_path(@monitoring), method: :delete ,
-        data: { confirm: 'Tem certeza que deseja sair dessa monitoria?' }%></p>
-    <% end %>
-    <p><%= link_to 'Cancelar agendamento', @monitoring, method: :delete,
-      data: { confirm: 'Tem certeza que deseja cancelar o agendamento? (O cancelamento ocorrerá para todos os participantes)' } %>
-    </p>
-  <% end %>
-<% else %>
-  <p><%= link_to 'Voltar para monitorias', monitor_schedule_path(@monitoring.class_monitor.student) %></p>
-<% end %>
-
-<%# ALUNOS PARTICIPANTES %>
-<% if @monitoring.students.include? current_user %>
-  <p><%= @monitoring.class_monitor.student.name %></p>
-  <% if @monitoring.students.reject { |student| student == current_user }.any? %>
-    <p>Demais participantes:</p>
-    <% @monitoring.students.sort_by(&:name).reject { |student| student == current_user }.each do |student| %>
-      <% if @monitoring.excuse || @monitoring.date_time < Time.now %>
-        <p><%= student.name %></p>
+  
+  <%# LINKS %>
+  <p class="sub-title-show-monitoring">Ações disponíveis:</p>
+  <div class="informations-show container">
+    <% if @monitoring.students.include? current_user %>
+      <% if @monitoring.date_time >= Time.now %>
+        <p><%= link_to 'Voltar para monitorias agendadas', monitorings_path %></p>
       <% else %>
-        <p><%= student.name %> - 
-          <%= link_to 'Remover da monitoria', MonitoringsStudent.find_by(student: student, monitoring: @monitoring), 
-            method: :delete, data: { confirm: 'Tem certeza que deseja remover esse estudante da monitoria?' },
-            remote: true %></p>
+        <p><%= link_to 'Voltar para monitorias concluídas', monitorings_old_path %></p>
       <% end %>
-    <% end %>
-  <% end %>
-  <% unless @monitoring.excuse || @monitoring.date_time < Time.now %>
-    <%= simple_form_for([@monitoring, @monitorings_student], remote: true) do |f| %>
-      <%= f.input :student, label: 'Incluir colegas:', collection: @students.map{|student| [student.name, student.id]}, input_html:{class:"select2"}%>
-      <%= f.submit "Salvar", class: "btn btn-primary" %>
-    <% end %>
-  <% end %>
-  <% if @monitoring.date_time < Time.now %>
-    <% if @current_monitorings_student.rating.nil? %>
-      <%= simple_form_for(@current_monitorings_student, remote: true) do |f| %>
-        <%= f.input :rating, label: 'Avaliação:', collection: (1..5) %>
-        <%= f.input :review, label: 'Comentários:' %>
-        <%= f.submit "Enviar", class: "btn btn-primary" %>
+      <% unless @monitoring.excuse || @monitoring.date_time < Time.now %>
+        <p><%= link_to 'Editar', edit_monitoring_path(@monitoring) %></p>
+        <% if @monitoring.students.count > 1 %>
+          <p><%= link_to 'Sair da monitoria', monitoring_leave_path(@monitoring), method: :delete ,
+            data: { confirm: 'Tem certeza que deseja sair dessa monitoria?' }%></p>
+        <% end %>
+        <p><%= link_to 'Cancelar agendamento', @monitoring, method: :delete,
+          data: { confirm: 'Tem certeza que deseja cancelar o agendamento? (O cancelamento ocorrerá para todos os participantes)' } %>
+        </p>
       <% end %>
+    <% else %>
+      <p><%= link_to 'Voltar para monitorias', monitor_schedule_path(@monitoring.class_monitor.student) %></p>
     <% end %>
-  <% end %>
-<% else %>
-  <% if @monitoring.students.any? %>
-    <p>Participantes:</p>
-    <% @monitoring.students.each do |student| %>
-      <p><%= student.name %></p>
-    <% end %>
-  <% end %>
-  <% unless @monitoring.excuse || @monitoring.date_time <= Time.now %>
-    <%= simple_form_for @monitoring, url: monitoring_cancel_path(@monitoring), method: :patch, remote: true do |f| %>
-      <%= f.input :excuse %>
-      <%= f.submit "Cancelar monitoria", class: "btn btn-primary" %>
-    <% end %>
-  <% end %>
-<% end %>
+  </div>
 
-<%# AVALIACAO DA MONITORIA %>
-<% if @monitoring.date_time < Time.now && @monitoring.students.any? %>
-  <p>Avaliações da monitoria:</p>
-  <% @monitoring.monitorings_students.each do |monitorings_student| %>
-    <% if monitorings_student.rating %>
-      <p><%= monitorings_student.student.name %></p>
-      <p><%= monitorings_student.rating %></p>
-      <p><%= monitorings_student.review %></p>
-      <br>
+  <%# ALUNOS PARTICIPANTES %>
+  <% if @monitoring.students.include? current_user %>
+    <% if @monitoring.students.reject { |student| student == current_user }.any? %>
+      <p class="sub-title-show-monitoring">Demais participantes:</p>
+      <div class="informations-show container">
+        <% @monitoring.students.sort_by(&:name).reject { |student| student == current_user }.each do |student| %>
+          <% if @monitoring.excuse || @monitoring.date_time < Time.now %>
+            <p><%= student.name.split[0] %> <%= student.name.split[-1] %></p>
+          <% else %>
+            <p><%= student.name.split[0] %> <%= student.name.split[-1] %>
+              <%= link_to MonitoringsStudent.find_by(student: student, monitoring: @monitoring), 
+                method: :delete, data: { confirm: 'Tem certeza que deseja remover esse estudante da monitoria?' },
+                remote: true do %>
+                <i class="fas fa-user-times"></i>
+              <% end %>
+            </p>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+    <% unless @monitoring.excuse || @monitoring.date_time < Time.now %>
+      <%= simple_form_for([@monitoring, @monitorings_student], remote: true) do |f| %>
+        <%= f.input :student, label: 'Incluir colegas:', collection: @students.map{|student| [student.name, student.id]}, input_html:{class:"select2"}%>
+        <%= f.submit "Salvar", class: "btn btn-primary" %>
+      <% end %>
+    <% end %>
+    <% if @monitoring.date_time < Time.now %>
+      <% if @current_monitorings_student.rating.nil? %>
+        <%= simple_form_for(@current_monitorings_student, remote: true) do |f| %>
+          <%= f.input :rating, label: 'Avaliação:', collection: (1..5) %>
+          <%= f.input :review, label: 'Comentários:' %>
+          <%= f.submit "Enviar", class: "btn btn-primary" %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <% if @monitoring.students.any? %>
+      <p>Participantes:</p>
+      <% @monitoring.students.each do |student| %>
+        <p><%= student.name %></p>
+      <% end %>
+    <% end %>
+    <% unless @monitoring.excuse || @monitoring.date_time <= Time.now %>
+      <%= simple_form_for @monitoring, url: monitoring_cancel_path(@monitoring), method: :patch, remote: true do |f| %>
+        <%= f.input :excuse %>
+        <%= f.submit "Cancelar monitoria", class: "btn btn-primary" %>
+      <% end %>
     <% end %>
   <% end %>
-<% end %>
+
+  <%# AVALIACAO DA MONITORIA %>
+  <% if @monitoring.date_time < Time.now && @monitoring.students.any? %>
+    <p>Avaliações da monitoria:</p>
+    <% @monitoring.monitorings_students.each do |monitorings_student| %>
+      <% if monitorings_student.rating %>
+        <p><%= monitorings_student.student.name %></p>
+        <p><%= monitorings_student.rating %></p>
+        <p><%= monitorings_student.review %></p>
+        <br>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+
+<%# FOOTER DA PAGINA %>
+<div class="footer">
+  <hr>
+  <div class="d-flex justify-content-around">
+    <div class="btn-left">
+      <div class="big-icons">
+        <p id="edit-icon" class="m-0">
+          <%= link_to student_disciplines_path do %>
+            <i class="far fa-calendar-plus fa-2x"></i>
+          <% end %> 
+        </p>
+      </div>
+      <span><%= link_to ' Agendar ', student_disciplines_path %></span>
+    </div> 
+    <div class="btn-right">
+      <div class="big-icons">
+        <p id="edit-icon" class="m-0">
+          <%= link_to monitorings_old_path do %>
+            <i class="fas fa-history fa-2x"></i>
+          <% end %> 
+        </p>
+      </div>
+      <span><%= link_to 'Histórico', monitorings_old_path %></span>
+    </div>
+  </div>
+</div>
