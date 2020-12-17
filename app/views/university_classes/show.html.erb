@@ -19,11 +19,19 @@
   <% end %>
 <% end %>
 <%= simple_form_for([@university_class, @class_monitor], remote: true) do |f| %>
-  <%= f.input :student, collection: @available_monitors %>
+  <%= f.input :student, collection: @available_users %>
   <%= f.submit "Submit", class: "btn btn-primary" %>
 <% end %>
 
 <p>Alunos:</p>
-<% @university_class.students.sort_by(&:name).each do |student| %>
-  <p><%= student.name %></p>
+<% @university_class.classes_students.sort_by { |classes_student| classes_student.student.name }.each do |classes_student| %>
+  <p id="student-<%= classes_student.id %>">
+    <%= classes_student.student.name %> - 
+    <%= link_to 'Remover aluno', classes_student, method: :delete,
+      data: { confirm: "Tem certeza que deseja remover esse aluno da turma?" } %>
+  </p>
+<% end %>
+<%= simple_form_for([@university_class, @classes_student]) do |f| %>
+  <%= f.input :student, collection: @available_users %>
+  <%= f.submit "Submit", class: "btn btn-primary" %>
 <% end %>
