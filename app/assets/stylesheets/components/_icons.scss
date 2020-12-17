@@ -1,0 +1,20 @@
+.fa-check-circle {
+  color: $ufmt;
+}
+
+.big-icons {
+  text-align-last: center;
+}
+
+.fa-chevron-left:before {
+  color: $ufmt;
+}
+
+.fa-caret-down {
+  color: gray;
+}
+
+.fa-caret-down:before {
+  content: "\f0d7";
+  position: absolute;
+}

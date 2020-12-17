@@ -1,3 +1,35 @@
+
+
+<%# TITULO %>
+<p>Monitoria de </p>
+<h3><%= @monitoring.class_monitor.university_class.discipline.title %></h3>
+<p><strong>Agendada com sucesso!</strong> <i class="far fa-check-circle"></i></p>
+<hr>
+
+<%# HORARIO %>
+<p><%= @monitoring.date_time.strftime("%d/%m/%Y às %H:%M") %></p>
+
+<%# LOCAL %>
+<% if @monitoring.students.include? current_user %>
+    <p><%= @monitoring.place %></p>
+  <% else %>
+    <%= simple_form_for @monitoring, url: edit_place_path(@monitoring) do |f| %>
+      <%= f.input :place, input_html: { value: @monitoring.place } %>
+      <%= f.submit "Submit", class: "btn btn-primary" %>
+    <% end %>
+<% end %>
+
+<%# SITUACAO %>
+<% if @monitoring.excuse %>
+  <h4>Monitoria cancelada!</h4>
+  <p><%= @monitoring.excuse %></p>
+<% end %>
+
+<%# DUVIDA DO ALUNO %>
+<p><%= @monitoring.question %></p>
+<br>
+
+<%# LINKS %>
 <% if @monitoring.students.include? current_user %>
   <% if @monitoring.date_time >= Time.now %>
     <p><%= link_to 'Voltar para monitorias agendadas', monitorings_path %></p>
@@ -18,22 +50,7 @@
   <p><%= link_to 'Voltar para monitorias', monitor_schedule_path(@monitoring.class_monitor.student) %></p>
 <% end %>
 
-<h1>Monitoria de <%= @monitoring.class_monitor.university_class.discipline.title %></h1>
-<p><%= @monitoring.date_time.strftime("%d/%m/%Y às %H:%M") %></p>
-<% if @monitoring.students.include? current_user %>
-    <p><%= @monitoring.place %></p>
-  <% else %>
-    <%= simple_form_for @monitoring, url: edit_place_path(@monitoring) do |f| %>
-      <%= f.input :place, input_html: { value: @monitoring.place } %>
-      <%= f.submit "Submit", class: "btn btn-primary" %>
-    <% end %>
-<% end %>
-<% if @monitoring.excuse %>
-  <h4>Monitoria cancelada!</h4>
-  <p><%= @monitoring.excuse %></p>
-<% end %>
-<p><%= @monitoring.question %></p>
-<br>
+<%# ALUNOS PARTICIPANTES %>
 <% if @monitoring.students.include? current_user %>
   <p><%= @monitoring.class_monitor.student.name %></p>
   <% if @monitoring.students.reject { |student| student == current_user }.any? %>
@@ -55,7 +72,6 @@
       <%= f.submit "Submit", class: "btn btn-primary" %>
     <% end %>
   <% end %>
-
   <% if @monitoring.date_time < Time.now %>
     <% if @current_monitorings_student.rating.nil? %>
       <%= simple_form_for(@current_monitorings_student, remote: true) do |f| %>
@@ -81,6 +97,8 @@
     <% end %>
   <% end %>
 <% end %>
+
+<%# AVALIACAO DA MONITORIA %>
 <% if @monitoring.date_time < Time.now && @monitoring.students.any? %>
   <p>Avaliações da monitoria:</p>
   <% @monitoring.monitorings_students.each do |monitorings_student| %>
