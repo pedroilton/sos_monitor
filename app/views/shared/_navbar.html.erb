@@ -55,6 +55,11 @@
     <% end %>
 
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+      <% if current_user.professor? %>
+        <%= link_to "Minhas Turmas", monitorings_path, class: "dropdown-item" %>
+      <% else %>
+        <%= link_to "Home", monitorings_path, class: "dropdown-item" %>
+      <% end %>
       <%= link_to "Alterar Perfil", edit_user_registration_path, class: "dropdown-item" %>
       <% if current_user.monitor? %>
         <%= link_to "Módulo Monitor", monitor_schedule_path(current_user), class: "dropdown-item" %>
@@ -62,12 +67,7 @@
       <% if current_user.monitor? %>
         <%= link_to "Módulo Estudante", "#", class: "dropdown-item" %>
       <% end %>
-      <% if current_user.professor? %>
-        <%= link_to "Minhas Turmas", monitorings_path, class: "dropdown-item" %>
-      <% elsif current_user.admin? %>
-        <%= link_to "Home", monitorings_path, class: "dropdown-item" %>
-
-      <% end %>
+      
       <%= link_to "SAIR", destroy_user_session_path, method: :delete, style: "color: red", class: "dropdown-item" %>
     </div>
   </div>

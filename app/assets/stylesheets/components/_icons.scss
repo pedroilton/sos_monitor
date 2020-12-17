@@ -18,6 +18,10 @@
   color: $ufmt;
 }
 
+.fa-chevron-left:before {
+  color: $ufmt;
+}
+
 // Icone da setinha do avatar
 .fa-caret-down {
   color: gray;
@@ -27,3 +31,4 @@
   content: "\f0d7";
   position: absolute;
 }
+

@@ -1,8 +1,13 @@
 <%# TITULO %>
-<div class="title-show-monitoring">
+<div class="monitoring-title-box d-flex">
+  <div>
+    <%= link_to monitorings_path do %>
+      <i class="fas fa-chevron-left"></i>
+    <% end %>
+  </div>
   <p class="sub-title-show-monitoring">Monitoria de </p>
   <h3><%= @monitoring.class_monitor.university_class.discipline.title %></h3>
-  
+
   <%# SITUACAO %>
   <% if @monitoring.excuse %>
     <p class="unsucess-schedule text-center">Monitoria cancelada! <i class="far fa-times-circle"></i></p>
