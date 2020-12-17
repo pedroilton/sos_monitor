@@ -1,40 +1,55 @@
 <!-- Index de university_classes -->
-<div class="background">
+<div class="">
 
   <div class="container">
-    <div class="system-area">
+    <div class="">
     <!-- Início do Formulário de cadastro -->
         
-      <%= image_tag 'cad_turmas.jpg', class:"d-none d-sm-block" %>
-      <div class="system-area-data">
-        <h2>Turmas Cadastradas</h2>
-        <div class="form-actions">
-        <% if current_user.admin? %>
+      <%# <%= image_tag 'cad_turmas.jpg', class:"d-none d-sm-block" %>
+      <div class="">
+      <div class="">
+        <% if current_user.admin? || current_user.professor? %>
               <%= link_to "Adicionar Disciplina", new_discipline_path, class:"btn btn-sm btn-primary mx-1" %>
               <%= link_to "Adicionar Turma", new_university_class_path, class:"btn btn-sm btn-primary mx-1" %>
         <% end %>
         </div>
-        <br>
-        <table>
-          <th>Disciplina</th>
-          <th>Turma</th>
-          <th>Professor</th>
-          <th>Semestre</th>
-
-          <% @university_classes.each do |uc|%>
-          <tr>
-            <td><%= link_to uc.discipline.title, uc %></td>
-            <td><%= uc.title %></td>
-            <td><%= uc.professor.name %></td>
-            <td><%= uc.academic_year.title %></td>
-            <% if current_user.admin? %>
-              <td><%= link_to '<i class="far fa-edit" ></i>'.html_safe, edit_university_class_path(uc)%></td>
+        <!-- PROFESSOR -->
+        <% if current_user.professor? %>
+          <h2>Minhas Turmas</h2>
+          <table>
+            <th>Disciplina</th>
+            <th>Turma</th>
+            <!-- Mostra apenas as disciplinas do professor -->
+            <% @university_classes.each do |uc|%>
+              <% if uc.professor == current_user %>
+                <tr>
+                  <td><%= link_to uc.discipline.title, uc %></td>
+                  <td><%= uc.title %></td>
+                  <td><%= link_to '<i class="far fa-edit" ></i>'.html_safe, edit_university_class_path(uc)%></td>
+                </tr>
+              <% end %>
             <% end %>
-          </tr>
-          <% end %>
-        </table>
+          </table>
+          <!-- ADMINISTRADOR -->
+        <% else current_user.admin? %>
+           <h2>Turmas Cadastradas</h2>
+          <table>
+            <th>Disciplina</th>
+            <th>Turma</th>
+            <th>Professor</th>
+            <!-- Mostra todas as disciplinas e o professor (primeiro e último nome) -->
+            <% @university_classes.each do |uc|%>
+              <tr>
+                <td><%= link_to uc.discipline.title, uc %></td>
+                <td><%= uc.title %></td>
+                <td><%= "#{uc.professor.name.split(" ").first} #{uc.professor.name.split(" ").last} "%></td>
+                  <td><%= link_to '<i class="far fa-edit" ></i>'.html_safe, edit_university_class_path(uc)%></td>
+              </tr>
+            <% end %>
+          </table>
+        <% end %>
         <br>
-        <%= link_to "Voltar", university_classes_path%>
+        <%= link_to "Menu", menu_path%>
       </div>
     </div>
   </div>
