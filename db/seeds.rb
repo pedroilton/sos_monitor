@@ -45,21 +45,21 @@ CSV.foreach('storage/seeds/disciplines.csv', csv_options) do |row|
 end
 
 puts 'Creating Demilson'
-User.create(name: 'Demilson Nascimento',
+User.create(name: 'DEMILSON BENEDITO DO NASCIMENTO',
             registration: '111',
             email: 'demilson@email.com',
             password: '123456',
             student: true,
             nickname: 'Demilson',
             phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
-User.create(name: 'Demilson Nascimento',
+User.create(name: 'DEMILSON BENEDITO DO NASCIMENTO',
             registration: '211',
             email: 'demilson@email.com',
             password: '123456',
             professor: true,
             nickname: 'Demilson',
             phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
-User.create(name: 'Demilson Nascimento',
+User.create(name: 'DEMILSON BENEDITO DO NASCIMENTO',
             registration: '311',
             email: 'demilson@email.com',
             password: '123456',
@@ -68,21 +68,21 @@ User.create(name: 'Demilson Nascimento',
             phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
 
 puts 'Creating Eduardo'
-User.create(name: 'Eduardo Ritter',
+User.create(name: 'EDUARDO ANTUNES RITTER',
             registration: '122',
             email: 'eduardo@email.com',
             password: '123456',
             student: true,
             nickname: 'Eduardo',
             phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
-User.create(name: 'Eduardo Ritter',
+User.create(name: 'EDUARDO ANTUNES RITTER',
             registration: '222',
             email: 'eduardo@email.com',
             password: '123456',
             professor: true,
             nickname: 'Eduardo',
             phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
-User.create(name: 'Eduardo Ritter',
+User.create(name: 'EDUARDO ANTUNES RITTER',
             registration: '322',
             email: 'eduardo@email.com',
             password: '123456',
@@ -91,21 +91,21 @@ User.create(name: 'Eduardo Ritter',
             phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
 
 puts 'Creating Uellington'
-User.create(name: 'Uellington Cortes',
+User.create(name: 'UELLINGTON BONAPARTE ROQUES CORTES',
             registration: '133',
             email: 'uellington@email.com',
             password: '123456',
             student: true,
             nickname: 'Uellington',
             phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
-User.create(name: 'Uellington Cortes',
+User.create(name: 'UELLINGTON BONAPARTE ROQUES CORTES',
             registration: '233',
             email: 'uellington@email.com',
             password: '123456',
             professor: true,
             nickname: 'Uellington',
             phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
-User.create(name: 'Uellington Cortes',
+User.create(name: 'UELLINGTON BONAPARTE ROQUES CORTES',
             registration: '333',
             email: 'uellington@email.com',
             password: '123456',
@@ -114,21 +114,21 @@ User.create(name: 'Uellington Cortes',
             phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
 
 puts 'Creating Pedro'
-User.create(name: 'Pedro Ilton',
+User.create(name: 'PEDRO ILTON COSTA JUNIOR',
             registration: '144',
             email: 'pedro@email.com',
             password: '123456',
             student: true,
             nickname: 'Pedro',
             phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
-User.create(name: 'Pedro Ilton',
+User.create(name: 'PEDRO ILTON COSTA JUNIOR',
             registration: '244',
             email: 'pedro@email.com',
             password: '123456',
             professor: true,
             nickname: 'Pedro',
             phone_number: "(#{rand(10..99)}) #{rand(1_000..99_999)}-#{rand(1_000..9_999)}")
-User.create(name: 'Pedro Ilton',
+User.create(name: 'PEDRO ILTON COSTA JUNIOR',
             registration: '344',
             email: 'pedro@email.com',
             password: '123456',
@@ -138,7 +138,7 @@ User.create(name: 'Pedro Ilton',
 
 puts 'Creating Users'
 CSV.foreach('storage/seeds/users.csv', csv_options) do |row|
-  user = User.create(name: row['name'], registration: row['registration'],
+  user = User.create(name: row['name'].upcase, registration: row['registration'],
                      nickname: row['nickname'], password: row['password'],
                      email: row['email'])
   user.professor = true if row['professor'] == 'true'
@@ -149,7 +149,7 @@ end
 
 puts 'Creating Students'
 CSV.foreach('storage/seeds/students.csv', csv_options) do |row|
-  user = User.create(name: row['name'], registration: row['registration'],
+  user = User.create(name: row['name'].upcase, registration: row['registration'],
                      password: row['password'], email: row['email'], student: true)
   puts user.name
 end
@@ -163,26 +163,25 @@ CSV.foreach('storage/seeds/classes.csv', csv_options) do |row|
   puts university_class.title
 end
 
-monitor_class = UniversityClass.where(['title < ? and discipline_id > ?',
-                                       'T', Discipline.find_by(code: '108208160')]).first
-
 puts 'Creating ClassMonitor'
-3.times do
-  class_monitor = ClassMonitor.create(student: User.select(&:student?).sample, university_class: monitor_class)
+UniversityClass.all.each do |university_class|
+  class_monitor = ClassMonitor.create(
+    student: User.select { |user| user.student? && !user.monitor? }.sample, university_class: university_class
+  )
   puts class_monitor.student.name
 end
 
 puts 'Creating ClassesStudent'
-User.select { |user| user.student? && !user.monitor? }.first(30).each do |student|
-  classes_student = ClassesStudent.create(student: student, university_class: monitor_class)
-  puts classes_student.student.name
-end
-
-User.select(&:student?).each do |student|
-  5.times do
-    classes_student = ClassesStudent.create(student: student, university_class: UniversityClass.all.reject do |uclass|
-      uclass == monitor_class
-    end.sample)
+UniversityClass.all.each do |university_class|
+  20.times do
+    classes_student = ClassesStudent.create(
+      student: User.select do |user|
+        user.student? && !university_class.students.include?(user) &&
+          !university_class.class_monitors.map(&:student).include?(user) &&
+          user.university_classes.count < 7
+      end.sample,
+      university_class: university_class
+    )
     puts classes_student.student.name
   end
 end
@@ -217,11 +216,11 @@ ClassMonitor.all.each do |class_monitor|
   end
 end
 
-puts 'Creating MonitoringsStudent'
-monitoring = Monitoring.first
-monitoring.question = 'Como faz alguma coisa?'
-monitoring.save
-3.times do
-  monitorings_student = MonitoringsStudent.create(monitoring: Monitoring.first, student: User.select(&:student?).sample)
-  puts monitorings_student.student.name
-end
+# puts 'Creating MonitoringsStudent'
+# monitoring = Monitoring.first
+# monitoring.question = 'Como faz alguma coisa?'
+# monitoring.save
+# 3.times do
+#   monitorings_student = MonitoringsStudent.create(monitoring: Monitoring.first, student: User.select(&:student?).sample)
+#   puts monitorings_student.student.name
+# end
