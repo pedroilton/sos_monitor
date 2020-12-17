@@ -62,7 +62,12 @@
       <% if current_user.monitor? %>
         <%= link_to "Módulo Estudante", "#", class: "dropdown-item" %>
       <% end %>
-      <%= link_to "Outra Opção", "#", class: "dropdown-item" %>
+      <% if current_user.professor? %>
+        <%= link_to "Minhas Turmas", monitorings_path, class: "dropdown-item" %>
+      <% elsif current_user.admin? %>
+        <%= link_to "Home", monitorings_path, class: "dropdown-item" %>
+
+      <% end %>
       <%= link_to "SAIR", destroy_user_session_path, method: :delete, style: "color: red", class: "dropdown-item" %>
     </div>
   </div>
