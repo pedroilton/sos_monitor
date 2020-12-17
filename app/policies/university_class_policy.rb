@@ -35,6 +35,6 @@ class UniversityClassPolicy < ApplicationPolicy
   end
 
   def admin_or_profesor?
-    user.admin? || user == record.professor
+    user.admin? || user.professor?
   end
 end

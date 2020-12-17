@@ -1,17 +1,15 @@
 <div class="container my-2">
   <div>
-      
-    <%# <%= image_tag 'cad_turmas.jpg', class:"d-none d-sm-block" %>
     <div>
     
-      <!-- PROFESSOR -->
+      <!-- Testa se usuário é PROFESSOR ou ADMIN -->
       <% if current_user.professor? || current_user.admin?%>
         <h3 class="monitorings-title text-center mt-3">Cadastro de Turmas</h3>
         
       <!-- Início do Formulário de cadastro -->
         <%= simple_form_for(@university_class) do |f| %>
           <!-- form-inputs -->
-          <div class="">
+          <div>
             <div>
               <%= f.association :discipline,
                                 label: 'Disciplina',
