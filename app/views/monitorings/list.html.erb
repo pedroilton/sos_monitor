@@ -1,11 +1,4 @@
-  <%# Caso queira importar o calendário do CodePen: %>
-  <%# <div class="calendar-box d-flex justify-content-center">
-    <div class="monitor-calendar">
-      <div id="calendar"></div>
-    </div>
-  </div> %>
-
-<div data-controller="monitorings">
+ <div data-controller="monitorings">
   <h3 class="monitorings-title text-center m-3">Sua Agenda</h3>
   <div id="disciplines" data-discipline-id="<%= @monitorings.first.class_monitor.university_class.discipline.id %>">
   </div>

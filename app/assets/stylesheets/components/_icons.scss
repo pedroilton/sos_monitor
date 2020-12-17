@@ -1,15 +1,24 @@
+// Icone de Sucesso
 .fa-check-circle {
   color: $ufmt;
 }
 
+// Icone de Cancelamento de agendamento
+.fa-times-circle {
+  color: red;
+}
+
+// Icones do footer - Agendar e Historico
 .big-icons {
   text-align-last: center;
 }
 
+// Icone de Voltar no agendamento da monitoria
 .fa-chevron-left:before {
   color: $ufmt;
 }
 
+// Icone da setinha do avatar
 .fa-caret-down {
   color: gray;
 }
