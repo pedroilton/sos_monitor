@@ -1,102 +1,96 @@
-<div>
-    <div class="container mt-3">
-
-      <div class="">
-    <!-- Início do Formulário de cadastro -->
-        <%= image_tag 'biblioteca2.jpg', class:"d-none d-sm-block" %>
-        <div class="system-area-data">
-              <h3>Alterar Perfil</h3>
-            <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-              <%= f.error_notification %>
-              <!-- form-inputs -->
-              <div class="form-inputs">
-              <div>
-              <%= f.input :registration, 
-                            label: 'Matrícula',
-                            placeholder: 'Matrícula',
-                            required: true,
-                            autofocus: true %>
-
-              <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-                <p>Aguardando confirmação para: <%= resource.unconfirmed_email %></p>
-              <% end %>
-              </div>
-
-              <div>
-                <%= f.input :password,
-                            label: 'Nova Senha',
-                            placeholder: 'Nova Senha',
-                            hint: "Deixe em branco se você não quiser alterar",
-                            required: false,
-                            input_html: { autocomplete: "new-password" } %>
-              </div>
-              <div>
-                <%= f.input :password_confirmation,
-                            label: 'Confirme a senha',
-                            placeholder: 'Senha',
-                            hint: "Deixe em branco se você não quiser estiver alterando a senha",
-                            required: false,
-                            input_html: { autocomplete: "new-password" } %>
-              </div>
-
-              <div>
-                  <%= f.input :email,
-                              label: 'Email',
-                              placeholder: 'Email',
-                              required: true,
-                              autofocus: true,
-                              input_html: { autocomplete: "email" }%>
-              </div>
-
-              <div>
-                  <%= f.input :current_password,
-                            label: 'Senha atual',
-                            placeholder: 'Senha',
-                            hint: "Digite sua senha atual para confirmar as alterações",
-                            required: true,
-                            input_html: { autocomplete: "current-password" } %>
-              </div>
-            </div>
-            <div>
-                  <%= f.input :photo, as: :file, label: 'Foto' %>
-            </div>
-             <div>
-            <%= f.input :student?, as: :boolean,
-                        label: 'Aluno?' %>
-            <%= f.input :professor?, as: :boolean,
-                        label: 'Professor?' %>
-            <%= f.input :admin?, as: :boolean,
-                        label: 'Administrador do Sistema?',
-                        hint: "Marcar somente se o usuário tiver privilégios de administrador" %>
-            </div>
-
-            <!-- form-inputs -->
-            <!-- form-actions -->
-            <div class="form-actions">
-              <%= f.button :submit, "Atualizar", class:"btn btn-primary mb-2" %>
-            </div>
-            <div class="form-actions">
-              <%= link_to "Acesso", new_session_path(resource_name) %>
-            </div>
-            <!-- f -->
-          </div>
-          <div>
-          <p>Cancelar meu cadastro</p>
-
-          <%= link_to "Excluir Cadastro", registration_path(resource_name), data: { confirm: "Quer mesmo cancelar sua conta?" }, method: :delete, class:"btn btn-sm btn-outline-danger" %>
-
-          <%= link_to "Voltar", :back %>
-          </div>
-  
-
-        </div>
-        <!-- container -->
-      <% end %>
-
-      
+<div class="container mt-3">
+  <div class="system-area-data">
+    <h3 class="monitorings-title text-center">Alterar Perfil</h3>
+    <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+      <%= f.error_notification %>
+      <!-- form-inputs -->
+      <div class="form-inputs">
+        <% if current_user.admin? %>
+          <%= f.input :registration, 
+                      label: 'Matrícula',
+                      placeholder: 'Matrícula',
+                      required: true,
+                      disabled: false, 
+                      autofocus: false %>
+        <% else %>
+          <%= f.input :registration, 
+                      label: 'Matrícula',
+                      placeholder: 'Matrícula',
+                      required: true,
+                      disabled: true, 
+                      autofocus: false %>
+        <% end %>
+        
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <p>Aguardando confirmação para: <%= resource.unconfirmed_email %></p>
+        <% end %>
       </div>
-  <!-- Fim do Formulário de cadastro -->
+      <div>
+        <%= f.input :password,
+                    label: 'Nova Senha',
+                    placeholder: 'Nova Senha',
+                    hint: "Deixe em branco se você não quiser alterar",
+                    required: false,
+                    input_html: { autocomplete: "new-password" } %>
+      </div>
+      <div>
+        <%= f.input :password_confirmation,
+                    label: 'Confirme a senha',
+                    placeholder: 'Senha',
+                    hint: "Deixe em branco se você não estiver alterando a senha",
+                    required: false,
+                    input_html: { autocomplete: "new-password" } %>
+      </div>
+      <div>
+        <%= f.input :email,
+                    label: 'Email',
+                    placeholder: 'Email',
+                    required: true,
+                    autofocus: true,
+                    input_html: { autocomplete: "email" }%>
+      </div>
+      <div>
+        <%= f.input :current_password,
+                  label: 'Senha atual',
+                  placeholder: 'Senha',
+                  hint: "Digite sua senha atual para confirmar as alterações",
+                  required: true,
+                  input_html: { autocomplete: "current-password" } %>
+      </div>
+      <div>
+            <%= f.input :photo, as: :file, label: 'Foto' %>
+      </div>
+        <div>
+      <%= f.input :student?, as: :boolean,
+                  label: 'Aluno?' %>
+      <%= f.input :professor?, as: :boolean,
+                  label: 'Professor?' %>
+      <%= f.input :admin?, as: :boolean,
+                  label: 'Administrador do Sistema?',
+                  hint: "Marcar somente se o usuário tiver privilégios de administrador" %>
+      </div>
 
+      <!-- form-inputs -->
+      <!-- form-actions -->
+      <div class="form-actions">
+        <%= f.button :submit, "Atualizar", class:"btn btn-primary mb-2" %>
+      </div>
+      <div class="form-actions">
+        <%= link_to "Acesso", new_session_path(resource_name) %>
+      </div>
+      <!-- f -->
     </div>
-</div>
+    <div>
+    <p>Cancelar meu cadastro</p>
+
+    <%= link_to "Excluir Cadastro", registration_path(resource_name), data: { confirm: "Quer mesmo cancelar sua conta?" }, method: :delete, class:"btn btn-sm btn-outline-danger" %>
+
+    <%= link_to "Voltar", :back %>
+    </div>
+
+
+  </div>
+  <% end %>
+
+
 </div>
