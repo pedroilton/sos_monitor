@@ -51,21 +51,21 @@ User.create(name: 'DEMILSON BENEDITO DO NASCIMENTO',
             password: '123456',
             student: true,
             nickname: 'Demilson',
-            phone_number: "9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
+            phone_number: "(65) 9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
 User.create(name: 'DEMILSON BENEDITO DO NASCIMENTO',
             registration: '211',
             email: 'demilson@email.com',
             password: '123456',
             professor: true,
             nickname: 'Demilson',
-            phone_number: "9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
+            phone_number: "(65) 9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
 User.create(name: 'DEMILSON BENEDITO DO NASCIMENTO',
             registration: '311',
             email: 'demilson@email.com',
             password: '123456',
             admin: true,
             nickname: 'Demilson',
-            phone_number: "9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
+            phone_number: "(65) 9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
 
 puts 'Creating Eduardo'
 User.create(name: 'EDUARDO ANTUNES RITTER',
@@ -74,21 +74,21 @@ User.create(name: 'EDUARDO ANTUNES RITTER',
             password: '123456',
             student: true,
             nickname: 'Eduardo',
-            phone_number: "9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
+            phone_number: "(65) 9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
 User.create(name: 'EDUARDO ANTUNES RITTER',
             registration: '222',
             email: 'eduardo@email.com',
             password: '123456',
             professor: true,
             nickname: 'Eduardo',
-            phone_number: "9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
+            phone_number: "(65) 9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
 User.create(name: 'EDUARDO ANTUNES RITTER',
             registration: '322',
             email: 'eduardo@email.com',
             password: '123456',
             admin: true,
             nickname: 'Eduardo',
-            phone_number: "9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
+            phone_number: "(65) 9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
 
 puts 'Creating Uellington'
 User.create(name: 'UELLINGTON BONAPARTE ROQUES CORTES',
@@ -97,21 +97,21 @@ User.create(name: 'UELLINGTON BONAPARTE ROQUES CORTES',
             password: '123456',
             student: true,
             nickname: 'Uellington',
-            phone_number: "9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
+            phone_number: "(65) 9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
 User.create(name: 'UELLINGTON BONAPARTE ROQUES CORTES',
             registration: '233',
             email: 'uellington@email.com',
             password: '123456',
             professor: true,
             nickname: 'Uellington',
-            phone_number: "9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
+            phone_number: "(65) 9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
 User.create(name: 'UELLINGTON BONAPARTE ROQUES CORTES',
             registration: '333',
             email: 'uellington@email.com',
             password: '123456',
             admin: true,
             nickname: 'Uellington',
-            phone_number: "9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
+            phone_number: "(65) 9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
 
 puts 'Creating Pedro'
 User.create(name: 'PEDRO ILTON COSTA JUNIOR',
@@ -120,28 +120,28 @@ User.create(name: 'PEDRO ILTON COSTA JUNIOR',
             password: '123456',
             student: true,
             nickname: 'Pedro',
-            phone_number: "9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
+            phone_number: "(65) 9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
 User.create(name: 'PEDRO ILTON COSTA JUNIOR',
             registration: '244',
             email: 'pedro@email.com',
             password: '123456',
             professor: true,
             nickname: 'Pedro',
-            phone_number: "9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
+            phone_number: "(65) 9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
 User.create(name: 'PEDRO ILTON COSTA JUNIOR',
             registration: '344',
             email: 'pedro@email.com',
             password: '123456',
             admin: true,
             nickname: 'Pedro',
-            phone_number: "9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
+            phone_number: "(65) 9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
 
 puts 'Creating Users'
 CSV.foreach('storage/seeds/users.csv', csv_options) do |row|
   user = User.create(name: row['name'].upcase, registration: row['registration'],
                      nickname: row['nickname'], password: row['password'],
                      email: row['email'],
-                     phone_number: "9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
+                     phone_number: "(65) 9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
   user.professor = true if row['professor'] == 'true'
   user.admin = true if row['admin'] == 'true'
   user.save
@@ -152,7 +152,7 @@ puts 'Creating Students'
 CSV.foreach('storage/seeds/students.csv', csv_options) do |row|
   user = User.create(name: row['name'].upcase, registration: row['registration'],
                      password: row['password'], email: row['email'], student: true,
-                     phone_number: "9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
+                     phone_number: "(65) 9#{rand(1_000..9_999)}-#{rand(1_000..9_999)}")
   puts user.name
 end
 
