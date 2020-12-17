@@ -62,7 +62,9 @@ class ClassMonitorsController < ApplicationController
     @day_order = %w[sun mon tue wed thu fri sat]
     @class_monitor.monitorings.select { |monitoring| monitoring.date_time > Date.today }.each do |monitoring|
       matches_week_day = @day_order.index(monitoring.date_time.strftime("%a").downcase) == params[:day].to_i
-      monitoring.destroy if matches_week_day && monitoring.date_time.strftime('%H:%M') == params[:schedule]
+      if matches_week_day && monitoring.date_time.strftime('%H:%M') == params[:schedule].gsub(' ', '0')
+        monitoring.destroy
+      end
     end
     redirect_to edit_class_monitor_path(@class_monitor)
   end
