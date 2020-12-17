@@ -7,8 +7,10 @@
   <% if @monitoring.excuse %>
     <p class="unsucess-schedule text-center">Monitoria cancelada! <i class="far fa-times-circle"></i></p>
     <p><%= @monitoring.excuse %></p>
-  <% else %>
+  <% elsif @monitoring.students.any? %>
     <p class="sucess-schedule text-center"><strong>Agendada com sucesso!</strong> <i class="far fa-check-circle"></i></p>
+  <% else %>
+    <p>Monitoria não agendada</p>
   <% end %>
 </div>
 <hr>
@@ -37,7 +39,7 @@
     <div class="informations-show container">
       <p><%= @monitoring.excuse %></p>
     </div>
-  <% else %>
+  <% elsif @monitoring.students.any? %>
     <p class="sub-title-show-monitoring">Dúvida do aluno:</p>
     <div class="informations-show container">
       <p class="container"><%= @monitoring.question %></p>
@@ -103,8 +105,6 @@
     <% @monitoring.students.each do |student| %>
       <p><%= student.name %></p>
     <% end %>
-  <% else %>
-    <p>Monitoria não agendada</p>
   <% end %>
   <% unless @monitoring.excuse || @monitoring.date_time <= Time.now %>
     <%= simple_form_for @monitoring, url: monitoring_cancel_path(@monitoring), method: :patch, remote: true do |f| %>
