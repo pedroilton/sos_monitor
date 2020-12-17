@@ -27,6 +27,7 @@ import "bootstrap";
 
 // Internal imports, e.g:
 import { initSelect2 } from '../components/init_select2';
+import { loading } from '../components/loading';
 // Caso, queira importar o calendário do CodePen:
 // import { calendar } from '../components/init_monitor_calendar';
 // Muda o tema
@@ -37,6 +38,7 @@ document.addEventListener('turbolinks:load', () => {
   // Call your functions here, e.g:
   calendar();
   initSelect2();
+  loading();
 });
 
 import "controllers"
