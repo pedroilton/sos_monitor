@@ -17,9 +17,9 @@ export default class extends Controller {
         { headers: { accept: "application/json" } })
       .then(response => response.json())
       .then((data) => {
-        document.getElementById("modal").classList.remove("loading");
         // console.log(data);
         document.getElementById("dates").dataset.dates = data.dates;
+        document.getElementById("modal").classList.remove("loading");
         calendar();
       });
     }
@@ -30,7 +30,6 @@ export default class extends Controller {
         { headers: { accept: "application/json" } })
       .then(response => response.json())
       .then((data) => {
-        document.getElementById("modal").classList.remove("loading");
         let monitoringsHTML = '<div class="radio" data-action="change->monitorings#filterSchedule">';
         if(data.monitorings.length > 0) {
           const dayMonitorings = [];
@@ -91,6 +90,7 @@ export default class extends Controller {
         monitoringsHTML += '</div>';
         monitoringsHTML += '<div data-monitorings-target="question">';
         monitoringsHTML = monitoringsHTML + document.getElementById("fixed").outerHTML + '</div>';
+        document.getElementById("modal").classList.remove("loading");
         document.getElementById("schedule").innerHTML = monitoringsHTML;
         // this.scheduleTarget.innerHTML = monitoringsHTML;
       });
@@ -121,10 +121,12 @@ export default class extends Controller {
   // Acoes da edicao -----------------------------------------------------------------------------------------
   editDate(event) {
     const discipline_id = document.getElementById("disciplines").dataset.disciplineId;
+    document.getElementById("modal").classList.add("loading");
     fetchWithToken(`/monitoring_days/${discipline_id}?date=${document.getElementById("date").value}`,
       { headers: { accept: "application/json" } })
     .then(response => response.json())
     .then((data) => {
+      document.getElementById("modal").classList.remove("loading");
       const dayMonitorings = [];
       const dayMonitors = [];
       let index = 0;
