@@ -218,8 +218,7 @@ export default class extends Controller {
           monitoringsHTML += '<h5>'
           monitoringsHTML += `<a href="/monitorings/${monitoring.id}">${data.disciplines[index].title}`
           monitoringsHTML += '</a></h5>'
-          monitoringsHTML += `<p>${date}</p>`
-          monitoringsHTML += `<p>${monitoring.place}</p>`
+          monitoringsHTML += `<p>${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} às ${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")} - ${monitoring.place}</p>`
           if(data.users[index].length === 0) {
             if(date > Date.now()) {
               monitoringsHTML += `<p>Horário disponível</p>`
