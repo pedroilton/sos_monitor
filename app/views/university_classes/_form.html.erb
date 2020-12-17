@@ -1,56 +1,80 @@
-<!-- Formulário de university_classes/new -->
-<div class="background">
-    <div class="container mt-3">
-
-      <div class="system-area">
-    <!-- Início do Formulário de cadastro -->
-        <%= image_tag 'cad_turmas.jpg', class:"d-none d-sm-block" %>
-        <div class="system-area-data">
-              <h2>Cadastro de Turmas</h2>
-            <%= simple_form_for(@university_class) do |f| %>
-              <!-- form-inputs -->
-              <div class="form-inputs ml-2">
-              <div>
-                <%= f.association :discipline,
-                              label: 'Disciplina',
-                              placeholder: 'Disciplina',
-                              required: true,
-                              autofocus: true %>
-
-                <%= f.input :title,
-                              label: 'Turma',
-                              placeholder: 'Turma',
-                              required: true,
-                              autofocus: true %>
-
-                  <%= f.association :professor, collection: @professors, 
-                              label: 'Professor',
-                              placeholder: 'Professor',
-                              required: true,
-                              autofocus: true %>
-              
-              </div>
-            </div>
-
-            <!-- form-inputs -->
-            <!-- form-actions -->
-            <div class="form-actions d-flex justify-content-center">
-              <%= link_to "Vincular Alunos", university_classes_path, class:"btn btn-sm btn-outline-primary mx-2" %>
-              <%= f.submit "Adicionar", class:"btn btn-sm btn-primary mx-2" %>
-
-            </div>
-            <!-- f -->
-          </div>
-  
-
-        </div>
-        <!-- container -->
-      <% end %>
-
+<!-- Form new/edit de university_classes -->
+<div class="container my-2">
+  <div>
       
-      </div>
-  <!-- Fim do Formulário de cadastro -->
+    <%# <%= image_tag 'cad_turmas.jpg', class:"d-none d-sm-block" %>
+    <div>
+    
+      <!-- PROFESSOR -->
+      <% if current_user.professor? || current_user.admin?%>
+        <h3 class="monitorings-title text-center mt-3">Cadastro de Turmas</h3>
+        
+      <!-- Início do Formulário de cadastro -->
+        <%= simple_form_for(@university_class) do |f| %>
+          <!-- form-inputs -->
+          <div>
+            <div class="form-inputs">
+              <%= f.association :discipline,
+                                label: 'Disciplina',
+                                placeholder: 'Disciplina',
+                                required: true,
+                                autofocus: true %>
 
+              <%= f.input :title,
+                          label: 'Turma',
+                          placeholder: 'Turma',
+                          required: true,
+                          autofocus: true %>
+
+              <%= f.association :professor, collection: @professors, 
+                                label: 'Professor',
+                                placeholder: 'Professor',
+                                required: true,
+                                autofocus: true %>
+                
+            </div>
+          </div>
+        <% end %>
+      <% end %>
     </div>
+  </div>
 </div>
+  <!-- Footer com menu -->
+  <div class="footer">
+  <hr>
+  <div class="d-flex justify-content-around">
+    
+    <div class="btn-left">
+      <div class="big-icons">
+        <p id="edit-icon" class="m-0">
+          <%= link_to new_discipline_path do %>
+            <i class="fas fa-book fa-2x"></i>
+          <% end %> 
+        </p>
+      </div>
+      <span><%= link_to 'Nova Disciplina', new_discipline_path %></span>
+    </div> 
+    <div class="btn-right">
+      <div class="big-icons">
+        <p id="" class="m-0">
+          <%= link_to new_university_class_path do %>
+            <i class="fas fa-users fa-2x"></i>
+          <% end %> 
+        </p>
+      </div>
+      <span><%= link_to 'Nova Turma', new_university_class_path %></span>
+    </div>
+    <div class="btn-left">
+      <div class="big-icons">
+        <p id="" class="m-0">
+          <%= link_to :back do %>
+            <i id="chevron-menu" class="fas fa-chevron-left fa-2x"></i>
+          <% end %> 
+        </p>
+      </div>
+      <span><%= link_to 'Voltar', :back %></span>
+    </div> 
+
+  </div>
 </div>
+

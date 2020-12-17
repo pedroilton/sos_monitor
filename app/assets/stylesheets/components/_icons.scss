@@ -18,6 +18,13 @@
   color: $ufmt;
 }
 
+#chevron-menu  {
+  color: $blue;
+  &:before {
+    color: $blue;
+  }
+}
+
 // Icone da setinha do avatar
 .fa-caret-down {
   color: gray;
@@ -26,4 +33,8 @@
 .fa-caret-down:before {
   content: "\f0d7";
   position: absolute;
+}
+
+#monitor-indicator {
+  color: orange;
 }
