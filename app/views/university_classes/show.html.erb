@@ -31,7 +31,7 @@
       data: { confirm: "Tem certeza que deseja remover esse aluno da turma?" } %>
   </p>
 <% end %>
-<%= simple_form_for([@university_class, @classes_student]) do |f| %>
+<%= simple_form_for([@university_class, @classes_student], remote: true) do |f| %>
   <%= f.input :student, collection: @available_users %>
   <%= f.submit "Submit", class: "btn btn-primary" %>
 <% end %>
