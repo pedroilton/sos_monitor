@@ -13,7 +13,7 @@
     <% if current_user.admin? %>
       <span>* ADMIN *</span>
     <% elsif current_user.professor? %>
-      <small>PROFESSOR</small>
+      <span>PROFESSOR</span>
     <% else %>
       <% if current_user.monitor? %>
         <div class="toggle-class d-flex">

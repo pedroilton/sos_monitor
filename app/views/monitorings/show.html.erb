@@ -105,8 +105,7 @@
         <div class="d-flex container">
           <%= f.input :student, label: false, 
                                 collection: @students.map{|student| [student.name, student.id]}, 
-                                input_html:{class:"select2"},
-                                :input_html => {:maxlength =>2,:style=> 'width: 100%'} %>
+                                input_html:{class:"select2", style:"width: 45vh"} %>
           <%= button_tag type: 'submit', class: "button-postfix" do %>
             <i class="fas fa-user-plus"></i>
           <% end %>
