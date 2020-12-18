@@ -10,3 +10,12 @@
 .estrelas input[type=radio]:checked ~ label i.fa:before {
   color: #CCC;
 }
+
+.estrelas-rating {
+  color: #FC0;
+}
+
+.estrelas-rating-empty
+{
+  color: #CCC;
+}

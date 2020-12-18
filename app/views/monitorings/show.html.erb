@@ -134,8 +134,6 @@
             <input type="radio" id="cm_star-5" name="rating" value="5"/>
           </div>
         
-        
-       
           <%= f.input :review, label: 'Comentários:' %>
           <%= f.submit "Enviar", class: "btn btn-primary" %>
         <% end %>
@@ -165,7 +163,10 @@
       <% if monitorings_student.rating %>
         <p><%= monitorings_student.student.name %></p>
         <% monitorings_student.rating.times do %>
-         <i class="fa"></i> 
+         <i class="fas fa-star estrelas-rating"></i> 
+        <% end %>
+        <% (5 - monitorings_student.rating).times do %>
+         <i class="fas fa-star estrelas-rating-empty"></i>
         <% end %>
         <p><%= monitorings_student.review %></p>
         <br>
