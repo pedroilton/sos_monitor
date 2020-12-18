@@ -1,10 +1,14 @@
 <div id="bg-ufmt">
   
   <div class="title">
-    <h1 class="text-center">SOS Monitor</h1>
-    <p class="text-center">Encontre um monitor disponível<br>e tire as suas dúvidas. </p>
+    <h1 class="text-center text-light">SOS Monitor</h1>
+    <p class="text-center subtitle-login">Encontre um monitor disponível<br>e tire as suas dúvidas. </p>
   </div>
   
+  <div class="logo-ufmt-login">
+    <%= image_tag("logo.png", :class => "logo-ufmt-login-image") %>
+  </div>
+
   <div class="row">
     <div id="box-login" class="container col-8">
       <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
@@ -29,3 +33,6 @@
     </div>
   </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" integrity="sha256-qM7QTJSlvtPSxVRjVWNM2OfTAz/3k5ovHOKmKXuYMO4=" crossorigin="anonymous">
+</script>

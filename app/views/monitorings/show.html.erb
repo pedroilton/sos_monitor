@@ -125,8 +125,15 @@
     <% end %>
     <% unless @monitoring.excuse || @monitoring.date_time < Time.now %>
       <%= simple_form_for([@monitoring, @monitorings_student], remote: true) do |f| %>
-        <%= f.input :student, label: 'Incluir colegas:', collection: @students.map{|student| [student.name, student.id]}, input_html:{class:"select2"}%>
-        <%= f.submit "Salvar", class: "btn btn-primary" %>
+        <p class="sub-title-show-monitoring">Incluir colegas:</p>
+        <div class="d-flex container">
+          <%= f.input :student, label: false, 
+                                collection: @students.map{|student| [student.name, student.id]}, 
+                                input_html:{class:"select2", style:"width: 45vh"} %>
+          <%= button_tag type: 'submit', class: "button-postfix" do %>
+            <i class="fas fa-user-plus"></i>
+          <% end %>
+        </div>
       <% end %>
     <% end %>
     <% if @monitoring.date_time < Time.now %>
