@@ -210,8 +210,8 @@
 
 <%# FOOTER DA PAGINA %>
 <% if @monitoring.students.include? current_user %>
-  <div class="footer">
-  <hr>
+  <div class="footer" id="footer-monitoring-show-location">
+    <hr>
     <% unless @monitoring.excuse || @monitoring.date_time < Time.now %>
       <div class="d-flex justify-content-around">
         <% if @monitoring.students.count > 1 %>
