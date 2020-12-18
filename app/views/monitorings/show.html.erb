@@ -140,14 +140,32 @@
     <% end %>
   <% else %>
     <% if @monitoring.students.any? %>
-      <p>Participantes:</p>
-      <% @monitoring.students.each do |student| %>
-        <p><%= student.name %></p>
-      <% end %>
+      <p class="sub-title-show-monitoring">Participantes:</p>
+      <div class="informations-show container">
+        <% @monitoring.students.each do |student| %>
+          <div class="notification">
+          <%# FOTO DO ALUNO %>
+            <% if student.photo.attached? %>
+              <%= image_tag student.photo, class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+            <% else %>
+              <%= image_tag "placeholder_avatar.png", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+            <% end %>
+            
+            <div class="notification-content">
+              <p><%= "#{student.name.split[0]} #{student.name.split[-1]}" %></p>
+              <% if student.phone_number? %>
+                <p><span><i class="fas fa-mobile-alt"></i></span> <%= student.phone_number %></p>
+              <% else %>
+                <p><span><i class="fas fa-mobile-alt"></i></span> <em style="color:gray">Usuário sem telefone cadastrado.</em></p>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
     <% end %>
     <% unless @monitoring.excuse || @monitoring.date_time <= Time.now %>
       <%= simple_form_for @monitoring, url: monitoring_cancel_path(@monitoring), method: :patch, remote: true do |f| %>
-        <%= f.input :excuse %>
+        <%= f.input :excuse, label: 'Motivo do cancelamento:' %>
         <%= f.submit "Cancelar monitoria", class: "btn btn-primary" %>
       <% end %>
     <% end %>
@@ -188,10 +206,12 @@
   <% end %>
 </div>
 
+
+
 <%# FOOTER DA PAGINA %>
-<div class="footer">
+<% if @monitoring.students.include? current_user %>
+  <div class="footer">
   <hr>
-  <% if @monitoring.students.include? current_user %>
     <% unless @monitoring.excuse || @monitoring.date_time < Time.now %>
       <div class="d-flex justify-content-around">
         <% if @monitoring.students.count > 1 %>
@@ -236,5 +256,7 @@
         </div>
       </div>
     <% end %>
-  <% end %>
-</div>
+  </div>
+<% end %>
+
+
