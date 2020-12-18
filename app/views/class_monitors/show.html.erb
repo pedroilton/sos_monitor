@@ -1,12 +1,12 @@
 <h1><%= @class_monitor.student.name.split.first %> <%= @class_monitor.student.name.split.last %></h1>
 <% if @class_monitor.student.photo.attached? %>
-  <%= image_tag @class_monitor.student.photo, %>
+  <%= image_tag @class_monitor.student.photo %>
 <% end %>
 <p>Nome completo: <%= @class_monitor.student.name %></p>
 <p>Telefone: <%= @class_monitor.student.phone_number %></p>
 <br>
 <p>Avaliações</p>
-<% @class_monitor.monitorings.map.(&:monitorings_students).flatten.each do |monitorings_student| %>
+<% @class_monitor.monitorings.map(&:monitorings_students).flatten.each do |monitorings_student| %>
   <% if monitorings_student.rating %>
     <p><%= monitorings_student.rating %></p>
     <p><%= monitorings_student.review %></p>
