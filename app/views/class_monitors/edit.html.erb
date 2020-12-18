@@ -36,49 +36,52 @@
   <hr class="separador" >
   <br>
   <p class="text-center subtitle-monitor-edit-schedule">Adicionar horários:</p>
-
-  <%= simple_form_for :schedule, url: class_monitor_path(@class_monitor),
-                                 method: :patch,
-                                 remote: true do |f| %>
-    <%= f.input :week_day, label: 'Dia da semana:',
-                           collection: @portuguese_days,
-                           input_html: { class: 'select2', style: 'width:60%' } %>
-    <%= f.input :time, label: 'Horário:',
-                       as: :time,
-                       minute_step: 15 %>
-    <%= f.input :duration, label: 'Duração:',
-                           as: :integer %>
-    <%= f.submit "Submit", class: "btn btn-primary" %>
-  <% end %>
+  <div class="form-monitor-edit">
+    <%= simple_form_for :schedule, url: class_monitor_path(@class_monitor),
+                                  method: :patch,
+                                  remote: true do |f| %>
+      <%= f.input :week_day, label: 'Dia da semana:',
+                            collection: @portuguese_days,
+                            input_html: { class: 'select2', style: 'width:60%' } %>
+      <%= f.input :time, label: 'Horário:',
+                        as: :time,
+                        minute_step: 15,
+                        input_html: { class: 'select2', style: 'width:48%' } %>
+      <%= f.input :duration, label: 'Duração (horas):',
+                             as: :integer,
+                             input_html: { style: 'width:48%' } %>
+      <%= f.submit "Submit", class: "btn btn-primary" %>
+    <% end %>
+  </div>
 </div>
 
 <%# FOOTER DA PAGINA %>
-<div class="footer">
+<div class="footer" id="footer-edit-monitor">
   <hr>
-    <div class="d-flex justify-content-around">
-      <div class="btn-left">
-        <div class="big-icons">
-          <p id="edit-icon" class="m-0">
-            <%# Botao da Esquerda %>
-            <%= link_to @class_monitor.university_class do %>
-              <i class="fas fa-arrow-left"></i>
-            <% end %>
-            <%# Texto da Esquerda %>
-          </p>
-        </div>
-        <span><%= link_to ' Voltar ', @class_monitor.university_class %></span>
-      </div> 
-      <div class="btn-right">
-        <div class="big-icons">
-          <p id="edit-icon" class="m-0">
-            <%# Botao do Centro %>
-            <%= link_to university_classes_path do %>
-              <i class="fas fa-home"></i>
-            <% end %>
-          </p>
-        </div>
-        <%# Texto do Centro %>
-        <span><%= link_to ' Home ', university_classes_path %></span>
-      </div> 
-    </div>
+  <div class="d-flex justify-content-around">
+    <div class="btn-left">
+      <div class="big-icons">
+        <p id="edit-icon" class="m-0">
+          <%# Botao da Esquerda %>
+          <%= link_to @class_monitor.university_class do %>
+            <i class="fas fa-arrow-left fa-2x"></i>
+          <% end %>
+          <%# Texto da Esquerda %>
+        </p>
+      </div>
+      <span><%= link_to ' Voltar ', @class_monitor.university_class %></span>
+    </div> 
+    <div class="btn-right">
+      <div class="big-icons">
+        <p id="edit-icon" class="m-0">
+          <%# Botao do Centro %>
+          <%= link_to university_classes_path do %>
+            <i class="fas fa-home fa-2x"></i>
+          <% end %>
+        </p>
+      </div>
+      <%# Texto do Centro %>
+      <span><%= link_to ' Home ', university_classes_path %></span>
+    </div> 
+  </div>
 </div>
