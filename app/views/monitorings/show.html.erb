@@ -103,7 +103,10 @@
       <%= simple_form_for([@monitoring, @monitorings_student], remote: true) do |f| %>
         <p class="sub-title-show-monitoring">Incluir colegas:</p>
         <div class="d-flex container">
-          <%= f.input :student, label: false, collection: @students.map{|student| [student.name, student.id]}, input_html:{class:"select2"}%>
+          <%= f.input :student, label: false, 
+                                collection: @students.map{|student| [student.name, student.id]}, 
+                                input_html:{class:"select2"},
+                                :input_html => {:maxlength =>2,:style=> 'width: 100%'} %>
           <%= button_tag type: 'submit', class: "button-postfix" do %>
             <i class="fas fa-user-plus"></i>
           <% end %>
