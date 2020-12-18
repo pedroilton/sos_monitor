@@ -28,4 +28,8 @@ class ClassMonitorPolicy < ApplicationPolicy
   def monitor_day?
     user.admin || record.university_class.professor == user || record.student == user
   end
+
+  def show?
+    true
+  end
 end

@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     resources :class_monitors, only: :create
     resources :classes_students, only: :create
   end
-  resources :class_monitors, only: %i[destroy edit update]
+  resources :class_monitors, only: %i[destroy edit update show]
   resources :disciplines, except: %i[show destroy]
   resources :classes_students, only: :destroy
 
