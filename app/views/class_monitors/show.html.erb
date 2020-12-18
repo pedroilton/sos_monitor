@@ -60,22 +60,22 @@
     <div class="btn-left">
       <div class="big-icons">
         <p id="edit-icon" class="m-0">
+          <%= link_to :back do %>
+            <i class="fas fa-chevron-left fa-2x"></i>
+          <% end %>
+        </p>
+      </div>
+      <span><%= link_to 'Volta', :back %></span>
+    </div> 
+    <div class="btn-right">
+      <div class="big-icons">
+        <p id="edit-icon" class="m-0">
           <%= link_to student_disciplines_path do %>
             <i class="chevron-menu far fa-calendar-plus fa-2x"></i>
           <% end %> 
         </p>
       </div>
       <span><%= link_to ' Agendar ', student_disciplines_path %></span>
-    </div> 
-    <div class="btn-right">
-      <div class="big-icons">
-        <p id="edit-icon" class="m-0">
-          <%= link_to monitorings_old_path do %>
-            <i class="fas fa-chevron-left fa-2x"></i>
-          <% end %> 
-        </p>
-      </div>
-      <span><%= link_to 'Volta', :back %></span>
     </div>
   </div>
 </div>
