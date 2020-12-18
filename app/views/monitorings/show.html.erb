@@ -78,6 +78,30 @@
       </div>
     </div>
   <% end %>
+  
+  <%# LINKS %>
+  <p class="sub-title-show-monitoring">Ações disponíveis:</p>
+  <div class="informations-show container">
+    <% if @monitoring.students.include? current_user %>
+      <% if @monitoring.date_time >= Time.now %>
+        <p><%= link_to 'Voltar para monitorias agendadas', monitorings_path %></p>
+      <% else %>
+        <p><%= link_to 'Voltar para monitorias concluídas', monitorings_old_path %></p>
+      <% end %>
+      <% unless @monitoring.excuse || @monitoring.date_time < Time.now %>
+        <p><%= link_to 'Editar', edit_monitoring_path(@monitoring) %></p>
+        <% if @monitoring.students.count > 1 %>
+          <p><%= link_to 'Sair da monitoria', monitoring_leave_path(@monitoring), method: :delete ,
+            data: { confirm: 'Tem certeza que deseja sair dessa monitoria?' }%></p>
+        <% end %>
+        <p><%= link_to 'Cancelar agendamento', @monitoring, method: :delete,
+          data: { confirm: 'Tem certeza que deseja cancelar o agendamento? (O cancelamento ocorrerá para todos os participantes)' } %>
+        </p>
+      <% end %>
+    <% else %>
+      <p><%= link_to 'Voltar para monitorias', monitor_schedule_path(@monitoring.class_monitor.student) %></p>
+    <% end %>
+  </div>
 
   <%# ALUNOS PARTICIPANTES %>
   <% if @monitoring.students.include? current_user %>
@@ -101,38 +125,31 @@
     <% end %>
     <% unless @monitoring.excuse || @monitoring.date_time < Time.now %>
       <%= simple_form_for([@monitoring, @monitorings_student], remote: true) do |f| %>
-        <p class="sub-title-show-monitoring">Incluir colegas:</p>
-        <div class="d-flex container">
-          <%= f.input :student, label: false, 
-                                collection: @students.map{|student| [student.name, student.id]}, 
-                                input_html:{class:"select2"},
-                                :input_html => {:maxlength =>2,:style=> 'width: 100%'} %>
-          <%= button_tag type: 'submit', class: "button-postfix" do %>
-            <i class="fas fa-user-plus"></i>
-          <% end %>
-        </div>
+        <%= f.input :student, label: 'Incluir colegas:', collection: @students.map{|student| [student.name, student.id]}, input_html:{class:"select2"}%>
+        <%= f.submit "Salvar", class: "btn btn-primary" %>
       <% end %>
     <% end %>
     <% if @monitoring.date_time < Time.now %>
       <% if @current_monitorings_student.rating.nil? %>
-        <%= simple_form_for(@current_monitorings_student) do |f| %>
-          <%# <%= f.input :rating, label: 'Avaliação:', collection: (1..5), %> 
+        <%= simple_form_for(@current_monitorings_student, remote: true) do |f| %>
+          <%= f.input :rating, label: 'Avaliação:', collection: (1..5) %>
 
-          <%# <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"> %>
-          <div class="estrelas">
-          <label for="rating">Avaliação</label>
-            <input type="radio" id="cm_star-empty" name="rating" value="" checked/>
-            <label for="cm_star-1"><i class="fa"></i></label>
-            <input type="radio" id="cm_star-1" name="rating" value="1"/>
-            <label for="cm_star-2"><i class="fa"></i></label>
-            <input type="radio" id="cm_star-2" name="rating" value="2"/>
-            <label for="cm_star-3"><i class="fa"></i></label>
-            <input type="radio" id="cm_star-3" name="rating" value="3"/>
-            <label for="cm_star-4"><i class="fa"></i></label>
-            <input type="radio" id="cm_star-4" name="rating" value="4"/>
-            <label for="cm_star-5"><i class="fa"></i></label>
-            <input type="radio" id="cm_star-5" name="rating" value="5"/>
-          </div>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<div class="estrelas">
+  <input type="radio" id="cm_star-empty" name="fb" value="" checked/>
+  <label for="cm_star-1"><i class="fa"></i></label>
+  <input type="radio" id="cm_star-1" name="fb" value="1"/>
+  <label for="cm_star-2"><i class="fa"></i></label>
+  <input type="radio" id="cm_star-2" name="fb" value="2"/>
+  <label for="cm_star-3"><i class="fa"></i></label>
+  <input type="radio" id="cm_star-3" name="fb" value="3"/>
+  <label for="cm_star-4"><i class="fa"></i></label>
+  <input type="radio" id="cm_star-4" name="fb" value="4"/>
+  <label for="cm_star-5"><i class="fa"></i></label>
+  <input type="radio" id="cm_star-5" name="fb" value="5"/>
+</div>
+        
+        
         
           <%= f.input :review, label: 'Comentários:' %>
           <%= f.submit "Enviar", class: "btn btn-primary" %>
@@ -141,17 +158,15 @@
     <% end %>
   <% else %>
     <% if @monitoring.students.any? %>
-      <p class="sub-title-show-monitoring">Participantes:</p>
-      <div class="informations-show container">
-        <% @monitoring.students.each do |student| %>
-          <p><%= student.name %></p>
-        <% end %>
-      </div>
+      <p>Participantes:</p>
+      <% @monitoring.students.each do |student| %>
+        <p><%= student.name %></p>
+      <% end %>
     <% end %>
     <% unless @monitoring.excuse || @monitoring.date_time <= Time.now %>
       <%= simple_form_for @monitoring, url: monitoring_cancel_path(@monitoring), method: :patch, remote: true do |f| %>
         <%= f.input :excuse %>
-        <%= f.submit "Cancelar monitoria", class: "btn btn-outline-primary" %>
+        <%= f.submit "Cancelar monitoria", class: "btn btn-primary" %>
       <% end %>
     <% end %>
   <% end %>
@@ -162,12 +177,7 @@
     <% @monitoring.monitorings_students.each do |monitorings_student| %>
       <% if monitorings_student.rating %>
         <p><%= monitorings_student.student.name %></p>
-        <% monitorings_student.rating.times do %>
-         <i class="fas fa-star estrelas-rating"></i> 
-        <% end %>
-        <% (5 - monitorings_student.rating).times do %>
-         <i class="fas fa-star estrelas-rating-empty"></i>
-        <% end %>
+        <p><%= monitorings_student.rating %></p>
         <p><%= monitorings_student.review %></p>
         <br>
       <% end %>
@@ -178,50 +188,26 @@
 <%# FOOTER DA PAGINA %>
 <div class="footer">
   <hr>
-  <% if @monitoring.students.include? current_user %>
-    <% unless @monitoring.excuse || @monitoring.date_time < Time.now %>
-      <div class="d-flex justify-content-around">
-        <% if @monitoring.students.count > 1 %>
-          <div class="btn-left">
-            <div class="big-icons">
-              <p id="edit-icon" class="m-0">
-                <%# Botao da Esquerda %>
-                <%= link_to monitoring_leave_path(@monitoring), method: :delete ,
-                                                                  data: { confirm: 'Tem certeza que deseja sair dessa monitoria?' } do %>
-                  <i class="fas fa-door-open fa-2x"></i>
-                <% end %>
-                <%# Texto da Esquerda %>
-              </p>
-            </div>
-            <span><%= link_to ' Sair da monitoria ', student_disciplines_path %></span>
-          </div> 
-        <% end %>
-        <div class="btn-center">
-          <div class="big-icons">
-            <p id="edit-icon" class="m-0">
-              <%# Botao do Centro %>
-              <%= link_to edit_monitoring_path(@monitoring) do %>
-                <i class="far fa-edit fa-2x"></i>
-              <% end %>
-            </p>
-          </div>
-          <%# Texto do Centro %>
-          <span><%= link_to ' Editar ', student_disciplines_path %></span>
-        </div> 
-        <div class="btn-right">
-          <div class="big-icons">
-            <p id="edit-icon" class="m-0">
-              <%# Botao da Direita %>
-              <%= link_to @monitoring, method: :delete,
-                                       data: { confirm: 'Tem certeza que deseja cancelar o agendamento? (O cancelamento ocorrerá para todos os participantes)' } do %>
-                <i class="far fa-calendar-times fa-2x"></i>
-              <% end %>
-            </p>
-          </div>
-          <%# Texto da direita %>
-          <span><%= link_to 'Cancelar monitoria', monitorings_old_path %></span>
-        </div>
+  <div class="d-flex justify-content-around">
+    <div class="btn-left">
+      <div class="big-icons">
+        <p id="edit-icon" class="m-0">
+          <%= link_to student_disciplines_path do %>
+            <i class="far fa-calendar-plus fa-2x"></i>
+          <% end %> 
+        </p>
       </div>
-    <% end %>
-  <% end %>
+      <span><%= link_to ' Agendar ', student_disciplines_path %></span>
+    </div> 
+    <div class="btn-right">
+      <div class="big-icons">
+        <p id="edit-icon" class="m-0">
+          <%= link_to monitorings_old_path do %>
+            <i class="fas fa-history fa-2x"></i>
+          <% end %> 
+        </p>
+      </div>
+      <span><%= link_to 'Histórico', monitorings_old_path %></span>
+    </div>
+  </div>
 </div>
