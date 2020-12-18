@@ -88,13 +88,14 @@
           <% if @monitoring.excuse || @monitoring.date_time < Time.now %>
             <p><%= student.name.split[0] %> <%= student.name.split[-1] %></p>
           <% else %>
-            <p><%= student.name.split[0] %> <%= student.name.split[-1] %></p>
-              <%= link_to MonitoringsStudent.find_by(student: student, monitoring: @monitoring), 
-                method: :delete, data: { confirm: 'Tem certeza que deseja remover esse estudante da monitoria?' },
-                remote: true do %>
-                <i class="fas fa-user-times"></i>
-              <% end %>
-            </p>
+            <div class="d-flex justify-content-between align-items-center">
+              <p id="list-students-monitoring"><%= student.name.split[0] %> <%= student.name.split[-1] %></p>
+                <%= link_to MonitoringsStudent.find_by(student: student, monitoring: @monitoring), 
+                  method: :delete, data: { confirm: 'Tem certeza que deseja remover esse estudante da monitoria?' },
+                  remote: true do %>
+                  <i class="fas fa-user-times"></i>
+                <% end %>
+            </div>
           <% end %>
         <% end %>
       </div>
@@ -139,16 +140,28 @@
     <% end %>
   <% else %>
     <% if @monitoring.students.any? %>
-      <p>Participantes:</p>
-      <% @monitoring.students.each do |student| %>
-        <p><%= "#{student.name.split[0]} #{student.name.split[-1]}" %>
-        <% if student.phone_number? %>
-            <span><i class="fas fa-mobile-alt"></i></span> <%= student.phone_number %></p>
-          <% else %>
-            <span><i class="fas fa-mobile-alt"></i></span> <em style="color:gray">Usuário sem telefone cadastrado.</em></p>
-          <% end %>
-
-      <% end %>
+      <p class="sub-title-show-monitoring">Participantes:</p>
+      <div class="informations-show container">
+        <% @monitoring.students.each do |student| %>
+          <div class="notification">
+          <%# FOTO DO ALUNO %>
+            <% if student.photo.attached? %>
+              <%= image_tag student.photo, class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+            <% else %>
+              <%= image_tag "placeholder_avatar.png", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+            <% end %>
+            
+            <div class="notification-content">
+              <p><%= "#{student.name.split[0]} #{student.name.split[-1]}" %></p>
+              <% if student.phone_number? %>
+                <p><span><i class="fas fa-mobile-alt"></i></span> <%= student.phone_number %></p>
+              <% else %>
+                <p><span><i class="fas fa-mobile-alt"></i></span> <em style="color:gray">Usuário sem telefone cadastrado.</em></p>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
     <% end %>
     <% unless @monitoring.excuse || @monitoring.date_time <= Time.now %>
       <%= simple_form_for @monitoring, url: monitoring_cancel_path(@monitoring), method: :patch, remote: true do |f| %>
@@ -193,10 +206,12 @@
   <% end %>
 </div>
 
+
+
 <%# FOOTER DA PAGINA %>
-<div class="footer">
+<% if @monitoring.students.include? current_user %>
+  <div class="footer">
   <hr>
-  <% if @monitoring.students.include? current_user %>
     <% unless @monitoring.excuse || @monitoring.date_time < Time.now %>
       <div class="d-flex justify-content-around">
         <% if @monitoring.students.count > 1 %>
@@ -241,5 +256,7 @@
         </div>
       </div>
     <% end %>
-  <% end %>
-</div>
+  </div>
+<% end %>
+
+
