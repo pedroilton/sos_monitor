@@ -63,11 +63,11 @@
         <% if @monitoring.class_monitor.student.photo.attached? %>
           <%= image_tag @monitoring.class_monitor.student.photo, class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
         <% else %>
-          <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+          <%= image_tag "placeholder_avatar.png", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
         <% end %>
         <div class="notification-content">
           <%# NOME %>
-          <p><%= @monitoring.class_monitor.student.name.split[0] %> <%= @monitoring.class_monitor.student.name.split[-1] %></p>
+          <p><%= link_to "#{@monitoring.class_monitor.student.name.split[0]} #{@monitoring.class_monitor.student.name.split[-1]}", @monitoring.class_monitor %></p>
           <%# TELEFONE %>
           <% if @monitoring.class_monitor.student.phone_number? %>
             <p><span><i class="fas fa-mobile-alt"></i></span> <%= @monitoring.class_monitor.student.phone_number %></p>
@@ -170,7 +170,6 @@
   <% end %>
 
   <%# AVALIACAO DA MONITORIA %>
-  <%# AVALIACAO DA MONITORIA %>
   <% if @monitoring.date_time < Time.now && @monitoring.students.any? %>
     <p class="sub-title-show-monitoring">Avaliações da monitoria:</p>
     <div class="informations-show container">
@@ -181,13 +180,11 @@
             <% if monitorings_student.student.photo.attached? %>
               <%= image_tag monitorings_student.student.photo, class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
             <% else %>
-              <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+              <%= image_tag "placeholder_avatar.png", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
             <% end %>
             <div class="notification-content">
               <div>
-              <%# NOME DO ALUNO %>
-              <p><%= monitorings_student.student.name.split[0] %> <%= monitorings_student.student.name.split[-1] %></p>
-              <%# NOME DO ALUNO %>
+              <%# AVALIÇÃO DO ALUNO %>
               <% monitorings_student.rating.times do %>
                 <i class="fas fa-star estrelas-rating"></i> 
               <% end %>
@@ -195,7 +192,9 @@
                 <i class="fas fa-star estrelas-rating-empty"></i>
               <% end %>
               </div>
-              <p><%= monitorings_student.review %></p>
+              <p><%= "\"#{monitorings_student.review}\""%></p>
+              <%# NOME DO ALUNO %>
+              <p class="user-review"><%= monitorings_student.student.name.split[0].capitalize %> <%= monitorings_student.student.name.split[-1].capitalize %></p>
               <br>
             <% end %> 
             </div>
