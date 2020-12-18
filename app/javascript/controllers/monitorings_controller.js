@@ -11,7 +11,8 @@ export default class extends Controller {
 
   filterDate(event) {
     const discipline_id = document.getElementById("disciplines").value;
-    if(document.getElementById("disciplines").value) {
+    // console.log(event.currentTarget.id);
+    if(event.currentTarget.id == "disciplines" && !document.getElementById("date").value) {
       document.getElementById("modal").classList.add("loading");
       fetch(`/monitoring_days/${discipline_id}?date=${document.getElementById("date").value}`,
         { headers: { accept: "application/json" } })
@@ -30,6 +31,8 @@ export default class extends Controller {
         { headers: { accept: "application/json" } })
       .then(response => response.json())
       .then((data) => {
+        document.getElementById("modal").classList.remove("loading");
+        // console.log(data);
         let monitoringsHTML = '<div class="radio" data-action="change->monitorings#filterSchedule">';
         if(data.monitorings.length > 0) {
           const dayMonitorings = [];
@@ -89,7 +92,6 @@ export default class extends Controller {
         monitoringsHTML += '</div>';
         monitoringsHTML += '<div data-monitorings-target="question">';
         monitoringsHTML = monitoringsHTML + document.getElementById("fixed").outerHTML + '</div>';
-        document.getElementById("modal").classList.remove("loading");
         document.getElementById("schedule").innerHTML = monitoringsHTML;
         // this.scheduleTarget.innerHTML = monitoringsHTML;
       });
