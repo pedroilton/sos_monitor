@@ -88,7 +88,7 @@
           <% if @monitoring.excuse || @monitoring.date_time < Time.now %>
             <p><%= student.name.split[0] %> <%= student.name.split[-1] %></p>
           <% else %>
-            <p><%= student.name.split[0] %> <%= student.name.split[-1] %>
+            <p><%= student.name.split[0] %> <%= student.name.split[-1] %></p>
               <%= link_to MonitoringsStudent.find_by(student: student, monitoring: @monitoring), 
                 method: :delete, data: { confirm: 'Tem certeza que deseja remover esse estudante da monitoria?' },
                 remote: true do %>
@@ -141,12 +141,18 @@
     <% if @monitoring.students.any? %>
       <p>Participantes:</p>
       <% @monitoring.students.each do |student| %>
-        <p><%= student.name %></p>
+        <p><%= "#{student.name.split[0]} #{student.name.split[-1]}" %>
+        <% if student.phone_number? %>
+            <span><i class="fas fa-mobile-alt"></i></span> <%= student.phone_number %></p>
+          <% else %>
+            <span><i class="fas fa-mobile-alt"></i></span> <em style="color:gray">Usuário sem telefone cadastrado.</em></p>
+          <% end %>
+
       <% end %>
     <% end %>
     <% unless @monitoring.excuse || @monitoring.date_time <= Time.now %>
       <%= simple_form_for @monitoring, url: monitoring_cancel_path(@monitoring), method: :patch, remote: true do |f| %>
-        <%= f.input :excuse %>
+        <%= f.input :excuse, label: 'Motivo do cancelamento:' %>
         <%= f.submit "Cancelar monitoria", class: "btn btn-primary" %>
       <% end %>
     <% end %>
