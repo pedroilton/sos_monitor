@@ -19,9 +19,9 @@
 }
 
 #chevron-menu  {
-  color: $blue;
+  color: $ufmt;
   &:before {
-    color: $blue;
+    color: $ufmt;
   }
 }
 
@@ -35,6 +35,7 @@
   position: absolute;
 }
 
+// Indicador se há monitor na turma
 #monitor-indicator {
-  color: orange;
+  color: $ufmt;
 }

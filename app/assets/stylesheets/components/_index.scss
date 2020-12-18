@@ -16,12 +16,17 @@
 @import "classes";
 @import "titles";
 
+body {
+  background-color: $back-ufmt;
+}
+
 .footer {
   height: 10vh;
   width: 100%;
   background-color: white;
-  position: fixed;
+  position: sticky;
   bottom: 0;
+  box-shadow: 0 0 1px gray;
 }
 
 .footer > span {
