@@ -19,6 +19,18 @@ Segue modelo de paginação para TITULOS c/ Botão de VOLTAR
 
 fim */
 
+// Titulos padrao
+.monitorings-title {
+  text-shadow: 1px -2px 3px gray;
+  margin-bottom: 16px;
+}
+
+.monitoring-title-box {
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+
 // BOX PAI
 .standard-title-box {
   // border: 1px solid red;
@@ -36,10 +48,12 @@ fim */
 .title-box-center-text {
   // border: 1px solid blue;
   justify-content: center;
-  margin: 16px 0
+  margin: 16px 0;
+  width: 80%;
 }
 
 // BOX da DIREITA
 .title-box-right-empty {
   // border: 1px solid yellow;
+  width: 10%;
 }
