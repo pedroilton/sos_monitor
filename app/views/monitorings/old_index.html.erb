@@ -1,21 +1,27 @@
-<% if current_user.monitor? %>
-  <p><%= link_to 'Módulo monitor', monitor_schedule_path(current_user) %></p>
-<% end %>
-<p><%= link_to 'Agendar monitoria', student_disciplines_path %></p>
-<p><%= link_to 'Monitorias agendadas', monitorings_path %></p>
-
-<h1>Monitorias concluídas</h1>
-<% @monitorings.each do |monitoring| %>
-  <h5><%= link_to monitoring.class_monitor.university_class.discipline.title, monitoring %></h5>
-  <p><%= monitoring.date_time %></p>
-  <p><%= monitoring.place %></p>
-  <p><%= monitoring.class_monitor.student.name %></p>
-  <% if monitoring.excuse %>
-    <p>Cancelada</p>
-  <% elsif MonitoringsStudent.find_by(student: current_user, monitoring: monitoring).rating.nil? %>
-    <p>Avalie sua monitoria!</p>
-  <% else %>
-    <%= MonitoringsStudent.find_by(student: current_user, monitoring: monitoring).rating %>
+<!-- Exibe as monitorias já concluídas -->
+<br>
+<div class="index-body" id="index-body">
+  
+  <h3 class="monitorings-title text-center">Monitorias Concluídas</h3>
+  
+  <%# <% if @monitorings.count > 0 %>
+  <% @monitorings.each do |monitoring| %>
+    <div class="monitoring-card">
+      <div class="monitoring-box d-flex justify-content-between">
+        <div class="monitoring-info flex-grow-1">
+          <h5><%= link_to monitoring.class_monitor.university_class.discipline.title, monitoring %></h5>
+          <p><%= monitoring.date_time.strftime("%d/%m/%Y às %H:%M") %> - <%= monitoring.place %></p>
+          <p>Monitor: <%= "#{monitoring.class_monitor.student.name.split.first} #{monitoring.class_monitor.student.name.split.last}" %></p>
+          <% if monitoring.excuse %>
+            <p>Status: <strong class="color: red;">Cancelada</strong></p>
+          <% elsif MonitoringsStudent.find_by(student: current_user, monitoring: monitoring).rating.nil? %>
+            <strong><%= link_to 'Avalie sua monitoria', monitoring_path(monitoring) %></strong>
+          <% else %>
+            <%= MonitoringsStudent.find_by(student: current_user, monitoring: monitoring).rating %>
+          <% end %>
+        </div>
+      </div>
+    </div>
   <% end %>
-  <br>
-<% end %>
+</div>
+          
