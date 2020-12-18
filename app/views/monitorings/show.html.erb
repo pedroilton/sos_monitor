@@ -134,23 +134,21 @@
         <%= simple_form_for(@current_monitorings_student, remote: true) do |f| %>
           <%= f.input :rating, label: 'Avaliação:', collection: (1..5) %>
 
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<div class="estrelas">
-  <input type="radio" id="cm_star-empty" name="fb" value="" checked/>
-  <label for="cm_star-1"><i class="fa"></i></label>
-  <input type="radio" id="cm_star-1" name="fb" value="1"/>
-  <label for="cm_star-2"><i class="fa"></i></label>
-  <input type="radio" id="cm_star-2" name="fb" value="2"/>
-  <label for="cm_star-3"><i class="fa"></i></label>
-  <input type="radio" id="cm_star-3" name="fb" value="3"/>
-  <label for="cm_star-4"><i class="fa"></i></label>
-  <input type="radio" id="cm_star-4" name="fb" value="4"/>
-  <label for="cm_star-5"><i class="fa"></i></label>
-  <input type="radio" id="cm_star-5" name="fb" value="5"/>
-</div>
-        
-        
-        
+          <div class="estrelas">
+          <label for="rating">Avaliação</label>
+            <input type="radio" id="cm_star-empty" name="rating" value="" checked/>
+            <label for="cm_star-1"><i class="fa"></i></label>
+            <input type="radio" id="cm_star-1" name="rating" value="1"/>
+            <label for="cm_star-2"><i class="fa"></i></label>
+            <input type="radio" id="cm_star-2" name="rating" value="2"/>
+            <label for="cm_star-3"><i class="fa"></i></label>
+            <input type="radio" id="cm_star-3" name="rating" value="3"/>
+            <label for="cm_star-4"><i class="fa"></i></label>
+            <input type="radio" id="cm_star-4" name="rating" value="4"/>
+            <label for="cm_star-5"><i class="fa"></i></label>
+            <input type="radio" id="cm_star-5" name="rating" value="5"/>
+          </div>
+                
           <%= f.input :review, label: 'Comentários:' %>
           <%= f.submit "Enviar", class: "btn btn-primary" %>
         <% end %>
@@ -172,16 +170,38 @@
   <% end %>
 
   <%# AVALIACAO DA MONITORIA %>
+  <%# AVALIACAO DA MONITORIA %>
   <% if @monitoring.date_time < Time.now && @monitoring.students.any? %>
-    <p>Avaliações da monitoria:</p>
-    <% @monitoring.monitorings_students.each do |monitorings_student| %>
-      <% if monitorings_student.rating %>
-        <p><%= monitorings_student.student.name %></p>
-        <p><%= monitorings_student.rating %></p>
-        <p><%= monitorings_student.review %></p>
-        <br>
-      <% end %>
-    <% end %>
+    <p class="sub-title-show-monitoring">Avaliações da monitoria:</p>
+    <div class="informations-show container">
+      <div class="notification">
+        <% @monitoring.monitorings_students.each do |monitorings_student| %>
+          <% if monitorings_student.rating %>
+            <%# FOTO DO ALUNO %>
+            <% if monitorings_student.student.photo.attached? %>
+              <%= image_tag monitorings_student.student.photo, class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+            <% else %>
+              <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+            <% end %>
+            <div class="notification-content">
+              <div>
+              <%# NOME DO ALUNO %>
+              <p><%= monitorings_student.student.name.split[0] %> <%= monitorings_student.student.name.split[-1] %></p>
+              <%# NOME DO ALUNO %>
+              <% monitorings_student.rating.times do %>
+                <i class="fas fa-star estrelas-rating"></i> 
+              <% end %>
+              <% (5 - monitorings_student.rating).times do %>
+                <i class="fas fa-star estrelas-rating-empty"></i>
+              <% end %>
+              </div>
+              <p><%= monitorings_student.review %></p>
+              <br>
+            <% end %> 
+            </div>
+          <% end %> 
+        </div>
+    </div>
   <% end %>
 </div>
 
