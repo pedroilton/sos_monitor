@@ -1,56 +1,71 @@
-<% if @monitoring.students.include? current_user %>
-  <%= link_to 'Voltar para monitorias', monitorings_path %>
-<% else %>
-  <%= link_to 'Voltar para monitorias', monitor_schedule_path(@monitoring.class_monitor.student) %>
-<% end %>
 
-<h1>Monitoria de <%= @monitoring.class_monitor.university_class.discipline.title %></h1>
-<div data-controller="monitorings">
 
-  <%= simple_form_for :search, method: "get" do |f| %>
-    <%= f.input :date, label: 'Selecione a data:', as: :string, placeholder: @monitoring.date_time.strftime("%d/%m/%Y"), required: false, input_html: {class: 'datepicker', id: 'date', data: { action: 'change->monitorings#editDate' } } %>
-  <% end %>
-
-  <div id="disciplines" data-discipline-id="<%= @monitoring.class_monitor.university_class.discipline.id %>"></div>
-  <div id="dates" data-dates="<%= @available_dates %>"></div>
-
-  <div data-monitorings-target="schedule">
-
-    <div class="radio" data-action="change->monitorings#editSchedule">
-      <br><p class="text-form-options">Escolha o monitor e o horário:<br><br></p>
-      <% @day_monitorings.map { |monitoring| monitoring.class_monitor.student }.uniq.sort_by(&:name).each do |monitor| %>
-        <p class="container"><%= monitor.name %></p>
-        <div class="d-flex">
-        <% @day_monitorings.select { |monitoring| monitoring.class_monitor.student == monitor }.each do |monitoring| %>
-          <% if monitoring == @monitoring %>
-            <input type="radio" id="<%= monitoring.id %>" class="schedule-option card-input-element" name="schedule" value="<%= monitoring.id %>" checked="checked">
-          <% else %>
-            <input type="radio" id="<%= monitoring.id %>" class="schedule-option card-input-element" name="schedule" value="<%= monitoring.id %>">
-          <% end %>
-          <div class="panel panel-default card-input">
-            <div class="panel-body"><label for="<%= monitoring.id %>">
-            <%= monitoring.date_time.strftime("%k:%M") %>
-            </div></div></label><br>
-        <% end %>
-        </div><br>
+<%# TITULO %>
+<div class="standard-title-box d-flex" >
+  <div class="title-box-left-icon">
+    <% if @monitoring.students.include? current_user %>
+      <%= link_to monitorings_path do %>
+        <i class="fas fa-chevron-left fa-2x" id="back-icon-show-turma"></i>
       <% end %>
-    </div>
-    <div data-monitorings-target="question">
-      <form class="simple_form edit_monitoring" id="edit_monitoring_<%= @monitoring.id %>" novalidate="novalidate" action="/monitorings/<%= @monitoring.id %>" accept-charset="UTF-8" method="post">
-      
-        <div id="fixed">
-          <input type="hidden" name="_method" value="patch">
-          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-          <%= hidden_field_tag :old_monitoring_id, @monitoring.id %>
-          <div class="form-group text optional monitoring_question">
-            <label class="text optional" for="monitoring_question">Dúvida</label>
-            <textarea class="form-control text optional" name="monitoring[question]" id="monitoring_question"><%= @monitoring.question %></textarea>
-          </div>
-          <input type="submit" name="commit" value="Submit" class="btn btn-primary" data-disable-with="Submit" id="submit">
-          <div id="modal"></div>
-        </div>
+    <% else %>
+      <%= link_to monitor_schedule_path(@monitoring.class_monitor.student) do %>
+        <i class="fas fa-chevron-left fa-2x" id="back-icon-show-turma"></i>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="title-box-center-text ml-3">
+    <p class="sub-title-show-monitoring"><strong>Editar</strong> Monitoria de </p>
+    <h3><%= @monitoring.class_monitor.university_class.discipline.title %></h3>  </div>
+  <div class="title-box-right-empty">
+  </div>
+</div> 
 
-      </form>
+<div class="container">
+  <div data-controller="monitorings">
+
+    <%= simple_form_for :search, method: "get" do |f| %>
+      <%= f.input :date, label: 'Selecione a data:', as: :string, placeholder: @monitoring.date_time.strftime("%d/%m/%Y"), required: false, input_html: {class: 'datepicker', id: 'date', data: { action: 'change->monitorings#editDate' } } %>
+    <% end %>
+
+    <div id="disciplines" data-discipline-id="<%= @monitoring.class_monitor.university_class.discipline.id %>"></div>
+    <div id="dates" data-dates="<%= @available_dates %>"></div>
+
+    <div data-monitorings-target="schedule">
+      <div class="radio" data-action="change->monitorings#editSchedule">
+        <br><p class="text-form-options">Escolha o monitor e o horário:<br><br></p>
+        <% @day_monitorings.map { |monitoring| monitoring.class_monitor.student }.uniq.sort_by(&:name).each do |monitor| %>
+          <p class="container"><%= monitor.name %></p>
+          <div class="d-flex">
+          <% @day_monitorings.select { |monitoring| monitoring.class_monitor.student == monitor }.each do |monitoring| %>
+            <% if monitoring == @monitoring %>
+              <input type="radio" id="<%= monitoring.id %>" class="schedule-option card-input-element" name="schedule" value="<%= monitoring.id %>" checked="checked">
+            <% else %>
+              <input type="radio" id="<%= monitoring.id %>" class="schedule-option card-input-element" name="schedule" value="<%= monitoring.id %>">
+            <% end %>
+            <div class="panel panel-default card-input">
+              <div class="panel-body"><label for="<%= monitoring.id %>">
+              <%= monitoring.date_time.strftime("%k:%M") %>
+              </div></div></label><br>
+          <% end %>
+          </div><br>
+        <% end %>
+      </div>
+      <div data-monitorings-target="question">
+        <form class="simple_form edit_monitoring" id="edit_monitoring_<%= @monitoring.id %>" novalidate="novalidate" action="/monitorings/<%= @monitoring.id %>" accept-charset="UTF-8" method="post">
+          <div id="fixed">
+            <input type="hidden" name="_method" value="patch">
+            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+            <%= hidden_field_tag :old_monitoring_id, @monitoring.id %>
+            <div class="form-group text optional monitoring_question">
+              <label class="text optional" for="monitoring_question">Dúvida</label>
+              <textarea class="form-control text optional" name="monitoring[question]" id="monitoring_question"><%= @monitoring.question %></textarea>
+            </div>
+            <input type="submit" name="commit" value="Editar" class="btn btn-primary" data-disable-with="Submit" id="submit">
+            <div id="modal"></div>
+          </div>
+
+        </form>
+      </div>
     </div>
   </div>
 </div>
