@@ -1,15 +1,81 @@
-<h1><%= @class_monitor.student.name.split.first %> <%= @class_monitor.student.name.split.last %></h1>
-<% if @class_monitor.student.photo.attached? %>
-  <%= image_tag @class_monitor.student.photo %>
-<% end %>
-<p>Nome completo: <%= @class_monitor.student.name %></p>
-<p>Telefone: <%= @class_monitor.student.phone_number %></p>
-<br>
-<p>Avaliações</p>
-<% @class_monitor.monitorings.map(&:monitorings_students).flatten.each do |monitorings_student| %>
-  <% if monitorings_student.rating %>
-    <p><%= monitorings_student.rating %></p>
-    <p><%= monitorings_student.review %></p>
-    <br>
-  <% end %>
-<% end %>
+<!-- Show de class_monitors -->
+<div class="container my-2">
+  <div>
+    <div>
+      <h3 class="monitorings-title text-center mt-3"><%= @class_monitor.student.name.split.first %> <%= @class_monitor.student.name.split.last %></h3>
+      <div class="d-flex justify-content-center">
+        <% if @class_monitor.student.photo.attached? %>
+          <%= image_tag @class_monitor.student.photo, width: 200, height: 200, crop: :cover, class:"profile-avatar center" %>
+        <% else %>
+          <%= image_tag "placeholder_avatar.png", width: 200, height: 200, crop: :cover, class:"profile-avatar center" %>
+      <% end %>
+      </div>
+      <div class="text-center">
+        <strong><p><%= @class_monitor.student.name %></p></strong>
+      </div>
+      <div>
+        <p>Telefone: <%= @class_monitor.student.phone_number %></p>
+        <p>Email: <%= @class_monitor.student.email %></p>
+      <hr>
+      </div>
+        <p class="sub-title-show-monitoring">Avaliações:</p>
+        <div class="informations-show container">
+          <div class="notification">
+          <% @class_monitor.monitorings.map(&:monitorings_students).flatten.each do |monitorings_student| %>
+            <% if monitorings_student.rating %>
+              <%# FOTO DO ALUNO %>
+              <% if monitorings_student.student.photo.attached? %>
+                <%= image_tag monitorings_student.student.photo, class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+              <% else %>
+                <%= image_tag "placeholder_avatar.png", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+              <% end %>
+                <div class="notification-content">
+                  <div>
+                  <%# AVALIÇÃO DO ALUNO %>
+                  <% monitorings_student.rating.times do %>
+                    <i class="fas fa-star estrelas-rating"></i> 
+                  <% end %>
+                  <% (5 - monitorings_student.rating).times do %>
+                    <i class="fas fa-star estrelas-rating-empty"></i>
+                  <% end %>
+                </div>
+                  <p><%= "\"#{monitorings_student.review}\""%></p>
+                  <%# NOME DO ALUNO %>
+                  <p class="user-review"><%= monitorings_student.student.name.split[0].capitalize %> <%= monitorings_student.student.name.split[-1].capitalize %></p>
+                  <br>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<%# FOOTER DA PAGINA %>
+<div class="footer">
+  <hr>
+  <div class="d-flex justify-content-around">
+    <div class="btn-left">
+      <div class="big-icons">
+        <p id="edit-icon" class="m-0">
+          <%= link_to student_disciplines_path do %>
+            <i class="chevron-menu far fa-calendar-plus fa-2x"></i>
+          <% end %> 
+        </p>
+      </div>
+      <span><%= link_to ' Agendar ', student_disciplines_path %></span>
+    </div> 
+    <div class="btn-right">
+      <div class="big-icons">
+        <p id="edit-icon" class="m-0">
+          <%= link_to monitorings_old_path do %>
+            <i class="fas fa-chevron-left fa-2x"></i>
+          <% end %> 
+        </p>
+      </div>
+      <span><%= link_to 'Volta', :back %></span>
+    </div>
+  </div>
+</div>
