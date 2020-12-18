@@ -23,12 +23,6 @@
                               autofocus: true %>
               </div>
               <div>
-                <%= f.input :nickname,
-                              label: 'Nome para exibição',
-                              placeholder: 'Nome a ser exibido',
-                              required: true,
-                              autofocus: true %>
-              </div>
               <div>
                   <%= f.input :registration,
                               label: 'Matricula',
@@ -43,6 +37,12 @@
                               required: true,
                               autofocus: true,
                               input_html: { autocomplete: "email" }%>
+              </div>
+              <div>
+                  <%= f.input :phone_number,
+                              label: 'Telefone',
+                              placeholder: 'Telefone',
+                              autofocus: true %>
               </div>
               <div>
                   <%= f.input :password,

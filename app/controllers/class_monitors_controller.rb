@@ -1,5 +1,5 @@
 class ClassMonitorsController < ApplicationController
-  before_action :set_class_monitor, only: %i[destroy edit update destroy_schedule]
+  before_action :set_class_monitor, only: %i[destroy edit update destroy_schedule show]
   after_action :authorize_class_monitor, except: :destroy
 
   def create
@@ -67,6 +67,9 @@ class ClassMonitorsController < ApplicationController
       end
     end
     redirect_to edit_class_monitor_path(@class_monitor)
+  end
+
+  def show
   end
 
   private
