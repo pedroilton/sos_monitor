@@ -30,11 +30,17 @@
         <%# Email %>
     <%= f.input :email,
                 label: 'Email',
-                placeholder: 'Email',
+                placeholder: current_user.email,
                 required: true,
                 autofocus: true,
                 input_html: { autocomplete: "email" }%>
-                
+    
+    <%# Telefone %>
+    <%= f.input :phone_number,
+                label: 'Telefone',
+                placeholder: current_user.phone_number,
+                required: false %>
+
     <%# Nova senha %>
     <%= f.input :password,
                 label: 'Nova Senha',

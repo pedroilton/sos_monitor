@@ -24,7 +24,7 @@
           <li>
             <div class="d-flex show-monitors-icons">
               <p>
-                <%= monitor.student.name.split[0] %> <%= monitor.student.name.split[-1] %>
+                <%= link_to "#{monitor.student.name.split[0]} #{monitor.student.name.split[-1]}", monitor %>
               </p>
               <p>
                 <%= link_to edit_class_monitor_path(monitor) do %>
@@ -40,7 +40,7 @@
           <li>
             <div class="d-flex show-monitors-icons">
               <p>
-                <%= monitor.student.name.split[0] %> <%= monitor.student.name.split[-1] %>
+                <%= link_to "#{monitor.student.name.split[0]} #{monitor.student.name.split[-1]}", monitor %>
               </p>
               <p>
                 <%= link_to monitor_schedule_path(monitor.student, date: Date.today) do %>

@@ -15,6 +15,12 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, uniqueness: false
 
+  before_save :upcase_fields
+
+  def upcase_fields
+    name.upcase!
+  end
+
   def active?
     active
   end
