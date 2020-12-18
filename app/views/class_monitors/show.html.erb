@@ -18,35 +18,39 @@
         <p>Email: <%= @class_monitor.student.email %></p>
       <hr>
       </div>
-        <p class="sub-title-show-monitoring">Avaliações:</p>
-        <div class="informations-show container">
-          <div class="notification">
-          <% @class_monitor.monitorings.map(&:monitorings_students).flatten.each do |monitorings_student| %>
-            <% if monitorings_student.rating %>
-              <%# FOTO DO ALUNO %>
-              <% if monitorings_student.student.photo.attached? %>
-                <%= image_tag monitorings_student.student.photo, class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
-              <% else %>
-                <%= image_tag "placeholder_avatar.png", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
-              <% end %>
+        <% if @class_monitor.monitorings.map(&:monitorings_students).flatten.map(&:rating).any? %>
+          <p class="sub-title-show-monitoring">Avaliações:</p>
+          <div class="informations-show container">
+            <div class="notification">
+            <% @class_monitor.monitorings.map(&:monitorings_students).flatten.each do |monitorings_student| %>
+              <% if monitorings_student.rating %>
+                <%# FOTO DO ALUNO %>
+                <% if monitorings_student.student.photo.attached? %>
+                  <%= image_tag monitorings_student.student.photo, class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+                <% else %>
+                  <%= image_tag "placeholder_avatar.png", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+                <% end %>
                 <div class="notification-content">
                   <div>
-                  <%# AVALIÇÃO DO ALUNO %>
-                  <% monitorings_student.rating.times do %>
-                    <i class="fas fa-star estrelas-rating"></i> 
-                  <% end %>
-                  <% (5 - monitorings_student.rating).times do %>
-                    <i class="fas fa-star estrelas-rating-empty"></i>
-                  <% end %>
-                </div>
+                    <%# AVALIÇÃO DO ALUNO %>
+                    <% monitorings_student.rating.times do %>
+                      <i class="fas fa-star estrelas-rating"></i> 
+                    <% end %>
+                    <% (5 - monitorings_student.rating).times do %>
+                      <i class="fas fa-star estrelas-rating-empty"></i>
+                    <% end %>
+                  </div>
                   <p><%= "\"#{monitorings_student.review}\""%></p>
                   <%# NOME DO ALUNO %>
                   <p class="user-review"><%= monitorings_student.student.name.split[0].capitalize %> <%= monitorings_student.student.name.split[-1].capitalize %></p>
                   <br>
-              </div>
+                </div>
+              <% end %>
             <% end %>
-          <% end %>
-        </div>
+          </div>
+        <% else %>
+        <p class="sub-title-show-monitoring">Ainda não há avaliações deste monitor</p>
+        <% end %>
       </div>
     </div>
   </div>
@@ -54,10 +58,20 @@
 
 
 <%# FOOTER DA PAGINA %>
-<div class="footer">
+<div class="footer" id="profile-footer">
   <hr>
   <div class="d-flex justify-content-around">
     <div class="btn-left">
+      <div class="big-icons">
+        <p id="edit-icon" class="m-0">
+          <%= link_to :back do %>
+            <i class="fas fa-chevron-left fa-2x"></i>
+          <% end %>
+        </p>
+      </div>
+      <span><%= link_to 'Volta', :back %></span>
+    </div> 
+    <div class="btn-right">
       <div class="big-icons">
         <p id="edit-icon" class="m-0">
           <%= link_to student_disciplines_path do %>
@@ -66,16 +80,6 @@
         </p>
       </div>
       <span><%= link_to ' Agendar ', student_disciplines_path %></span>
-    </div> 
-    <div class="btn-right">
-      <div class="big-icons">
-        <p id="edit-icon" class="m-0">
-          <%= link_to monitorings_old_path do %>
-            <i class="fas fa-chevron-left fa-2x"></i>
-          <% end %> 
-        </p>
-      </div>
-      <span><%= link_to 'Volta', :back %></span>
     </div>
   </div>
 </div>
