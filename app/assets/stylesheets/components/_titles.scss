@@ -15,7 +15,7 @@ Segue modelo de paginação para TITULOS c/ Botão de VOLTAR
   </div>
   <div class="title-box-right-empty">
   </div>
-</div> 
+</div>
 
 fim */
 
@@ -56,4 +56,15 @@ fim */
 .title-box-right-empty {
   // border: 1px solid yellow;
   width: 10%;
+}
+
+// Monitor Edit
+#subtitle-monitor-edit {
+  margin: 0 0 0 8px;
+  font-weight: bold;
+}
+
+.subtitle-monitor-edit-schedule {
+  font-weight:600;
+  margin-top: -16px;
 }

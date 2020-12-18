@@ -1,21 +1,84 @@
-  <p><%= link_to 'Voltar a suas turmas', university_classes_path %></p>
-  <p><%= link_to 'Voltar à turma', @class_monitor.university_class %></p>
+<%# TITULO %>
+<div class="standard-title-box d-flex" >
+  <div class="title-box-left-icon">
+    <%= link_to university_classes_path do %>
+      <i class="fas fa-chevron-left fa-2x" id="back-icon-show-turma"></i>
+    <% end %>
+  </div>
+  <div class="title-box-center-text">
+    <p id="subtitle-monitor-edit">Horários de</p>
+    <h3 class="monitorings-title text-center"><%= @class_monitor.student.name %></h3>
+  </div>
+  <div class="title-box-right-empty">
+  </div>
+</div>
+<hr class="separador">
+<br>
 
-<h1>Horários de <%= @class_monitor.student.name %></h1>
-<% @week_monitorings.map { |monitoring| @day_order.index(monitoring.date_time.strftime("%a").downcase) }.uniq.sort.each do |day|%>
-  <p><%= @portuguese_days[day] %>:</p>
-  <% @week_monitorings.select { |monitoring| @day_order.index(monitoring.date_time.strftime("%a").downcase) == day }.each do |monitoring| %>
-    <p><%= monitoring.date_time.strftime("%k:%M") %> - 
-      <%= link_to 'Remover horário', 
-        destroy_schedule_path(@class_monitor, schedule: monitoring.date_time.strftime("%k:%M"), day: day), method: :delete,
-        data: { confirm: "Tem certeza que deseja excluir esse horário? (Todos os agendamentos desse horário serão excluídos)" },
-        remote: true %>
-    </p>
+<div class="container">
+  <p class="text-center subtitle-monitor-edit-schedule">Horários Vigentes:</p>
+  <% @week_monitorings.map { |monitoring| @day_order.index(monitoring.date_time.strftime("%a").downcase) }.uniq.sort.each do |day|%>
+    <p class="sub-title-show-monitoring"><%= @portuguese_days[day] %>:</p>
+    <div class="informations-show container d-flex">
+      <% @week_monitorings.select { |monitoring| @day_order.index(monitoring.date_time.strftime("%a").downcase) == day }.each do |monitoring| %>
+        <p><%= monitoring.date_time.strftime("%k:%M") %> - 
+          <%= link_to destroy_schedule_path(@class_monitor, schedule: monitoring.date_time.strftime("%k:%M"), day: day), 
+                                                            method: :delete,
+                                                            data: { confirm: "Tem certeza que deseja excluir esse horário? (Todos os agendamentos desse horário serão excluídos)" },
+                                                            remote: true do %>
+            <i class="far fa-trash-alt"></i>
+          <% end %>
+        </p>
+      <% end %>
+    </div>
   <% end %>
-<% end %>
-<%= simple_form_for :schedule, url: class_monitor_path(@class_monitor), method: :patch, remote: true do |f| %>
-  <%= f.input :week_day, collection: @portuguese_days, input_html: { class: 'select2' } %>
-  <%= f.input :time, as: :time, minute_step: 15 %>
-  <%= f.input :duration, as: :integer %>
-  <%= f.submit "Submit", class: "btn btn-primary" %>
-<% end %>
+  <br>
+  <hr class="separador" >
+  <br>
+  <p class="text-center subtitle-monitor-edit-schedule">Adicionar horários:</p>
+
+  <%= simple_form_for :schedule, url: class_monitor_path(@class_monitor),
+                                 method: :patch,
+                                 remote: true do |f| %>
+    <%= f.input :week_day, label: 'Dia da semana:',
+                           collection: @portuguese_days,
+                           input_html: { class: 'select2', style: 'width:60%' } %>
+    <%= f.input :time, label: 'Horário:',
+                       as: :time,
+                       minute_step: 15 %>
+    <%= f.input :duration, label: 'Duração:',
+                           as: :integer %>
+    <%= f.submit "Submit", class: "btn btn-primary" %>
+  <% end %>
+</div>
+
+<%# FOOTER DA PAGINA %>
+<div class="footer">
+  <hr>
+    <div class="d-flex justify-content-around">
+      <div class="btn-left">
+        <div class="big-icons">
+          <p id="edit-icon" class="m-0">
+            <%# Botao da Esquerda %>
+            <%= link_to @class_monitor.university_class do %>
+              <i class="fas fa-arrow-left"></i>
+            <% end %>
+            <%# Texto da Esquerda %>
+          </p>
+        </div>
+        <span><%= link_to ' Voltar ', @class_monitor.university_class %></span>
+      </div> 
+      <div class="btn-right">
+        <div class="big-icons">
+          <p id="edit-icon" class="m-0">
+            <%# Botao do Centro %>
+            <%= link_to university_classes_path do %>
+              <i class="fas fa-home"></i>
+            <% end %>
+          </p>
+        </div>
+        <%# Texto do Centro %>
+        <span><%= link_to ' Home ', university_classes_path %></span>
+      </div> 
+    </div>
+</div>

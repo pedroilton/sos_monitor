@@ -90,8 +90,9 @@
           <% else %>
             <p><%= student.name.split[0] %> <%= student.name.split[-1] %>
               <%= link_to MonitoringsStudent.find_by(student: student, monitoring: @monitoring), 
-                method: :delete, data: { confirm: 'Tem certeza que deseja remover esse estudante da monitoria?' },
-                remote: true do %>
+                                                     method: :delete, 
+                                                     data: { confirm: 'Tem certeza que deseja remover esse estudante da monitoria?' },
+                                                     remote: true do %>
                 <i class="fas fa-user-times"></i>
               <% end %>
             </p>
