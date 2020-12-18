@@ -131,8 +131,27 @@
     <% end %>
     <% if @monitoring.date_time < Time.now %>
       <% if @current_monitorings_student.rating.nil? %>
-        <%= simple_form_for(@current_monitorings_student, remote: true) do |f| %>
-          <%= f.input :rating, label: 'Avaliação:', collection: (1..5) %>
+        <%= simple_form_for(@current_monitorings_student) do |f| %>
+          <%# <%= f.input :rating, label: 'Avaliação:', collection: (1..5), %> 
+
+          <%# <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"> %>
+          <div class="estrelas">
+          <label for="rating">Avaliação</label>
+            <input type="radio" id="cm_star-empty" name="rating" value="" checked/>
+            <label for="cm_star-1"><i class="fa"></i></label>
+            <input type="radio" id="cm_star-1" name="rating" value="1"/>
+            <label for="cm_star-2"><i class="fa"></i></label>
+            <input type="radio" id="cm_star-2" name="rating" value="2"/>
+            <label for="cm_star-3"><i class="fa"></i></label>
+            <input type="radio" id="cm_star-3" name="rating" value="3"/>
+            <label for="cm_star-4"><i class="fa"></i></label>
+            <input type="radio" id="cm_star-4" name="rating" value="4"/>
+            <label for="cm_star-5"><i class="fa"></i></label>
+            <input type="radio" id="cm_star-5" name="rating" value="5"/>
+          </div>
+        
+        
+       
           <%= f.input :review, label: 'Comentários:' %>
           <%= f.submit "Enviar", class: "btn btn-primary" %>
         <% end %>
@@ -159,7 +178,9 @@
     <% @monitoring.monitorings_students.each do |monitorings_student| %>
       <% if monitorings_student.rating %>
         <p><%= monitorings_student.student.name %></p>
-        <p><%= monitorings_student.rating %></p>
+        <% monitorings_student.rating.times do %>
+         <i class="fa"></i> 
+        <% end %>
         <p><%= monitorings_student.review %></p>
         <br>
       <% end %>

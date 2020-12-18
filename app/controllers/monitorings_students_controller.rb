@@ -25,7 +25,9 @@ class MonitoringsStudentsController < ApplicationController
 
   def update
     @monitorings_student = MonitoringsStudent.find(params[:id])
-    if @monitorings_student.update(monitorings_student_params)
+    @monitorings_student.rating = params[:rating].to_i
+    @monitorings_student.review = params[:monitorings_student][:review]
+    if @monitorings_student.save
       redirect_to @monitorings_student.monitoring
     else
       render @monitorings_student.monitoring
